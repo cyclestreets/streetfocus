@@ -18,7 +18,7 @@ class streetfocus
 	# Register actions
 	private function actions ()
 	{
-		# Specify available actions; URL refers both to the public URL
+		# Specify available actions; URL refers both to the public URL and the template location
 		$actions = array (
 			'home' => array (
 				'description' => false,
@@ -34,6 +34,8 @@ class streetfocus
 	# Class properties
 	private $settings;
 	private $baseUrl;
+	private $template = array ();
+	private $templateFile;
 	
 	
 	# Constructor
@@ -59,10 +61,44 @@ class streetfocus
 			echo $html;
 			return false;
 		}
+		$this->template['_action'] = $this->action;
 		
-		# Perform the action
+		# Set the template, being the path from /app/views/, minus .tpl
+		$url = $this->actions[$this->action]['url'];
+		$templatePath = ltrim ($url, '/') . 'index';
+		
+		# Perform the action, which will write into the page template array
 		$this->{$this->action} ();
+		
+		# Templatise
+		$html = $this->renderTemplate ($templatePath);
 	}
+	
+	
+	# Function to render a template
+	private function renderTemplate ($templatePath)
+	{
+		# Load Smarty
+		require_once ('libraries/smarty/libs/Smarty.class.php');
+		$smarty = new Smarty;
+		$smarty->template_dir = 'app/views/';
+		$smarty->setCompileDir ('./tmp/templates_c');
+		
+		# Set the template path
+		$smarty->assign ('_template', $templatePath);
+		
+		# Assign values to the template
+		foreach ($this->template as $key => $value) {
+			$smarty->assign ($key, $value);
+		}
+		
+		# Execute the template
+		$html = $smarty->fetch ('_layouts/index.tpl');
+		
+		# Show the HTML
+		echo $html;
+	}
+	
 	
 	
 	# Home page
