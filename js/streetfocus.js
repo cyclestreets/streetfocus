@@ -13,6 +13,10 @@ var streetfocus = (function ($) {
 		// PlanIt API
 		planitApiBaseUrl: 'https://www.planit.org.uk/api',
 		
+		// Cyclescape API
+		cyclescapeBaseUrl: 'https://www.cyclescape.org',
+		cyclescapeApiBaseUrl: 'https://www.cyclescape.org/api',
+		
 		// CycleStreets API; obtain a key at https://www.cyclestreets.net/api/apply/
 		cyclestreetsApiBaseUrl: 'https://api.cyclestreets.net',
 		cyclestreetsApiKey: 'YOUR_CYCLESTREETS_API_KEY',
@@ -103,6 +107,36 @@ var streetfocus = (function ($) {
 			$(element + ' h3.title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 40)));
 			$(element + ' p.description').html (streetfocus.htmlspecialchars (feature.properties.description));
 			$(element + ' p.address').html (streetfocus.htmlspecialchars (feature.properties.address));
+		},
+		
+		
+		// Proposals
+		proposals: function ()
+		{
+			// Add the proposals layer, e.g. /api/issues.json?page=1&per_page=100&bbox=-0.127902%2C51.503486%2C-0.067091%2C51.512086
+			var apiBaseUrl = _settings.cyclescapeApiBaseUrl + '/issues.json';
+			var parameters = {
+				page:		1,
+				per_page:	200
+			};
+			streetfocus.addLayer ('proposals', apiBaseUrl, parameters);
+		},
+		
+		
+		// Function to populate the popup
+		populatePopupProposals: function (element, feature)
+		{
+			// Get the centre-point of the geometry
+			var centre = streetfocus.getCentre (feature.geometry);
+			
+			// Populate the static HTML
+			$(element + ' p.id').html ('#' + feature.properties.id);
+			$(element + ' p.link a').attr ('href', feature.properties.cyclescape_url);
+			$(element + ' p.date span').html (new Date(feature.properties.created_at * 1000).toDateString());
+			$(element + ' h3.title').html (feature.properties.title);
+			$(element + ' p.description').html (feature.properties.description);
+			$(element + ' p.image img').attr ('src', _settings.cyclescapeBaseUrl + feature.properties.photo_thumb_url);
+			$(element + ' ul.tags').html ('<ul class="tags"><li>' + JSON.parse(feature.properties.tags).join('</li><li>') + '</li></ul>');
 		},
 		
 		

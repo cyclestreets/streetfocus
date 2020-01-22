@@ -1,5 +1,5 @@
 RewriteEngine On
 
 RewriteRule ^$ /index.html?action=home [L,QSA]
-RewriteRule ^(about|map|privacy|contacts)/$ /index.html?action=$1 [L,QSA]
-RedirectMatch Permanent ^/(about|map|privacy|contacts)$ /$1/
+RewriteRule ^(about|map|proposals|privacy|contacts)/$ /index.html?action=$1 [L,QSA]
+RedirectMatch Permanent ^/(about|map|proposals|privacy|contacts)$ /$1/

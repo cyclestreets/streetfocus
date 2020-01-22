@@ -63,6 +63,11 @@ body .mapboxgl-map .mapboxgl-popup-content {line-height: 1.4;}
 body.map #introduction {padding: 0 30px 5px;}
 body.map #map {height: 600px;}
 
+/* Proposals map page */
+body.proposals #introduction {padding: 0 30px 5px;}
+body.proposals #map {height: 600px;}
+body.proposals #geocoder {top: 20px; left: 20px; width: 250px;}
+
 /* Map popups - reset default styles */
 #map.mapboxgl-map {font-family: inherit; font-size: inherit;}
 #map.mapboxgl-map .mapboxgl-ctrl-attrib {font-size: 0.8em;}
@@ -79,6 +84,8 @@ body.map #map {height: 600px;}
 #map .mapboxgl-popup-content h3 {margin-top: 1.2em; border-top: 1px solid #ddd; padding-top: 1em; font-size: 1.2em;}
 #map .mapboxgl-popup-content p span.value {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0;}
 #map .planningapplications p.deadline span {float: right;}
+#map .proposals ul.tags {list-style: none; margin: 0; padding: 0;}
+#map .proposals ul.tags li {display: inline; background-color: #eee; margin: 0 3px 0; border-radius: 6px; padding: 3px 5px;}
 #map p.image img {max-width: 100%;}
 
 

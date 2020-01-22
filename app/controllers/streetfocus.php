@@ -35,6 +35,10 @@ class streetfocus
 				'description' => 'Planning applications',
 				'url' => '/map/',
 			),
+			'proposals' => array (
+				'description' => 'Proposals',
+				'url' => '/proposals/',
+			),
 			'privacy' => array (
 				'description' => 'Privacy',
 				'url' => '/privacy/',
@@ -133,6 +137,14 @@ class streetfocus
 	
 	# Planning applications map page
 	private function map ()
+	{
+		# Load the application JS
+		$this->applicationJs ();
+	}
+	
+	
+	# Proposals map page
+	private function proposals ()
 	{
 		# Load the application JS
 		$this->applicationJs ();
