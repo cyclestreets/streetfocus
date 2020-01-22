@@ -45,7 +45,11 @@ footer #menu #share img {width: 40px; height: 40px;}
 #map {width: 100%; border: 0;}
 #geocoder {position: absolute; border: 2px solid #c1c1c1; z-index: 5;}
 #geocoder input {width: 100%; height: 100%; font-size: 16px; padding: 6px;}
-.ui-autocomplete-loading {background: white url("/images/ui-anim_basic_16x16.gif") right center no-repeat;}
+.ui-autocomplete-loading {background: white url('/images/ui-anim_basic_16x16.gif') right center no-repeat;}
+
+/* Geolocation */
+body .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-group {display: none;}		/* Disable built-in styling */
+#geolocation {position: absolute; bottom: 30px; right: 15px; width: 40px; 40px; background-color: white; padding: 10px; border-radius: 50%;}
 
 /* Popups (adjustments to emulate Leaflet.js) */
 @keyframes fadein {from {opacity: 0;} to {opacity: 1;}}

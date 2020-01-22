@@ -119,8 +119,29 @@ var streetfocus = (function ($) {
 				hash: true
 			});
 			
+			// Add geolocation control
+			streetfocus.geolocation ();
+			
 			// Add geocoder control
 			streetfocus.geocoder ();
+		},
+		
+		
+		// Function to add geolocation
+		geolocation: function ()
+		{
+			// Initialise the control
+			var geolocate = new mapboxgl.GeolocateControl ({
+				positionOptions: {
+					enableHighAccuracy: true
+				}
+			});
+			_map.addControl (geolocate, 'bottom-right');	// Will be hidden by CSS
+			
+			// Add manual trigger from custom image
+			$('#geolocation').on ('click', function () {
+				geolocate.trigger ();
+			});
 		},
 		
 		

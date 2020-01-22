@@ -11,6 +11,8 @@
 	
 	<div id="map"></div>
 	
+	<a href="#"><img id="geolocation" src="/images/geolocation.png" /></a>
+	
 </div>
 
 
