@@ -6,6 +6,7 @@
 			<div id="menu">
 				<p id="share"><a href="https://www.facebook.com/CycleStreets/"><img src="/images/facebook.png"></a> <a href="https://twitter.com/streetfocusuk"><img src="/images/twitter.png"></a></p>
 				<ul>
+					<li><a href="/about/">About</a></li>
 				</ul>
 			</div>
 			

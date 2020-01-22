@@ -24,6 +24,10 @@ class streetfocus
 				'description' => false,
 				'url' => '/',
 			),
+			'about' => array (
+				'description' => 'About',
+				'url' => '/about/',
+			),
 		);
 		
 		# Return the actions
@@ -125,6 +129,13 @@ class streetfocus
 				});
 			</script>
 		";
+	}
+	
+	
+	# About page
+	private function about ()
+	{
+		// Static page
 	}
 }
 

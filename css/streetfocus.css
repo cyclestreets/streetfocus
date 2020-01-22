@@ -40,3 +40,10 @@ footer #menu ul li {margin-bottom: 0.7em;}
 footer #colophon {color: #707070;}
 footer #menu #share img {width: 40px; height: 40px;}
 
+/* Static pages */
+body.about main {padding: 0 30px;}
+img.banner {width: 400px; float: right; margin: 10px 0 10px 20px;}
+@media only screen and (max-width: 650px) {
+	img.banner {width: 100%;}
+}
+
