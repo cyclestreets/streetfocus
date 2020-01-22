@@ -1,0 +1,42 @@
+
+/* Layout */
+html, body {margin: 0; padding: 0; background-color: white;}
+header {width: auto; min-height: 50px; padding: 10px 30px 30px;}
+footer {width: auto; min-height: 12em; padding: 20px 30px 50px; background-color: #ebebeb; overflow: auto; clear: both;}
+footer #menu {float: left; height: 10em;}
+footer #colophon {float: right; height: 10em; max-width: 60%; margin-right: 30px;}
+
+/* Typography */
+body, input {font-family: 'Karla', sans-serif;}
+h2 {margin-top: 1.3em;}
+main p, main li {line-height: 1.3em;}
+main ul li {margin-bottom: 6px;}
+
+/* Links */
+a {color: #111; text-decoration: none;}
+
+/* Header */
+header #logo {width: 200px; border: 0; float: left;}
+
+/* Main menu navigation */
+header nav {float: right;}
+header nav ul {list-style: none; margin: 0; padding: 0;}
+header nav ul li {display: inline; margin-right: 5px;}
+header nav ul li a {display: inline-block; padding: 6px 10px;}
+header nav ul li a:hover {background-color: #f7f7f7;}
+
+/* Main menu navigation - mobile */
+@media only screen and (max-width: 750px) {
+	header nav {width: 45px; height: 45px; background-image: url('/images/hamburger.png'); background-repeat: no-repeat; background-size: 45px 45px;}
+	header nav ul {display: none;}
+}
+
+/* Main content */
+main {min-height: 400px;}
+
+/* Footer */
+footer #menu ul {list-style: none; margin: 0; padding: 0;}
+footer #menu ul li {margin-bottom: 0.7em;}
+footer #colophon {color: #707070;}
+footer #menu #share img {width: 40px; height: 40px;}
+
