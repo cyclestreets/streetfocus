@@ -28,6 +28,10 @@ class streetfocus
 				'description' => 'About',
 				'url' => '/about/',
 			),
+			'privacy' => array (
+				'description' => 'Privacy',
+				'url' => '/privacy/',
+			),
 			'contacts' => array (
 				'description' => 'Contact us',
 				'url' => '/contacts/',
@@ -138,6 +142,13 @@ class streetfocus
 	
 	# About page
 	private function about ()
+	{
+		// Static page
+	}
+	
+	
+	# Privacy page
+	private function privacy ()
 	{
 		// Static page
 	}
