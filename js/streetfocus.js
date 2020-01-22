@@ -373,6 +373,90 @@ var streetfocus = (function ($) {
 		},
 		
 		
+		// Function to add a heatmap layer
+		addHeatmapLayer: function (layerId, datasource)
+		{
+			// Add the data source
+			_map.addSource (layerId, {
+				type: 'geojson',
+				data: datasource,
+			});
+			
+			// Add heatmap layer
+			_map.addLayer ({
+				id: layerId,
+				type: 'heatmap',
+				source: layerId,
+				maxzoom: 17,
+				'layout': {
+					'visibility': 'none'
+				},
+				paint: {
+					// Increase weight as severity increases
+					'heatmap-weight': [
+						"interpolate",
+						["linear"],
+						["get", "sev"],
+						0, 0.02,
+						1, 0.3,
+						2, 1
+					],
+					// Increase intensity as zoom level increases
+					'heatmap-intensity': {
+						stops: [
+							[8, 1],
+							[9, 1.25],
+							[10, 1.5],
+							[11, 2.5],
+							[15, 5]
+						]
+					},
+					// Assign color values be applied to points depending on their density
+					'heatmap-color': [
+						'interpolate',
+						['linear'],
+						['heatmap-density'],
+						// http://colorbrewer2.org/?type=sequential&scheme=OrRd&n=5
+						// Only the first should be rgba() rest use rgb()
+						0,   'rgba(254,240,217,0)',
+						0.2, 'rgb(253,204,138)',
+						0.4, 'rgb(252,141,89)',
+						0.6, 'rgb(227,74,51)',
+						0.8, 'rgb(179,0,0)'
+					],
+					// Increase radius as zoom increases
+					'heatmap-radius': {
+						stops: [
+							[11, 15],
+							[15, 20]
+						]
+					}
+					/* ,
+					// Decrease opacity to transition into the circle layer
+					'heatmap-opacity': {
+						default: 1,
+						stops: [
+							[14, 1],
+							[17, 0]
+						]
+					},
+					*/
+				}
+			}, 'planningapplications');
+			
+			// Handle visibility
+			$('#' + layerId).click (function (e) {
+				var visibility = _map.getLayoutProperty (layerId, 'visibility');
+				if (visibility === 'visible') {
+					_map.setLayoutProperty (layerId, 'visibility', 'none');
+				} else {
+					_map.setLayoutProperty (layerId, 'visibility', 'visible');
+				}
+			});
+			
+		},
+		
+		
 		// Function to reduce co-ordinate accuracy of a bbox string
 		reduceBboxAccuracy: function (bbox)
 		{
