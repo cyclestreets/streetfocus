@@ -87,6 +87,7 @@ body.proposals #geocoder {top: 20px; left: 20px; width: 250px;}
 #map .proposals ul.tags {list-style: none; margin: 0; padding: 0;}
 #map .proposals ul.tags li {display: inline; background-color: #eee; margin: 0 3px 0; border-radius: 6px; padding: 3px 5px;}
 #map p.image img {max-width: 100%;}
+#map div.streetview iframe {height: 200px; width: 100%;}
 
 
 /* Static pages */

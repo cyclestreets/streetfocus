@@ -11,6 +11,7 @@ class streetfocus
 			'planitApiBaseUrl'		=> 'https://www.planit.org.uk/api',
 			'cyclestreetsApiKey'	=> NULL,
 			'mapboxApiKey'			=> NULL,
+			'googleApiKey'			=> NULL,
 		);
 		
 		# Return the defaults

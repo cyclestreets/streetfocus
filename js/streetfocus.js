@@ -24,6 +24,9 @@ var streetfocus = (function ($) {
 		// Mapbox API key
 		mapboxApiKey: 'YOUR_MAPBOX_API_KEY',
 		
+		// Google Maps API key
+		gmapApiKey: 'YOUR_GOOGLEMAPS_API_KEY',
+		
 		// Initial lat/lon/zoom of map and tile layer
 		defaultLocation: {
 			latitude: 52.2053,
@@ -107,6 +110,7 @@ var streetfocus = (function ($) {
 			$(element + ' h3.title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 40)));
 			$(element + ' p.description').html (streetfocus.htmlspecialchars (feature.properties.description));
 			$(element + ' p.address').html (streetfocus.htmlspecialchars (feature.properties.address));
+			$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
 		},
 		
 		
@@ -137,6 +141,7 @@ var streetfocus = (function ($) {
 			$(element + ' p.description').html (feature.properties.description);
 			$(element + ' p.image img').attr ('src', _settings.cyclescapeBaseUrl + feature.properties.photo_thumb_url);
 			$(element + ' ul.tags').html ('<ul class="tags"><li>' + JSON.parse(feature.properties.tags).join('</li><li>') + '</li></ul>');
+			$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
 		},
 		
 		

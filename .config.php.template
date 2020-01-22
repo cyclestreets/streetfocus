@@ -3,6 +3,7 @@
 $config = array (
 	'cyclestreetsApiKey'	=> 'YOUR_CYCLESTREETS_API_KEY',
 	'mapboxApiKey'			=> 'YOUR_MAPBOX_API_KEY',
+	'googleApiKey'			=> 'YOUR_GOOGLE_API_KEY',
 );
 
 ?>
