@@ -31,6 +31,7 @@
 				<ul>
 					<li><a href="/map/">Planning applications</a></li>
 					<li><a href="/proposals/">Proposals</a></li>
+					<li><a href="/my/">Monitor areas</a></li>
 					<li><a href="/blog/">Blog</a></li>
 					<li><a href="/about/">About</a></li>
 				</ul>
