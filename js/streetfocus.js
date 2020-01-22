@@ -115,6 +115,223 @@ var streetfocus = (function ($) {
 			
 			// Return the modified string
 			return string;
+		},
+		
+		
+		// Function to add a data layer to the map
+		addLayer: function (layerId, apiBaseUrl, parameters)
+		{
+			// Add the source and layer
+			_map.addLayer ({
+				id: layerId,
+				type: 'circle',
+				source: {
+					type: 'geojson',
+					generateId: true,
+					data: {		// Empty GeoJSON to start
+						type: 'FeatureCollection',
+						features: []
+					}
+				},
+				paint: {
+					'circle-radius': 20,
+					'circle-color': '#ffc300'
+				}
+			});
+			
+			// Register popup handler
+			var popup;
+			_map.on ('click', layerId, function (e) {
+				
+				// Substitute the content
+				var feature = e.features[0];
+				var popupFunction = 'populatePopup' + streetfocus.ucfirst (layerId);
+				streetfocus[popupFunction] ('#popupcontent', feature);
+				
+				// Get the HTML
+				var popupHtml = $('#popupcontent').html();
+				
+				// Create the HTML
+				popup = new mapboxgl.Popup ({className: layerId})
+					.setLngLat (e.lngLat)
+					.setHTML (popupHtml)
+					.addTo (_map);
+			});
+			
+			// Register escape key handler to close popups
+			$(document).keyup(function(e) {
+				if (e.keyCode === 27) {
+					popup.remove ();
+				}
+			});
+			
+			// Change the cursor to a pointer when over a point
+			_map.on ('mouseenter', layerId, function () {
+				_map.getCanvas().style.cursor = 'pointer';
+			});
+			_map.on ('mouseleave', layerId, function () {
+				_map.getCanvas().style.cursor = '';
+			});
+			
+			// Get the data, and register to update on map move
+			streetfocus.addData (layerId, apiBaseUrl, parameters);
+			_map.on ('moveend', function (e) {
+				streetfocus.addData (layerId, apiBaseUrl, parameters);
+			});
+		},
+		
+		
+		// Function to load the data for a layer
+		addData: function (layerId, apiBaseUrl, parameters)
+		{
+			// Get the map BBOX
+			var bbox = _map.getBounds();
+			bbox = bbox.getWest() + ',' + bbox.getSouth() + ',' + bbox.getEast() + ',' + bbox.getNorth();
+			bbox = streetfocus.reduceBboxAccuracy (bbox);
+			parameters.bbox = bbox;
+			
+			// Request the data
+			$.ajax ({
+				url: apiBaseUrl,
+				dataType: 'json',
+				data: parameters,
+				error: function (jqXHR, error, exception) {
+					if (jqXHR.statusText != 'abort') {
+						var data = $.parseJSON(jqXHR.responseText);
+						alert ('Error: ' + data.error);
+					}
+				},
+				success: function (data, textStatus, jqXHR) {
+					streetfocus.showCurrentData (layerId, data);
+				}
+			});
+		},
+		
+		
+		// Function to reduce co-ordinate accuracy of a bbox string
+		reduceBboxAccuracy: function (bbox)
+		{
+			// Split by comma
+			var coordinates = bbox.split(',');
+			
+			// Reduce accuracy of each coordinate
+			coordinates = streetfocus.reduceCoordinateAccuracy (coordinates);
+			
+			// Recombine
+			bbox = coordinates.join(',');
+			
+			// Return the string
+			return bbox;
+		},
+		
+		
+		// Function to reduce co-ordinate accuracy to avoid pointlessly long URLs
+		reduceCoordinateAccuracy: function (coordinates)
+		{
+			// Set 0.1m accuracy; see: https://en.wikipedia.org/wiki/Decimal_degrees
+			var accuracy = 6;
+			
+			// Reduce each value
+			var i;
+			for (i = 0; i < coordinates.length; i++) {
+				coordinates[i] = parseFloat(coordinates[i]).toFixed(accuracy);
+			}
+			
+			// Return the modified set
+			return coordinates;
+		},
+		
+		
+		// Helper function to get the centre-point of a geometry
+		getCentre: function (geometry)
+		{
+			// Determine the centre point
+			var centre = {};
+			switch (geometry.type) {
+				
+				case 'Point':
+					centre = {
+						lat: geometry.coordinates[1],
+						lon: geometry.coordinates[0]
+					};
+					break;
+					
+				case 'LineString':
+					var longitudes = [];
+					var latitudes = [];
+					$.each (geometry.coordinates, function (index, lonLat) {
+						longitudes.push (lonLat[0]);
+						latitudes.push (lonLat[1]);
+					});
+					centre = {
+						lat: ((Math.max.apply (null, latitudes) + Math.min.apply (null, latitudes)) / 2),
+						lon: ((Math.max.apply (null, longitudes) + Math.min.apply (null, longitudes)) / 2)
+					};
+					break;
+					
+				case 'MultiLineString':
+				case 'Polygon':
+					var longitudes = [];
+					var latitudes = [];
+					$.each (geometry.coordinates, function (index, line) {
+						$.each (line, function (index, lonLat) {
+							longitudes.push (lonLat[0]);
+							latitudes.push (lonLat[1]);
+						});
+					});
+					centre = {
+						lat: ((Math.max.apply (null, latitudes) + Math.min.apply (null, latitudes)) / 2),
+						lon: ((Math.max.apply (null, longitudes) + Math.min.apply (null, longitudes)) / 2)
+					};
+					break;
+			}
+			
+			// Return the centre
+			return centre;
+		},
+		
+		
+		// Function to show the data for a layer
+		showCurrentData: function (layerId, data)
+		{
+			// If the layer has lines or polygons, reduce to point
+			$.each (data.features, function (index, feature) {
+				if (feature.geometry.type != 'Point') {
+					data.features[index].geometry = {
+						type: 'Point',
+						coordinates: streetfocus.getCentre (feature.geometry)
+					}
+				}
+			});
+			
+			// Set the data
+			_map.getSource (layerId).setData (data);
+		},
+		
+		
+		// Function to upper-case the first character
+		ucfirst: function (string)
+		{
+			if (typeof string !== 'string') {return string;}
+			return string.charAt(0).toUpperCase() + string.slice(1);
+		},
+		
+		
+		// Function to make data entity-safe
+		htmlspecialchars: function (string)
+		{
+			if (typeof string !== 'string') {return string;}
+			return string.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		},
+		
+		
+		// Function to truncate a string
+		truncateString: function (string, length)
+		{
+			if (string.length > length) {
+				string = string.substring (0, length) + '…';
+			}
+			return string;
 		}
 	};
 	
