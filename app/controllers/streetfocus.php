@@ -28,6 +28,10 @@ class streetfocus
 				'description' => 'About',
 				'url' => '/about/',
 			),
+			'contacts' => array (
+				'description' => 'Contact us',
+				'url' => '/contacts/',
+			),
 		);
 		
 		# Return the actions
@@ -134,6 +138,13 @@ class streetfocus
 	
 	# About page
 	private function about ()
+	{
+		// Static page
+	}
+	
+	
+	# Contact us page
+	private function contacts ()
 	{
 		// Static page
 	}
