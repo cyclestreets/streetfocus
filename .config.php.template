@@ -1,6 +1,7 @@
 <?php
 
 $config = array (
+	'mapboxApiKey'			=> 'YOUR_MAPBOX_API_KEY',
 );
 
 ?>
