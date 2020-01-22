@@ -43,6 +43,10 @@ footer #menu #share img {width: 40px; height: 40px;}
 /* Map styling */
 #mappanel {position: relative;}
 #map {width: 100%; border: 0;}
+#geocoder {position: absolute; border: 2px solid #c1c1c1; z-index: 5;}
+#geocoder input {width: 100%; height: 100%; font-size: 16px; padding: 6px;}
+.ui-autocomplete-loading {background: white url("/images/ui-anim_basic_16x16.gif") right center no-repeat;}
+
 
 /* Static pages */
 body.about main, body.privacy main, body.contacts main {padding: 0 30px;}

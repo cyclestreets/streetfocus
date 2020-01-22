@@ -8,6 +8,7 @@ class streetfocus
 	{
 		# Specify available arguments as defaults or as NULL (to represent a required argument)
 		$defaults = array (
+			'cyclestreetsApiKey'	=> NULL,
 			'mapboxApiKey'			=> NULL,
 		);
 		
@@ -133,6 +134,7 @@ class streetfocus
 			<script>
 				$(function() {
 					config = {
+						cyclestreetsApiKey: '{$this->settings['cyclestreetsApiKey']}',
 						mapboxApiKey: '{$this->settings['mapboxApiKey']}'
 					};
 					streetfocus.initialise (config, '{$this->action}');

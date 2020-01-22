@@ -9,9 +9,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="/js/lib/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 		
 		<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js"></script>
 		<link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css" rel="stylesheet" />
+		
+		<script type="text/javascript" src="/js/lib/geocoder.js"></script>
 		
 		<script src="/js/streetfocus.js"></script>
 		{$applicationJs}
