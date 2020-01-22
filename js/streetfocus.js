@@ -47,14 +47,17 @@ var streetfocus = (function ($) {
 	var _map = null;
 	var _colours = {
 		planningapplications: {
-			'Full':			'#007cbf',
-			'Outline':		'blue',
-			'Amendment':	'orange',
-			'Heritage':		'brown',
-			'Trees':		'green',
-			'Advertising':	'red',
-			'Telecoms':		'purple',
-			'Other':		'gray'
+			field: 'app_type',
+			values: {
+				'Full':			'#007cbf',
+				'Outline':		'blue',
+				'Amendment':	'orange',
+				'Heritage':		'brown',
+				'Trees':		'green',
+				'Advertising':	'red',
+				'Telecoms':		'purple',
+				'Other':		'gray'
+			}
 		}
 	};
 	
@@ -114,7 +117,7 @@ var streetfocus = (function ($) {
 			var value;
 			$.each ($("input[name='app_type']"), function () {
 				value = $(this).val ();
-				$(this).parent().parent().css ('background-color', _colours[layerId][value]);		// Two parents, as label surrounds
+				$(this).parent().parent().css ('background-color', _colours[layerId].values[value]);		// Two parents, as label surrounds
 			});
 			
 			// Handle filtering panel options
@@ -265,6 +268,15 @@ var streetfocus = (function ($) {
 		// Function to add a data layer to the map
 		addLayer: function (layerId, apiBaseUrl, parameters)
 		{
+			// Compile colour lists
+			var colourPairs = [];
+			if (_colours[layerId]) {
+				$.each (_colours[layerId].values, function (key, value) {
+					colourPairs.push (key);
+					colourPairs.push (value);
+				});
+			}
+			
 			// Add the source and layer
 			_map.addLayer ({
 				id: layerId,
@@ -279,7 +291,16 @@ var streetfocus = (function ($) {
 				},
 				paint: {
 					'circle-radius': 20,
-					'circle-color': '#ffc300'
+					'circle-color': (
+						_colours[layerId]
+						? [
+							'match',
+							['get', _colours[layerId].field],
+							...colourPairs,
+							'#ffc300'
+						]
+						: '#ffc300'
+					)
 				}
 			});
 			
