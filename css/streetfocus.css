@@ -59,9 +59,21 @@ body .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-group {display: none;}		/* Disab
 .mapboxgl-popup-close-button:hover {color: #999; background-color: white; border-top-right-radius: 12px;}
 body .mapboxgl-map .mapboxgl-popup-content {line-height: 1.4;}
 
+/* Home page */
+body.home h1 {display: none;}
+body.home #introduction {padding: 0 30px 5px;}
+body.home .learnmore {white-space: nowrap;}
+body.home #map {height: 300px;}
+body.home #geocoder {top: 40%; height: 60px; width: 100%;}
+body.home #geocoder input {width: calc(100% - 4px); padding: 10px 30px;}
+body.home #statistics {width: 100%; background-color: #ddd; margin: 0;}
+body.home #statistics p {padding: 0; margin: 0; display: inline-block; width: calc(50% - 4px); text-align: center; background-color: white; height: 80px; vertical-align: middle; padding-top: 20px; color: #727272; font-size: 1em; line-height: 33px;}
+body.home #statistics p span {display: block; font-size: 39px;}
+
 /* Planning applications map page */
 body.map #introduction {padding: 0 30px 5px;}
 body.map #map {height: 600px;}
+body.map #geocoder {top: 20px; left: 20px; width: 250px;}
 
 /* Proposals map page */
 body.proposals #introduction {padding: 0 30px 5px;}

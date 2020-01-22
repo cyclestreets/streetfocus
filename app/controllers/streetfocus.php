@@ -133,6 +133,11 @@ class streetfocus
 	{
 		# Load the application JS
 		$this->applicationJs ();
+		
+		# Add totals
+		// #!# Example data at present - needs API integration
+		$this->template['totalApplications'] = '32306';
+		$this->template['matchedProposals'] = '253';
 	}
 	
 	

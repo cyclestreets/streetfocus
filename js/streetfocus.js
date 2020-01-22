@@ -73,7 +73,12 @@ var streetfocus = (function ($) {
 		// Home page
 		home: function ()
 		{
-			//
+			// Add the planning applications layer, e.g. /api/applics/geojson?limit=30&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076&recent=188
+			var apiBaseUrl = _settings.planitApiBaseUrl + '/applics/geojson';
+			var parameters = {
+				recent:	200
+			};
+			streetfocus.addLayer ('planningapplications', apiBaseUrl, parameters);
 		},
 		
 		
