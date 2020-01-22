@@ -40,6 +40,9 @@
 		</ul>
 	</div>
 	
+	<div id="collisions">
+		<p>Show collision blackspots</p>
+	</div>
 </div>
 
 

@@ -82,6 +82,10 @@ body.map #filtering ul#state, body.map #filtering ul#type, body.map #filtering u
 body.map #filtering ul#state li, body.map #filtering ul#type li, body.map #filtering ul#size li {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0 5px 0; border-radius: 6px;}
 body.map #filtering ul#type li label {color: white;}
 
+/* Collisions */
+body.map #collisions {position: absolute; bottom: 10px; left: 120px; z-index: 5; border: 1px solid #eee; padding: 4px 6px; background-color: white; cursor: default; user-select: none;}
+body.map #collisions p {margin: 0; padding: 0;}
+
 /* Proposals map page */
 body.proposals #introduction {padding: 0 30px 5px;}
 body.proposals #map {height: 600px;}

@@ -139,6 +139,10 @@ var streetfocus = (function ($) {
 			
 			// Add the data layer
 			streetfocus.addLayer (layerId, apiBaseUrl, parameters);
+			
+			// Add collisions heatmap layer support
+			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
+			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson');
 		},
 		
 		
