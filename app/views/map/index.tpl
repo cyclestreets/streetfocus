@@ -38,6 +38,11 @@
 			<li><a href="#">Medium</a></li>
 			<li><a href="#">Large</a></li>
 		</ul>
+		<h3>Boundary</h3>
+		<p>Draw boundary to limit search results</p>
+		<div id="boundary">
+			<p>Draw search area</p>
+		</div>
 	</div>
 	
 	<div id="collisions">
