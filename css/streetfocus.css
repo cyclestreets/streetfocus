@@ -75,6 +75,13 @@ body.map #introduction {padding: 0 30px 5px;}
 body.map #map {height: 600px;}
 body.map #geocoder {top: 20px; left: 20px; width: 250px;}
 
+/* Filtering controls */
+body.map img#filter {position: absolute; top: 20px; right: 20px; z-index: 5; border: 1px solid #eee;}
+body.map #filtering {display: none; position: absolute; top: 100px; left: 0; width: 100%; height: calc(100% - 100px); z-index: 10; background-color: white; padding: 30px;}
+body.map #filtering ul#state, body.map #filtering ul#type, body.map #filtering ul#size {list-style: none; margin: 0; padding: 0;}
+body.map #filtering ul#state li, body.map #filtering ul#type li, body.map #filtering ul#size li {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0 5px 0; border-radius: 6px;}
+body.map #filtering ul#type li label {color: white;}
+
 /* Proposals map page */
 body.proposals #introduction {padding: 0 30px 5px;}
 body.proposals #map {height: 600px;}

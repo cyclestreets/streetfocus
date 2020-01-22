@@ -45,6 +45,17 @@ var streetfocus = (function ($) {
 	
 	// Internal class properties
 	var _map = null;
+	var _colours = {
+		planningapplications: {
+			'Full':			'#007cbf',
+			'Outline':		'blue',
+			'Amendment':	'orange',
+			'Heritage':		'brown',
+			'Trees':		'green',
+			'Advertising':	'red',
+			'Telecoms':		'purple',
+			'Other':		'gray'
+		}
 	};
 	
 	
@@ -73,7 +84,7 @@ var streetfocus = (function ($) {
 		// Home page
 		home: function ()
 		{
-			// Add the planning applications layer, e.g. /api/applics/geojson?limit=30&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076&recent=188
+			// Add the planning applications layer, e.g. /api/applics/geojson?limit=30&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076&recent=188&app_type=Full,Trees
 			var apiBaseUrl = _settings.planitApiBaseUrl + '/applics/geojson';
 			var parameters = {
 				recent:	200
@@ -88,11 +99,40 @@ var streetfocus = (function ($) {
 			// Set the layer ID
 			var layerId = 'planningapplications';
 			
-			// Add the planning applications layer, e.g. /api/applics/geojson?limit=30&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076&recent=188
+			// Add the planning applications layer, e.g. /api/applics/geojson?limit=30&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076&recent=188&app_type=Full,Trees
 			var apiBaseUrl = _settings.planitApiBaseUrl + '/applics/geojson';
 			var parameters = {
 				recent:	200
 			};
+			
+			// Handle filtering panel visibility
+			$('img#filter').click (function () {
+				$('#filtering').fadeToggle ();
+			});
+			
+			// Set checkbox colours
+			var value;
+			$.each ($("input[name='app_type']"), function () {
+				value = $(this).val ();
+				$(this).parent().parent().css ('background-color', _colours[layerId][value]);		// Two parents, as label surrounds
+			});
+			
+			// Handle filtering panel options
+			$('#filtering #type input').click (function (e) {
+				var types = [];
+				$.each ($("input[name='app_type']:checked"), function() {
+					types.push ($(this).val ());
+				});
+				parameters.app_type = types.join (',');
+				
+				// Redraw if already present
+				if (_map.getLayer (layerId)) {
+					streetfocus.addData (layerId, apiBaseUrl, parameters);
+				}
+				
+				// Auto-close
+				$('#filtering').fadeToggle ();
+			});
 			
 			// Add the data layer
 			streetfocus.addLayer (layerId, apiBaseUrl, parameters);
