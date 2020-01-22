@@ -10,6 +10,9 @@ var streetfocus = (function ($) {
 	// Settings defaults
 	var _settings = {
 		
+		// PlanIt API
+		planitApiBaseUrl: 'https://www.planit.org.uk/api',
+		
 		// CycleStreets API; obtain a key at https://www.cyclestreets.net/api/apply/
 		cyclestreetsApiBaseUrl: 'https://api.cyclestreets.net',
 		cyclestreetsApiKey: 'YOUR_CYCLESTREETS_API_KEY',
@@ -64,6 +67,42 @@ var streetfocus = (function ($) {
 		home: function ()
 		{
 			//
+		},
+		
+		
+		// Planning applications
+		map: function ()
+		{
+			// Set the layer ID
+			var layerId = 'planningapplications';
+			
+			// Add the planning applications layer, e.g. /api/applics/geojson?limit=30&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076&recent=188
+			var apiBaseUrl = _settings.planitApiBaseUrl + '/applics/geojson';
+			var parameters = {
+				recent:	200
+			};
+			
+			// Add the data layer
+			streetfocus.addLayer (layerId, apiBaseUrl, parameters);
+		},
+		
+		
+		// Function to populate the popup
+		populatePopupPlanningapplications: function (element, feature)
+		{
+			// Get the centre-point of the geometry
+			var centre = streetfocus.getCentre (feature.geometry);
+			
+			// Populate the HTML content
+			$(element + ' p.applicationId').html (feature.properties.uid);
+			$(element + ' p.officialplans a').attr ('href', feature.properties.url);
+			$(element + ' p.developmentsize span').html ('Unknown size');
+			$(element + ' p.type span').html (feature.properties.app_type);
+			$(element + ' p.state span').html (feature.properties.app_state);
+			$(element + ' p.deadline span').html ('X weeks from ' + feature.properties.start_date);
+			$(element + ' h3.title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 40)));
+			$(element + ' p.description').html (streetfocus.htmlspecialchars (feature.properties.description));
+			$(element + ' p.address').html (streetfocus.htmlspecialchars (feature.properties.address));
 		},
 		
 		
@@ -198,7 +237,7 @@ var streetfocus = (function ($) {
 				error: function (jqXHR, error, exception) {
 					if (jqXHR.statusText != 'abort') {
 						var data = $.parseJSON(jqXHR.responseText);
-						alert ('Error: ' + data.error);
+						alert ('Error: ' + data.error);		// #!# Need to check how PlanIt API gives human-readable errors
 					}
 				},
 				success: function (data, textStatus, jqXHR) {

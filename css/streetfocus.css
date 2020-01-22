@@ -55,9 +55,27 @@ footer #menu #share img {width: 40px; height: 40px;}
 .mapboxgl-popup-close-button:hover {color: #999; background-color: white; border-top-right-radius: 12px;}
 body .mapboxgl-map .mapboxgl-popup-content {line-height: 1.4;}
 
+/* Planning applications map page */
+body.map #introduction {padding: 0 30px 5px;}
+body.map #map {height: 600px;}
+
 /* Map popups - reset default styles */
 #map.mapboxgl-map {font-family: inherit; font-size: inherit;}
 #map.mapboxgl-map .mapboxgl-ctrl-attrib {font-size: 0.8em;}
+
+/* Map popups */
+#popupcontent {display: none;}
+#map .mapboxgl-popup {max-width: 100% !important; transform: none !important;}		/* Override default */
+#map .mapboxgl-popup {width: 100%; margin-top: 50px; height: calc(100% - 50px); z-index: 10;}
+#map .mapboxgl-popup .mapboxgl-popup-content {max-width: 100%;}		/* Override default */
+#map .mapboxgl-popup .mapboxgl-popup-content {height: 100%; overflow: auto; padding: 30px;}
+#map .mapboxgl-popup-content h2 {text-align: center; margin: 0; padding: 0;}
+#map .mapboxgl-popup-content p.subheading {text-align: center; color: #646464; margin: 0; padding: 0;}
+#map .mapboxgl-popup-content p.officialplans a, #map .mapboxgl-popup-content p.setupalerts a {color: #183fd4; font-size: 1em;}
+#map .mapboxgl-popup-content h3 {margin-top: 1.2em; border-top: 1px solid #ddd; padding-top: 1em; font-size: 1.2em;}
+#map .mapboxgl-popup-content p span.value {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0;}
+#map .planningapplications p.deadline span {float: right;}
+#map p.image img {max-width: 100%;}
 
 
 /* Static pages */

@@ -8,6 +8,7 @@ class streetfocus
 	{
 		# Specify available arguments as defaults or as NULL (to represent a required argument)
 		$defaults = array (
+			'planitApiBaseUrl'		=> 'https://www.planit.org.uk/api',
 			'cyclestreetsApiKey'	=> NULL,
 			'mapboxApiKey'			=> NULL,
 		);
@@ -29,6 +30,10 @@ class streetfocus
 			'about' => array (
 				'description' => 'About',
 				'url' => '/about/',
+			),
+			'map' => array (
+				'description' => 'Planning applications',
+				'url' => '/map/',
 			),
 			'privacy' => array (
 				'description' => 'Privacy',
@@ -126,6 +131,14 @@ class streetfocus
 	}
 	
 	
+	# Planning applications map page
+	private function map ()
+	{
+		# Load the application JS
+		$this->applicationJs ();
+	}
+	
+	
 	# Function to load the application JS
 	private function applicationJs ()
 	{
@@ -134,6 +147,7 @@ class streetfocus
 			<script>
 				$(function() {
 					config = {
+						planitApiBaseUrl: '{$this->settings['planitApiBaseUrl']}',
 						cyclestreetsApiKey: '{$this->settings['cyclestreetsApiKey']}',
 						mapboxApiKey: '{$this->settings['mapboxApiKey']}'
 					};
