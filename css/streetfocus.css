@@ -16,7 +16,7 @@ main ul li {margin-bottom: 6px;}
 a {color: #111; text-decoration: none;}
 
 /* Header */
-header #logo {width: 200px; border: 0; float: left;}
+header #logo {width: 130px; border: 0; float: left;}
 
 /* Main menu navigation */
 header nav {float: right;}
