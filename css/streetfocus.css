@@ -1,13 +1,16 @@
 
 /* Layout */
 html, body {margin: 0; padding: 0; background-color: white;}
-header {width: auto; min-height: 50px; padding: 10px 30px 30px;}
+header {width: auto; min-height: 75px; padding: 5px 30px 25px; border-bottom: 2px solid #f9b54b;}
+main {padding-top: 10px;}
 footer {width: auto; min-height: 12em; padding: 20px 30px 50px; background-color: #ebebeb; overflow: auto; clear: both;}
 footer #menu {float: left; height: 10em;}
 footer #colophon {float: right; height: 10em; max-width: 60%; margin-right: 30px;}
 
 /* Typography */
-body, input {font-family: 'Karla', sans-serif;}
+body, input {font-family: 'PT Sans', sans-serif;}
+body, textarea, option, select {font-size: 16px; line-height: 22px;}
+h1 {font-family: 'Fjalla One', sans-serif; font-size: 25px; line-height: 32px; font-weight: normal; text-align: center;}
 h2 {margin-top: 1.3em;}
 main p, main li {line-height: 1.3em;}
 main ul li {margin-bottom: 6px;}
