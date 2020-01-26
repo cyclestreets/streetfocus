@@ -3,7 +3,7 @@
 html, body {margin: 0; padding: 0; background-color: white;}
 header {width: auto; min-height: 75px; padding: 5px 30px 25px; border-bottom: 2px solid #f9b54b;}
 main {padding-top: 10px;}
-footer {width: auto; min-height: 12em; padding: 50px 30px 50px; background-color: #152139; overflow: auto; clear: both; border-top: 5px solid; border-image: repeating-linear-gradient(to right, #e73455, #e73455 33.3%, #f9b54b 33.3%, #f9b54b 66.6%, #3f74ba 66.6%, #3f74ba 100%) 1;}
+footer {width: auto; min-height: 12em; padding: 50px 30px 50px; background-color: #152139; overflow: auto; clear: both; border-style: solid; border-image: repeating-linear-gradient(to right, #e73455, #e73455 33.3%, #f9b54b 33.3%, #f9b54b 66.6%, #3f74ba 66.6%, #3f74ba 100%) 1; border-width: 5px 0 0;}
 
 /* Typography */
 body, input {font-family: 'PT Sans', sans-serif;}
