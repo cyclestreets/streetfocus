@@ -74,6 +74,9 @@ var streetfocus = (function ($) {
 				}
 			});
 			
+			// Prevent viewport zooming, which is problematic for iOS Safari
+			streetfocus.preventViewportZooming ();
+			
 			// Create mobile navigation
 			streetfocus.createMobileNavigation ();
 			
@@ -84,6 +87,17 @@ var streetfocus = (function ($) {
 			_map.on ('load', function () {
 				streetfocus[action] ();
 			});
+		},
+		
+		
+		// Prevent viewport zooming, which is problematic for iOS Safari; see: https://stackoverflow.com/questions/37808180/
+		preventViewportZooming: function ()
+		{
+			document.addEventListener ('touchmove', function (event) {
+				if (event.scale !== 1) {
+					event.preventDefault ();
+				}
+			}, {passive: false});
 		},
 		
 		
