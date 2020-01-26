@@ -269,6 +269,9 @@ var streetfocus = (function ($) {
 			// Add geolocation control
 			streetfocus.geolocation ();
 			
+			// Add buildings
+			streetfocus.addBuildings ();
+			
 			// Add geocoder control
 			streetfocus.geocoder ();
 		},
@@ -292,6 +295,73 @@ var streetfocus = (function ($) {
 		},
 		
 		
+		// Buildings layer; see: https://www.mapbox.com/mapbox-gl-js/example/3d-buildings/
+		addBuildings: function ()
+		{
+			// The 'building' layer in the mapbox-streets vector source contains building-height data from OpenStreetMap.
+			_map.on('style.load', function() {
+
+				// Get the layers in the source style
+				var layers = _map.getStyle().layers;
+
+				// Ensure the layer has buildings, or end
+				if (!streetfocus.styleHasLayer (layers, 'building')) {return;}
+
+				// Insert the layer beneath any symbol layer.
+				var labelLayerId;
+				var i;
+				for (i = 0; i < layers.length; i++) {
+					if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
+						labelLayerId = layers[i].id;
+						break;
+					}
+				}
+
+				// Add the layer
+				_map.addLayer ({
+					'id': '3d-buildings',
+					'source': 'composite',
+					'source-layer': 'building',
+					'filter': ['==', 'extrude', 'true'],
+					'type': 'fill-extrusion',
+					'minzoom': 15,
+					'paint': {
+						'fill-extrusion-color': '#aaa',
+
+						// Use an 'interpolate' expression to add a smooth transition effect to the buildings as the user zooms in
+						'fill-extrusion-height': [
+							"interpolate", ["linear"], ["zoom"],
+							15, 0,
+							15.05, ["get", "height"]
+						],
+						'fill-extrusion-base': [
+							"interpolate", ["linear"], ["zoom"],
+							15, 0,
+							15.05, ["get", "min_height"]
+						],
+						'fill-extrusion-opacity': 0.6
+					}
+				}, labelLayerId);
+			});
+		},
+
+
+		// Function to test whether a style has a layer
+		styleHasLayer: function (layers, layerName)
+		{
+			// Ensure the layer has buildings, or end
+			var i;
+			for (i = 0; i < layers.length; i++) {
+				if (layers[i].id == layerName) {
+					return true;
+				}
+			}
+
+			// Not found
+			return false;
+		},
+
+
 		// Wrapper function to add a geocoder control
 		geocoder: function ()
 		{
