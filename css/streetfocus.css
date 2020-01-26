@@ -3,9 +3,7 @@
 html, body {margin: 0; padding: 0; background-color: white;}
 header {width: auto; min-height: 75px; padding: 5px 30px 25px; border-bottom: 2px solid #f9b54b;}
 main {padding-top: 10px;}
-footer {width: auto; min-height: 12em; padding: 20px 30px 50px; background-color: #ebebeb; overflow: auto; clear: both;}
-footer #menu {float: left; height: 10em;}
-footer #colophon {float: right; height: 10em; max-width: 60%; margin-right: 30px;}
+footer {width: auto; min-height: 12em; padding: 50px 30px 50px; background-color: #152139; overflow: auto; clear: both; border-top: 5px solid; border-image: repeating-linear-gradient(to right, #e73455, #e73455 33.3%, #f9b54b 33.3%, #f9b54b 66.6%, #3f74ba 66.6%, #3f74ba 100%) 1;}
 
 /* Typography */
 body, input {font-family: 'PT Sans', sans-serif;}
@@ -39,10 +37,16 @@ header nav ul li a:hover {background-color: #f7f7f7;}
 main {min-height: 400px;}
 
 /* Footer */
+footer ul, footer p, footer a {color: white; text-align: center;}
+footer #menu, footer #socialmedia {font-family: 'Fjalla One', sans-serif; text-transform: uppercase; font-size: 18px; margin-bottom: 35px;}
 footer #menu ul {list-style: none; margin: 0; padding: 0;}
-footer #menu ul li {margin-bottom: 0.7em;}
-footer #colophon {color: #707070;}
-footer #menu #share img {width: 40px; height: 40px;}
+footer #menu ul li {display: inline;}
+footer #menu ul li:first-child {margin-right: 50px;}
+footer #socialmedia img {width: 30px; height: 30px; vertical-align: middle;}
+footer #socialmedia a {margin-left: 6px;}
+footer #socialmedia a:first-child {margin-left: 15px;}
+footer #colophon p {font-size: 14px; opacity: 0.6; line-height: 22px; margin: 0; padding-bottom: 10px;}
+footer #colophon p a {text-decoration: underline;}
 
 /* Map styling */
 #mappanel {position: relative;}
