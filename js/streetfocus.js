@@ -275,8 +275,8 @@ var streetfocus = (function ($) {
 				hash: true
 			});
 			
-			// Add navigation (+/-) controls
-			_map.addControl(new mapboxgl.NavigationControl ());
+			// Add navigation (+/-/pitch) controls
+			_map.addControl(new mapboxgl.NavigationControl (), 'top-left');
 			
 			// Add geolocation control
 			streetfocus.geolocation ();
