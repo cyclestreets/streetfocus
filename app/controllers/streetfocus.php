@@ -95,8 +95,8 @@ class streetfocus
 		$url = $this->actions[$this->action]['url'];
 		$templatePath = ltrim ($url, '/') . 'index';
 		
-		# Set the application JS to be empty by default
-		$this->template['applicationJs'] = '';
+		# Load the application JS, including mapping and the menu handling
+		$this->template['_settings'] = $this->settings;
 		
 		# Perform the action, which will write into the page template array
 		$this->{$this->action} ();
@@ -135,9 +135,6 @@ class streetfocus
 	# Home page
 	private function home ()
 	{
-		# Load the application JS
-		$this->applicationJs ();
-		
 		# Add totals
 		// #!# Example data at present - needs API integration
 		$this->template['totalApplications'] = '32306';
@@ -148,24 +145,21 @@ class streetfocus
 	# Planning applications map page
 	private function map ()
 	{
-		# Load the application JS
-		$this->applicationJs ();
+		//
 	}
 	
 	
 	# Proposals map page
 	private function proposals ()
 	{
-		# Load the application JS
-		$this->applicationJs ();
+		//
 	}
 	
 	
 	# Monitor areas page
 	private function my ()
 	{
-		# Load the application JS
-		$this->applicationJs ();
+		//
 	}
 	
 	

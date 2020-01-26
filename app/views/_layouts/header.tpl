@@ -18,7 +18,16 @@
 		<script type="text/javascript" src="/js/lib/geocoder.js"></script>
 		
 		<script src="/js/streetfocus.js"></script>
-		{$applicationJs}
+		<script>
+			$(function() {
+				config = {
+					planitApiBaseUrl: '{$_settings.planitApiBaseUrl}',
+					cyclestreetsApiKey: '{$_settings.cyclestreetsApiKey}',
+					mapboxApiKey: '{$_settings.mapboxApiKey}'
+				};
+				streetfocus.initialise (config, '{$_action}');
+			});
+		</script>
 		
 	</head>
 	
