@@ -4,11 +4,7 @@
 	<p>This map shows proposals for changes to streets and places. Currently, these come from the Cyclescape website, but further data sources may be added in future.</p>
 </div>
 
-<div id="geocoder">
-	<a href="#"><img id="geolocation" src="/images/gps.png" /></a>
-	<input type="text" name="location" autocomplete="off" placeholder="Search for place, postcode" tabindex="1" spellcheck="false" />
-	<input type="image" src="/images/search.png" />
-</div>
+{include file='_partials/geocoder.tpl'}
 
 <div id="mappanel">
 	
