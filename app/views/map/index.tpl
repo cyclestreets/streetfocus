@@ -1,21 +1,25 @@
+<h1>Planning applications</h1>
+
 <div id="introduction">
-	<p>The planning applications map shows proposals by developers to create new buildings, change existing sites, or make other changes such as tree works.</p>
+	<p>This map shows proposals by developers to create new buildings, change existing sites, and other changes such as tree works.</p>
+</div>
+
+<div id="geocoder">
+	<a href="#"><img id="geolocation" src="/images/gps.png" /></a>
+	<input type="text" name="location" autocomplete="off" placeholder="Search for place, postcode or planning ref." tabindex="1" spellcheck="false" />
+	<input type="image" src="/images/search.png" />
 </div>
 
 <div id="mappanel">
 	
-	<div id="geocoder">
-		<input type="text" name="location" autocomplete="off" placeholder="Search place, postcode or area" tabindex="1" spellcheck="false" />
-		<!--<input type="submit" />-->
-	</div>
-	
 	<div id="map"></div>
 	
-	<a href="#"><img id="geolocation" src="/images/geolocation.png" /></a>
+	<div id="filter" class="control">
+		<p><a href="#"><img id="filter" src="/images/filter.png" /> Refine search</a></p>
+	</div>
 	
-	<img id="filter" src="/images/filter.png" />
 	<div id="filtering">
-		<h2>Refine your search</h2>
+		<h2>Refine search</h2>
 		<h3>Application activity</h3>
 		<ul id="state">
 			<li><a href="#">Active</a></li>
@@ -45,9 +49,18 @@
 		</div>
 	</div>
 	
-	<div id="collisions">
-		<p>Show collision blackspots</p>
+	<div id="monitor" class="control">
+		<a href="#">
+			<img src="/images/monitor.png" />
+			<h2>Monitor this area</h2>
+			<p>Sign up to receive email alerts when new application plans come up.</p>
+		</a>
 	</div>
+	
+	<div id="collisions" class="control">
+		<p>Show collision hotspots</p>
+	</div>
+	
 </div>
 
 
