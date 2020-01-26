@@ -58,7 +58,6 @@ footer #colophon p a {text-decoration: underline;}
 /* Map styling */
 #mappanel {position: relative;}
 #map {width: 100%; border: 0;}
-.ui-autocomplete-loading {background: white url('/images/ui-anim_basic_16x16.gif') right center no-repeat;}
 
 /* Geolocation */
 body .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-group {display: none;}		/* Disable built-in styling */
@@ -77,6 +76,15 @@ body .mapboxgl-map .mapboxgl-popup-content {line-height: 1.4;}
 #geocoder #geolocation {width: 50px; height: 50px; float: left;}
 #geocoder input[type="search"] {border-style: solid; border-color: #c1c1c1; border-width: 2px 0; height: 50px; width: calc(100% - 106px); padding: 8px 15px; font-size: 17px;}
 #geocoder input[type="image"] {width: 56px; height: 50px; border: 0; float: right;}
+
+/* Geocoder autocomplete */
+.ui-autocomplete-loading {background: white url('/images/ui-anim_basic_16x16.gif') right center no-repeat;}
+.ui-autocomplete {background-color: white; z-index: 1000; width: 200px; list-style: none; margin-left: 0; padding-left: 0;}
+.ui-autocomplete li {list-style: none; margin-left: 0; padding-left: 0;}
+.ui-autocomplete li:first-child a {padding-top: 9px;}
+.ui-autocomplete li a {padding: 5px 15px 3px; display: block; color: #603;}
+.ui-autocomplete li a span {color: gray; font-size: 0.81em;}
+.ui-autocomplete li a.ui-state-active {cursor: pointer; background-color: #f7f7f7;}
 
 /* Control boxes */
 div.control {position: absolute; z-index: 5; border: 1px solid #e7e7e7; padding: 0px 6px; background-color: white; cursor: default; user-select: none; border-radius: 5px; box-shadow: 5px 5px 5px 5px rgba(232,232,232,0.5);}
