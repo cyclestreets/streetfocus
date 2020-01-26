@@ -263,6 +263,9 @@ var streetfocus = (function ($) {
 				hash: true
 			});
 			
+			// Add navigation (+/-) controls
+			_map.addControl(new mapboxgl.NavigationControl ());
+			
 			// Add geolocation control
 			streetfocus.geolocation ();
 			
