@@ -80,9 +80,9 @@ body.home #statistics div {padding: 0; margin: 0; display: inline-block; width: 
 body.home #statistics div h3 {font-family: 'Fjalla One', sans-serif; margin: 0; padding: 0; font-size: 14px; line-height: 22px;}
 body.home #statistics div p {font-size: 32px; color: #3f74ba; font-weight: bold; margin: 0; padding: 0;}
 
-/* Planning applications map page */
-body.map #introduction {padding: 0 30px 5px;}
-body.map #map {height: 600px;}
+/* Planning applications and proposals map pages */
+#introduction {padding: 0 30px 5px;}
+body.map #map, body.proposals #map {height: 600px;}
 
 /* Filtering controls */
 body.map div#filter {top: 20px; right: 20px;}
@@ -95,8 +95,8 @@ body.map #filtering ul#state li, body.map #filtering ul#type li, body.map #filte
 body.map #filtering ul#type li label {color: white;}
 
 /* Collisions */
-body.map #collisions {bottom: 7px; left: 120px;}
-body.map #collisions p {margin: 0; padding: 0; font-size: 14px;}
+#mappanel #collisions {bottom: 7px; left: 120px;}
+#mappanel #collisions p {margin: 0; padding: 0; font-size: 14px;}
 
 /* Monitor */
 body.map #monitor {bottom: 45px; left: 20px; right: 20px;}
@@ -104,11 +104,6 @@ body.map #monitor a {display: block; padding: 20px;}
 body.map #monitor img {float: left; width: 35px; padding: 10px 10px;}
 body.map #monitor h2, body.map #monitor p {margin: 0 0 0 80px; padding: 0;}
 body.map #monitor h2 {font-size: 16px; padding-bottom: 5px;}
-
-/* Proposals map page */
-body.proposals #introduction {padding: 0 30px 5px;}
-body.proposals #map {height: 600px;}
-body.proposals #geocoder {top: 20px; left: 20px; width: 250px;}
 
 /* Map popups - reset default styles */
 #map.mapboxgl-map {font-family: inherit; font-size: inherit;}
