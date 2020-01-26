@@ -162,7 +162,7 @@ var streetfocus = (function ($) {
 			};
 			
 			// Handle filtering panel visibility
-			$('img#filter').click (function () {
+			$('#filter').click (function () {
 				$('#filtering').fadeToggle ();
 			});
 			
