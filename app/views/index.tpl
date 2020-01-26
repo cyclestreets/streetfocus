@@ -1,21 +1,28 @@
 <div id="introduction">
-	<h1>StreetFocus</h1>
-	<h2>Helping local communities benefit from new development.</h2>
-	<p>Find out what planning applications there are currently  in your area and get funding for neighbourhood projects. <a class="learnmore" href="/about/">Learn more &gt;</a></p>
+	<h1 class="name">StreetFocus</h1>
+	<h1>Helping local communities benefit from new development</h1>
+	<p>Find out what planning applications there currently are in your area and discover whether there is funding for neighbourhood projects.</p>
+</div>
+
+<div id="geocoder">
+	<a href="#"><img id="geolocation" src="/images/gps.png" /></a>
+	<input type="text" name="location" autocomplete="off" placeholder="Search for place, postcode or planning ref." tabindex="1" spellcheck="false" />
+	<input type="image" src="/images/search.png" />
 </div>
 
 <div id="mappanel">
 	<div id="map"></div>
-	<div id="geocoder">
-		<input type="text" name="location" autocomplete="off" placeholder="Search place, postcode or area" tabindex="1" spellcheck="false" />
-		<!--<input type="submit" />-->
-	</div>
-	<a href="#"><img id="geolocation" src="/images/geolocation.png" /></a>
 </div>
 
 <div id="statistics">
-	<p><span>{$totalApplications|number_format}</span> Applications</p>
-	<p><span>{$matchedProposals|number_format}</span> Matched proposals</p>
+	<div>
+		<h3>Applications</h3>
+		<p>{$totalApplications|number_format}</p>
+	</div>
+	<div>
+		<h3>Matched proposals</h3>
+		<p>{$matchedProposals|number_format}</p>
+	</div>
 </div>
 
 

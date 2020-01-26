@@ -10,6 +10,7 @@ footer #colophon {float: right; height: 10em; max-width: 60%; margin-right: 30px
 /* Typography */
 body, input {font-family: 'PT Sans', sans-serif;}
 body, textarea, option, select {font-size: 16px; line-height: 22px;}
+h1, h2, h3, h4, h5, h6 {color: #152139; text-transform: uppercase;}
 h1 {font-family: 'Fjalla One', sans-serif; font-size: 25px; line-height: 32px; font-weight: normal; text-align: center;}
 h2 {margin-top: 1.3em;}
 main p, main li {line-height: 1.3em;}
@@ -46,13 +47,13 @@ footer #menu #share img {width: 40px; height: 40px;}
 /* Map styling */
 #mappanel {position: relative;}
 #map {width: 100%; border: 0;}
-#geocoder {position: absolute; border: 2px solid #c1c1c1; z-index: 5;}
-#geocoder input {width: 100%; height: 100%; font-size: 16px; padding: 6px;}
+#map #geocoder {position: absolute; border: 2px solid #c1c1c1; z-index: 5;}
+#map #geocoder input {width: 100%; height: 100%; font-size: 16px; padding: 6px;}
 .ui-autocomplete-loading {background: white url('/images/ui-anim_basic_16x16.gif') right center no-repeat;}
 
 /* Geolocation */
 body .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-group {display: none;}		/* Disable built-in styling */
-#geolocation {position: absolute; bottom: 30px; right: 15px; width: 40px; 40px; background-color: white; padding: 10px; border-radius: 50%;}
+#map #geolocation {position: absolute; bottom: 30px; right: 15px; width: 40px; height: 40px; background-color: white; padding: 10px; border-radius: 50%;}
 
 /* Popups (adjustments to emulate Leaflet.js) */
 @keyframes fadein {from {opacity: 0;} to {opacity: 1;}}
@@ -63,15 +64,18 @@ body .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-group {display: none;}		/* Disab
 body .mapboxgl-map .mapboxgl-popup-content {line-height: 1.4;}
 
 /* Home page */
-body.home h1 {display: none;}
+body.home h1.name {display: none;}
+body.home p {text-align: center;}
 body.home #introduction {padding: 0 30px 5px;}
-body.home .learnmore {white-space: nowrap;}
 body.home #map {height: 300px;}
-body.home #geocoder {top: 40%; height: 60px; width: 100%;}
-body.home #geocoder input {width: calc(100% - 4px); padding: 10px 30px;}
-body.home #statistics {width: 100%; background-color: #ddd; margin: 0;}
-body.home #statistics p {padding: 0; margin: 0; display: inline-block; width: calc(50% - 4px); text-align: center; background-color: white; height: 80px; vertical-align: middle; padding-top: 20px; color: #727272; font-size: 1em; line-height: 33px;}
-body.home #statistics p span {display: block; font-size: 39px;}
+body.home #geocoder {margin: 5px 25px 40px; height: 50px; width: calc(100%-40px);}
+body.home #geocoder #geolocation {width: 50px; height: 50px; float: left;}
+body.home #geocoder input[type="text"] {border-style: solid; border-color: #c1c1c1; border-width: 2px 0; height: 50px; width: calc(100% - 106px); padding: 10px 20px; font-size: 16px;}
+body.home #geocoder input[type="image"] {width: 56px; height: 50px; border: 0; float: right;}
+body.home #statistics {width: 100%; margin: 0;}
+body.home #statistics div {padding: 0; margin: 0; display: inline-block; width: calc(50% - 4px); text-align: center; background-color: white; height: 100px; vertical-align: middle; padding-top: 40px; color: #727272; font-size: 1em; line-height: 33px;}
+body.home #statistics div h3 {font-family: 'Fjalla One', sans-serif; margin: 0; padding: 0; font-size: 14px; line-height: 22px;}
+body.home #statistics div p {font-size: 32px; color: #3f74ba; font-weight: bold; margin: 0; padding: 0;}
 
 /* Planning applications map page */
 body.map #introduction {padding: 0 30px 5px;}
