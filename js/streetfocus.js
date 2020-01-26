@@ -74,12 +74,51 @@ var streetfocus = (function ($) {
 				}
 			});
 			
+			// Create mobile navigation
+			streetfocus.createMobileNavigation ();
+			
 			// Create the map
 			streetfocus.createMap (_settings.defaultLocation, _settings.defaultTileLayer);
 			
 			// Run the defined action
 			_map.on ('load', function () {
 				streetfocus[action] ();
+			});
+		},
+		
+		
+		// Create mobile navigation
+		createMobileNavigation: function ()
+		{
+			// Create a side panel containing the menu items
+			$('body').append ('<div id="mobilenav"></div>');
+			$('#mobilenav').html ( $('nav ul').wrap('<div />').parent().html() );	// https://stackoverflow.com/a/6459969/180733
+			$('#mobilenav').prepend('<p id="close"><a href="#">×</a></p>');
+			
+			// Toggle visibility clickable
+			$('header nav img').click(function () {
+				if ($('#mobilenav').is(':visible')) {
+					$('#mobilenav').hide ('slide', {direction: 'right'}, 250);
+				} else {
+					$('#mobilenav').animate ({width: 'toggle'}, 250);
+				}
+			});
+			
+			// Close x button
+			$('#mobilenav #close').click(function () {
+				$('#mobilenav').hide ('slide', {direction: 'right'}, 250);
+			});
+			
+			// Enable implicit click/touch on map as close menu
+			$('main, footer').click(function () {
+				if ($('#mobilenav').is(':visible')) {
+					$('#mobilenav').hide ('slide', {direction: 'right'}, 250);
+				};
+			});
+			
+			// Enable closing menu on slide right
+			$('#mobilenav').on('swiperight', function () {
+				$('#mobilenav').hide ('slide', {direction: 'right'}, 250);
 			});
 		},
 		

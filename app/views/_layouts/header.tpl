@@ -28,6 +28,7 @@
 			<p><a href="/"><img src="/images/logo.png" id="logo" alt="StreetFocus" /></a></p>
 			
 			<nav>
+				<img src="/images/hamburger.png" />
 				<ul>
 					<li><a href="/map/">Planning applications</a></li>
 					<li><a href="/proposals/">Proposals</a></li>

@@ -28,9 +28,16 @@ header nav ul li a {display: inline-block; padding: 6px 10px;}
 header nav ul li a:hover {background-color: #f7f7f7;}
 
 /* Main menu navigation - mobile */
-@media only screen and (max-width: 750px) {
-	header nav {width: 45px; height: 45px; background-image: url('/images/hamburger.png'); background-repeat: no-repeat; background-size: 45px 45px;}
+header nav img {display: none;}
+#mobilenav {display: none;}
+@media only screen and (max-width: 800px) {
+	header nav img {display: block; margin-top: 15px; width: 32px; height: 32px;}
 	header nav ul {display: none;}
+	#mobilenav {position: fixed; width: 290px; top: 0; right: 0; bottom: 0; background-color: #fcfcfc; border-left: 1px solid #eee; box-shadow: -25px 0 20px -5px #ddd; z-index: 10;}
+	#mobilenav #close {text-align: right; font-size: 50px; margin: 0 0 30px;}
+	#mobilenav #close a {display: block; text-decoration: none; color: #aaa; padding: 30px;}
+	#mobilenav ul {list-style: none; margin: 0; padding: 0; border-top: 1px solid #ddd;}
+	#mobilenav ul li a {display: block; padding: 20px; border-bottom: 1px solid #ddd; font-size: 1.2em;}
 }
 
 /* Main content */
@@ -137,4 +144,5 @@ img.banner {width: 400px; float: right; margin: 10px 0 10px 20px;}
 @media only screen and (max-width: 650px) {
 	img.banner {width: 100%;}
 }
+
 
