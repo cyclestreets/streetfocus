@@ -35,6 +35,7 @@ header nav img {display: none;}
 @media only screen and (max-width: 800px) {
 	header nav img {display: block; margin-top: 15px; width: 32px; height: 32px;}
 	header nav ul {display: none;}
+	#mobilenav ul li {font-family: 'Fjalla One', sans-serif; text-transform: uppercase;}
 	#mobilenav ul li.mobile {display: block;}
 	#mobilenav {position: fixed; width: 290px; top: 0; right: 0; bottom: 0; background-color: #fcfcfc; border-left: 1px solid #eee; box-shadow: -25px 0 20px -5px #ddd; z-index: 10;}
 	#mobilenav #close {text-align: right; font-size: 50px; margin: 0 0 25px;}
