@@ -219,7 +219,7 @@ var streetfocus = (function ($) {
 			
 			// Add collisions heatmap layer support
 			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
-			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson', 16);
+			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson', layerId, 16);
 		},
 		
 		
@@ -246,13 +246,20 @@ var streetfocus = (function ($) {
 		// Proposals
 		proposals: function ()
 		{
+			// Set the layer ID
+			var layerId = 'proposals';
+			
 			// Add the proposals layer, e.g. /api/issues.json?page=1&per_page=100&bbox=-0.127902%2C51.503486%2C-0.067091%2C51.512086
 			var apiBaseUrl = _settings.cyclescapeApiBaseUrl + '/issues.json';
 			var parameters = {
 				page:		1,
 				per_page:	200
 			};
-			streetfocus.addLayer ('proposals', apiBaseUrl, parameters);
+			streetfocus.addLayer (layerId, apiBaseUrl, parameters);
+			
+			// Add collisions heatmap layer support
+			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
+			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson', layerId, 16);
 		},
 		
 		
@@ -579,7 +586,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to add a heatmap layer
-		addHeatmapLayer: function (layerId, datasource, preferredZoom)
+		addHeatmapLayer: function (layerId, datasource, beforeLayerId, preferredZoom)
 		{
 			// Add the data source
 			_map.addSource (layerId, {
@@ -647,7 +654,7 @@ var streetfocus = (function ($) {
 					},
 					*/
 				}
-			}, 'planningapplications');
+			}, beforeLayerId);
 			
 			// Handle visibility
 			$('#' + layerId).click (function (e) {
