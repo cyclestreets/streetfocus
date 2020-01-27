@@ -67,7 +67,7 @@ body .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-group {display: none;}		/* Disab
 @keyframes fadein {from {opacity: 0;} to {opacity: 1;}}
 .mapboxgl-popup {animation: fadein 0.2s;}
 .mapboxgl-popup-content {max-width: 300px; min-width: 50px; border-radius: 12px; padding: 13px 19px; box-shadow: 0 3px 14px rgba(0,0,0,0.4); min-width: 300px;}
-.mapboxgl-popup-close-button {font-size: 16px; font-family: Tahoma, Verdana, sans-serif; color: #c3c3c3; font-weight: bold;}
+.mapboxgl-popup-close-button {font-size: 16px; font-family: Tahoma, Verdana, sans-serif; color: #c3c3c3; font-weight: bold; padding: 10px;}
 .mapboxgl-popup-close-button:hover {color: #999; background-color: white; border-top-right-radius: 12px;}
 body .mapboxgl-map .mapboxgl-popup-content {line-height: 1.4;}
 
@@ -108,7 +108,10 @@ body.map div#filter {top: 20px; right: 20px;}
 body.map #filter p {line-height: 20px; font-family: 'PT Sans', sans-serif; font-size: 14px; vertical-align: middle; padding: 0; margin: 0;}
 body.map #filter p a {display: block; padding: 12px;}
 body.map #filter p a img {width: 21px; height: 24px; vertical-align: middle; padding: 0 5px 0 0; margin: 0; border: 0;}
-body.map #filtering {display: none; position: absolute; top: 100px; left: 0; width: 100%; height: calc(100% - 100px); z-index: 10; background-color: white; padding: 30px;}
+body.map #filtering {display: none; position: absolute; top: 100px; left: 0; width: auto; height: calc(100% - 100px); z-index: 10; background-color: white; padding: 10px 30px 30px;}
+body.map #filtering p.close {float: right; font-size: 30px; line-height: 10px; margin: 0; padding: 0;}
+body.map #filtering p.close a {display: block; text-decoration: none; color: #aaa; margin: 0; padding: 10px; position: relative; right: -30px; top: -10px;}
+body.map #filtering p.close a:hover {color: #999; background-color: #eee;}
 body.map #filtering ul#state, body.map #filtering ul#type, body.map #filtering ul#size {list-style: none; margin: 0; padding: 0;}
 body.map #filtering ul#state li, body.map #filtering ul#type li, body.map #filtering ul#size li {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0 5px 0; border-radius: 6px;}
 body.map #filtering ul#type li label {color: white;}

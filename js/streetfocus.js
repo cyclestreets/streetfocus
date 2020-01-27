@@ -178,6 +178,18 @@ var streetfocus = (function ($) {
 				$('#filtering').fadeToggle ();
 			});
 			
+			// Close x button
+			$('#filtering .close').click(function () {
+				$('#filtering').fadeToggle ();
+			});
+			
+			// Add implied close by clicking on remaining map slither
+			_map.on ('click', function (e) {
+				if ($('#filtering').is(':visible')) {
+					$('#filtering').fadeToggle ();
+				}
+			});
+			
 			// Set checkbox colours
 			var value;
 			$.each ($("input[name='app_type']"), function () {

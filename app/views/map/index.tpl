@@ -15,6 +15,7 @@
 	</div>
 	
 	<div id="filtering">
+		<p class="close"><a href="#">×</a></p>
 		<h2>Refine search</h2>
 		<h3>Application activity</h3>
 		<ul id="state">
