@@ -219,7 +219,7 @@ var streetfocus = (function ($) {
 			
 			// Add collisions heatmap layer support
 			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
-			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson');
+			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson', 16);
 		},
 		
 		
@@ -579,7 +579,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to add a heatmap layer
-		addHeatmapLayer: function (layerId, datasource)
+		addHeatmapLayer: function (layerId, datasource, preferredZoom)
 		{
 			// Add the data source
 			_map.addSource (layerId, {
@@ -655,6 +655,9 @@ var streetfocus = (function ($) {
 				if (visibility === 'visible') {
 					_map.setLayoutProperty (layerId, 'visibility', 'none');
 				} else {
+					if (_map.getZoom () > preferredZoom) {
+						_map.flyTo ({zoom: preferredZoom});
+					}
 					_map.setLayoutProperty (layerId, 'visibility', 'visible');
 				}
 			});
