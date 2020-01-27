@@ -40,11 +40,13 @@
 			<nav>
 				<img src="/images/hamburger.png" />
 				<ul>
+					<li class="mobile"><a href="/">Home</a></li>
 					<li><a href="/map/">Planning applications</a></li>
 					<li><a href="/proposals/">Proposals</a></li>
 					<li><a href="/my/">Monitor areas</a></li>
 					<li><a href="/blog/">Blog</a></li>
 					<li><a href="/about/">About</a></li>
+					<li class="mobile"><a href="/contacts/">Contact us</a></li>
 				</ul>
 			</nav>
 			

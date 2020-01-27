@@ -26,6 +26,7 @@ header nav ul {list-style: none; margin: 0; padding: 0;}
 header nav ul li {display: inline; margin-right: 5px; text-transform: uppercase; font-family: 'Fjalla One', sans-serif; color: #191818; font-size: 18px;}
 header nav ul li a {display: inline-block; padding: 6px 10px;}
 header nav ul li a:hover {background-color: #f7f7f7;}
+header nav ul li.mobile {display: none;}
 
 /* Main menu navigation - mobile */
 header nav img {display: none;}
@@ -33,6 +34,7 @@ header nav img {display: none;}
 @media only screen and (max-width: 800px) {
 	header nav img {display: block; margin-top: 15px; width: 32px; height: 32px;}
 	header nav ul {display: none;}
+	#mobilenav ul li.mobile {display: block;}
 	#mobilenav {position: fixed; width: 290px; top: 0; right: 0; bottom: 0; background-color: #fcfcfc; border-left: 1px solid #eee; box-shadow: -25px 0 20px -5px #ddd; z-index: 10;}
 	#mobilenav #close {text-align: right; font-size: 50px; margin: 0 0 30px;}
 	#mobilenav #close a {display: block; text-decoration: none; color: #aaa; padding: 30px;}
