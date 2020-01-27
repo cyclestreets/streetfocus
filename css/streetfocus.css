@@ -103,7 +103,8 @@ body.home #statistics div p {font-size: 32px; color: #3f74ba; font-weight: bold;
 
 /* Planning applications and proposals map pages */
 #introduction {padding: 0 30px 5px;}
-body.map #map, body.proposals #map {height: 600px;}
+body.map #map {height: 600px;}
+body.proposals #map {height: 450px;}
 
 /* Filtering controls */
 body.map div#filter {top: 20px; right: 20px;}
