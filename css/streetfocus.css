@@ -27,6 +27,7 @@ header nav ul li {display: inline; margin-right: 5px; text-transform: uppercase;
 header nav ul li a {display: inline-block; padding: 6px 10px;}
 header nav ul li a:hover {background-color: #f7f7f7;}
 header nav ul li.mobile {display: none;}
+header nav ul li.selected a {border-bottom: 2px solid #ddd;}
 
 /* Main menu navigation - mobile */
 header nav img {display: none;}
@@ -40,6 +41,7 @@ header nav img {display: none;}
 	#mobilenav #close a {display: block; text-decoration: none; color: #aaa; padding: 30px;}
 	#mobilenav ul {list-style: none; margin: 0; padding: 0; border-top: 1px solid #ddd;}
 	#mobilenav ul li a {display: block; padding: 20px; border-bottom: 1px solid #ddd; font-size: 1.2em;}
+	#mobilenav ul li.selected a {background-color: #e7e7e7;}
 }
 
 /* Main content */

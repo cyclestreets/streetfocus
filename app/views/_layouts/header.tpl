@@ -40,13 +40,13 @@
 			<nav>
 				<img src="/images/hamburger.png" />
 				<ul>
-					<li class="mobile"><a href="/">Home</a></li>
-					<li><a href="/map/">Planning applications</a></li>
-					<li><a href="/proposals/">Proposals</a></li>
-					<li><a href="/my/">Monitor areas</a></li>
-					<li><a href="/blog/">Blog</a></li>
-					<li><a href="/about/">About</a></li>
-					<li class="mobile"><a href="/contacts/">Contact us</a></li>
+					<li class="{($_action == 'home') ? 'selected ' : ''}mobile"><a href="/">Home</a></li>
+					<li{($_action == 'map') ? ' class="selected"' : ''}><a href="/map/">Planning applications</a></li>
+					<li{($_action == 'proposals') ? ' class="selected"' : ''}><a href="/proposals/">Proposals</a></li>
+					<li{($_action == 'my') ? ' class="selected"' : ''}><a href="/my/">Monitor areas</a></li>
+					<li{($_action == 'blog') ? ' class="selected"' : ''}><a href="/blog/">Blog</a></li>
+					<li{($_action == 'about') ? ' class="selected"' : ''}><a href="/about/">About</a></li>
+					<li class="{($_action == 'contacts') ? 'selected ' : ''}mobile"><a href="/contacts/">Contact us</a></li>
 				</ul>
 			</nav>
 			
