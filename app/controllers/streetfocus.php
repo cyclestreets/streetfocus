@@ -52,6 +52,10 @@ class streetfocus
 				'description' => 'Contact us',
 				'url' => '/contacts/',
 			),
+			'api' => array (
+				'url' => '/api/',
+				'data' => true,
+			),
 		);
 		
 		# Return the actions
@@ -100,6 +104,9 @@ class streetfocus
 		
 		# Perform the action, which will write into the page template array
 		$this->{$this->action} ();
+		
+		# End if the action is a data URL rather than a templatised page
+		if (isSet ($this->actions[$this->action]['data']) && $this->actions[$this->action]['data']) {return;}
 		
 		# Templatise
 		$html = $this->renderTemplate ($templatePath);
@@ -200,6 +207,47 @@ class streetfocus
 	private function contacts ()
 	{
 		// Static page
+	}
+	
+	
+	# API endpoint
+	private function api ()
+	{
+		# Ensure an API call is specified
+		if (!isSet ($_GET['call']) || !strlen ($_GET['call'])) {
+			return $this->errorJson ('No API call was specified.');
+		}
+		
+		# Check the specified call is supported
+		$call = $_GET['call'];
+		$method = 'api_' . $call;
+		if (!method_exists ($this, $method)) {
+			return $this->errorJson ('Unsupported method call.');
+		}
+		
+		# Get the data
+		return $this->{$method} ();
+	}
+	
+	
+	# Helper fucnction to send an API error
+	private function errorJson ($errorText)
+	{
+		# Assemble the error repsonse
+		$data = array ('error' => $errorText);
+		
+		# Send the respose
+		application::sendHeader (400);	// Bad Request
+		return $this->asJson ($data);
+	}
+	
+	
+	# Helper function to render results as JSON output
+	private function asJson ($data)
+	{
+		# Render as JSON
+		header ('Content-type: application/json; charset=UTF-8');
+		echo json_encode ($data, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 	}
 }
 
