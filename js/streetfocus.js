@@ -77,9 +77,11 @@ var streetfocus = (function ($) {
 			streetfocus.createMap (_settings.defaultLocation, _settings.defaultTileLayer);
 			
 			// Run the defined action
-			_map.on ('load', function () {
-				streetfocus[action] ();
-			});
+			if (typeof streetfocus[action] == 'function') {
+				_map.on ('load', function () {
+					streetfocus[action] ();
+				});
+			}
 		},
 		
 		
