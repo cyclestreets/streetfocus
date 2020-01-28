@@ -262,48 +262,58 @@ class streetfocus
 		}
 		$q = $_GET['q'];
 		
-		# Search for an ID first
-		if (preg_match ('|^[0-9]{2}/[0-9]{4}/[A-Z]+$|', $q)) {		// E.g. 19/1780/FUL
-			
-			# Search PlanIt
-			$url = $this->settings['planitApiBaseUrl'] . '/applics/json';
-			$parameters = array (
-				'id_match'	=> $q,
-			);
-			$applications = $this->getApiData ($url, $parameters);
-			
-			# Map each record to a GeoJSON feature in the same format as the Geocoder response
-			$data = array ('type' => 'FeatureCollection', 'features' => array ());
-			foreach ($applications['records'] as $record) {
-				$data['features'][] = array (
-					'type'			=> 'Feature',
-					'properties'	=> array (
-						'name'	=> $this->truncate ($this->reformatCapitalised ($record['description']), 80),
-						'near'	=> $record['authority_name'],
-						'bbox'	=> "{$record['lng']},{$record['lat']},{$record['lng']},{$record['lat']}",
-					),
-					'geometry'	=> array (
-						'type'			=> 'Point',
-						'coordinates'	=> array ($record['lng'], $record['lat']),
-					),
-				);
-			}
-			
-			# Return the GeoJSON response
-			return $this->asJson ($data);
+		# Get the sources
+		$sources = (isSet ($_GET['sources']) ? explode (',', $_GET['sources']) : array ());
+		if (!$sources) {
+			return $this->errorJson ('No sources were specified.');
 		}
 		
-		# Otherwise do a standard Geocode
-		$url = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/geocoder';
-		$parameters = array (
-			'key'			=> $this->settings['cyclestreetsApiKey'],
-			'bounded'		=> 1,
-			'bbox'			=> $this->settings['autocompleteBbox'],
-			'limit'			=> 12,
-			'countrycodes'	=> 'gb,ie',
-			'q'				=> $q,
-		);
-		$data = $this->getApiData ($url, $parameters);
+		# If planning application is a specified datasource, search for an ID first
+		if (in_array ('planit', $sources)) {
+			if (preg_match ('|^[0-9]{2}/[0-9]{4}/[A-Z]+$|', $q)) {		// E.g. 19/1780/FUL
+				
+				# Search PlanIt
+				$url = $this->settings['planitApiBaseUrl'] . '/applics/json';
+				$parameters = array (
+					'id_match'	=> $q,
+				);
+				$applications = $this->getApiData ($url, $parameters);
+				
+				# Map each record to a GeoJSON feature in the same format as the Geocoder response
+				$data = array ('type' => 'FeatureCollection', 'features' => array ());
+				foreach ($applications['records'] as $record) {
+					$data['features'][] = array (
+						'type'			=> 'Feature',
+						'properties'	=> array (
+							'name'	=> $this->truncate ($this->reformatCapitalised ($record['description']), 80),
+							'near'	=> $record['authority_name'],
+							'bbox'	=> "{$record['lng']},{$record['lat']},{$record['lng']},{$record['lat']}",
+						),
+						'geometry'	=> array (
+							'type'			=> 'Point',
+							'coordinates'	=> array ($record['lng'], $record['lat']),
+						),
+					);
+				}
+				
+				# Return the GeoJSON response
+				return $this->asJson ($data);
+			}
+		}
+		
+		# Geocode search
+		if (in_array ('cyclestreets', $sources)) {
+			$url = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/geocoder';
+			$parameters = array (
+				'key'			=> $this->settings['cyclestreetsApiKey'],
+				'bounded'		=> 1,
+				'bbox'			=> $this->settings['autocompleteBbox'],
+				'limit'			=> 12,
+				'countrycodes'	=> 'gb,ie',
+				'q'				=> $q,
+			);
+			$data = $this->getApiData ($url, $parameters);
+		}
 		
 		# Return the response
 		return $this->asJson ($data);

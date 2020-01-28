@@ -152,6 +152,9 @@ var streetfocus = (function ($) {
 		// Home page
 		home: function ()
 		{
+			// Add geocoder control
+			streetfocus.search ('cyclestreets,planit');
+			
 			// Add the planning applications layer, e.g. /api/applics/geojson?limit=30&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076&recent=188&app_type=Full,Trees
 			var apiBaseUrl = _settings.planitApiBaseUrl + '/applics/geojson';
 			var parameters = {
@@ -164,6 +167,9 @@ var streetfocus = (function ($) {
 		// Planning applications
 		map: function ()
 		{
+			// Add geocoder control
+			streetfocus.search ('cyclestreets,planit');
+			
 			// Set the layer ID
 			var layerId = 'planningapplications';
 			
@@ -246,6 +252,9 @@ var streetfocus = (function ($) {
 		// Proposals
 		proposals: function ()
 		{
+			// Add geocoder control
+			streetfocus.search ('cyclestreets');
+			
 			// Set the layer ID
 			var layerId = 'proposals';
 			
@@ -305,9 +314,6 @@ var streetfocus = (function ($) {
 			
 			// Enable pitch gestures
 			streetfocus.enablePitchGestures ();
-
-			// Add geocoder control
-			streetfocus.geocoder ();
 		},
 		
 		
@@ -444,11 +450,12 @@ var streetfocus = (function ($) {
 		},
 		
 		
-		// Wrapper function to add a geocoder control
-		geocoder: function ()
+             
+		// Wrapper function to add a search control
+		search: function (sources)
 		{
 			// Geocoder URL
-			var geocoderApiUrl = '/api/search';
+			var geocoderApiUrl = '/api/search?sources=' + sources;
 			
 			// Attach the autocomplete library behaviour to the location control
 			autocomplete.addTo ('#geocoder input', {
