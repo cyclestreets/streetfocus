@@ -51,6 +51,9 @@ var streetfocus = (function ($) {
 		}
 	};
 	
+	// Actions creating a map
+	var _mapActions = ['home', 'map', 'proposals'];
+	
 	
 	return {
 		
@@ -73,14 +76,20 @@ var streetfocus = (function ($) {
 			// Create mobile navigation
 			streetfocus.createMobileNavigation ();
 			
-			// Create the map
-			streetfocus.createMap (_settings.defaultLocation, _settings.defaultTileLayer);
-			
-			// Run the defined action
-			if (typeof streetfocus[action] == 'function') {
-				_map.on ('load', function () {
+			// Create the map for a map action page
+			if (_mapActions.includes (action)) {
+				streetfocus.createMap (_settings.defaultLocation, _settings.defaultTileLayer);
+				if (typeof streetfocus[action] == 'function') {
+					_map.on ('load', function () {
+						streetfocus[action] ();
+					});
+				}
+			} else {
+				
+				// Run the defined action
+				if (typeof streetfocus[action] == 'function') {
 					streetfocus[action] ();
-				});
+				}
 			}
 		},
 		
