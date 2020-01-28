@@ -8,10 +8,12 @@ class streetfocus
 	{
 		# Specify available arguments as defaults or as NULL (to represent a required argument)
 		$defaults = array (
-			'planitApiBaseUrl'		=> 'https://www.planit.org.uk/api',
-			'cyclestreetsApiKey'	=> NULL,
-			'mapboxApiKey'			=> NULL,
-			'googleApiKey'			=> NULL,
+			'planitApiBaseUrl'			=> 'https://www.planit.org.uk/api',
+			'cyclestreetsApiBaseUrl'	=> 'https://api.cyclestreets.net',
+			'cyclestreetsApiKey'		=> NULL,
+			'mapboxApiKey'				=> NULL,
+			'googleApiKey'				=> NULL,
+			'autocompleteBbox'			=> '-6.6577,49.9370,1.7797,57.6924',
 		);
 		
 		# Return the defaults
@@ -248,6 +250,103 @@ class streetfocus
 		# Render as JSON
 		header ('Content-type: application/json; charset=UTF-8');
 		echo json_encode ($data, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+	}
+	
+	
+	# Search API
+	private function api_search ()
+	{
+		# Ensure there is a query
+		if (!isSet ($_GET['q']) || !strlen ($_GET['q'])) {
+			return $this->errorJson ('No search term was specified.');
+		}
+		$q = $_GET['q'];
+		
+		# Search for an ID first
+		if (preg_match ('|^[0-9]{2}/[0-9]{4}/[A-Z]+$|', $q)) {		// E.g. 19/1780/FUL
+			
+			# Search PlanIt
+			$url = $this->settings['planitApiBaseUrl'] . '/applics/json';
+			$parameters = array (
+				'id_match'	=> $q,
+			);
+			$applications = $this->getApiData ($url, $parameters);
+			
+			# Map each record to a GeoJSON feature in the same format as the Geocoder response
+			$data = array ('type' => 'FeatureCollection', 'features' => array ());
+			foreach ($applications['records'] as $record) {
+				$data['features'][] = array (
+					'type'			=> 'Feature',
+					'properties'	=> array (
+						'name'	=> $this->truncate ($this->reformatCapitalised ($record['description']), 80),
+						'near'	=> $record['authority_name'],
+						'bbox'	=> "{$record['lng']},{$record['lat']},{$record['lng']},{$record['lat']}",
+					),
+					'geometry'	=> array (
+						'type'			=> 'Point',
+						'coordinates'	=> array ($record['lng'], $record['lat']),
+					),
+				);
+			}
+			
+			# Return the GeoJSON response
+			return $this->asJson ($data);
+		}
+		
+		# Otherwise do a standard Geocode
+		$url = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/geocoder';
+		$parameters = array (
+			'key'			=> $this->settings['cyclestreetsApiKey'],
+			'bounded'		=> 1,
+			'bbox'			=> $this->settings['autocompleteBbox'],
+			'limit'			=> 12,
+			'countrycodes'	=> 'gb,ie',
+			'q'				=> $q,
+		);
+		$data = $this->getApiData ($url, $parameters);
+		
+		# Return the response
+		return $this->asJson ($data);
+	}
+	
+	
+	# Helper function to get data from an API
+	private function getApiData ($url, $parameters)
+	{
+		# Construct the URL
+		if ($parameters) {
+			$url .= '?' . http_build_query ($parameters);
+		}
+		
+		# Get the data
+		$data = file_get_contents ($url);
+		$data = json_decode ($data, true);
+		
+		# Return the data
+		return $data;
+	}
+	
+	
+	# Function to truncate a string
+	private function truncate ($string, $length)
+	{
+		if (mb_strlen ($string) > $length) {
+			$string = mb_substr ($string, 0, $length) . '…';
+		}
+		return $string;
+	}
+	
+	
+	# Function to reformat capitalised text
+	private function reformatCapitalised ($string)
+	{
+		# Convert to sentence case if no lower-case letters present and a group of two or more upper-case letters are present
+		if (!preg_match ('/[a-z]/', $string) && preg_match ('/[A-Z]{2,}/', $string)) {
+			return mb_ucfirst (mb_strtolower ($string));	// Provided by application.php
+		}
+		
+		# Else return unmodified
+		return $string;
 	}
 }
 
