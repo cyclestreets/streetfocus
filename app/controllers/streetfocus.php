@@ -14,6 +14,7 @@ class streetfocus
 			'mapboxApiKey'				=> NULL,
 			'googleApiKey'				=> NULL,
 			'autocompleteBbox'			=> '-6.6577,49.9370,1.7797,57.6924',
+			'authNamespace'				=> 'streetfocus\\',
 		);
 		
 		# Return the defaults
@@ -82,6 +83,7 @@ class streetfocus
 	private $baseUrl;
 	private $template = array ();
 	private $templateFile;
+	private $user;
 	
 	
 	# Constructor
@@ -115,6 +117,12 @@ class streetfocus
 		
 		# Load the application JS, including mapping and the menu handling
 		$this->template['_settings'] = $this->settings;
+		
+		# Get the user's details, if authenticated
+		require_once ('app/controllers/userAccount.php');
+		$this->userAccount = new userAccount ($this->settings, $this->template, $this->baseUrl);
+		$this->user = $this->userAccount->getUser ();
+		$this->template = $this->userAccount->getTemplate ();
 		
 		# Perform the action, which will write into the page template array
 		$this->{$this->action} ();
@@ -155,21 +163,28 @@ class streetfocus
 	# Login
 	private function login ()
 	{
-		
+		# Delegate to the user account class and receive the template values
+		$this->userAccount->login ();
+		$this->template = $this->userAccount->getTemplate ();
 	}
 	
 	
 	# Logout
 	private function logout ()
 	{
-		
+		# Delegate to the user account class and receive the template values
+		$this->userAccount->logout ();
+		$this->user = $this->userAccount->getUser ();	// Re-query, for menu status
+		$this->template = $this->userAccount->getTemplate ();
 	}
 	
 	
 	# Register
 	private function register ()
 	{
-		
+		# Delegate to the user account class and receive the template values
+		$this->userAccount->register ();
+		$this->template = $this->userAccount->getTemplate ();
 	}
 	
 	

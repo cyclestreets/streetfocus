@@ -4,12 +4,15 @@
 <p>Your <a href="/privacy/">privacy</a> is very important to us.</p>
 
 
-<form method="post" name="form" class="user">
+{if isSet($message)}
+<div class="message">
+	{$message}
+</div>
+{/if}
 
-	<p><input type="email" name="email" required="required" placeholder="E-mail address" autofocus="autofocus" /></p>
-	<p><input type="password" name="password" required="required" placeholder="Password" /></p>
-	<p><input type="password" name="password_confirm" required="required" placeholder="Confirm your password" /></p>
-	<p><input type="submit" value="Create account" /></p>
+{if isSet($form)}
+	{$form}
+{/if}
 
-</form>
 
+<p>If you already have an account, you can <a href="/login/">log in here</a>.</p>
