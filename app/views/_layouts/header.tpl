@@ -47,6 +47,7 @@
 					<li{($_action == 'blog') ? ' class="selected"' : ''}><a href="/blog/">Blog</a></li>
 					<li{($_action == 'about') ? ' class="selected"' : ''}><a href="/about/">About</a></li>
 					<li class="{($_action == 'contacts') ? 'selected ' : ''}mobile"><a href="/contacts/">Contact us</a></li>
+					<li class="{($_action == 'login') ? 'selected ' : ''}login"><a href="/login/">Sign in</a></li>
 				</ul>
 			</nav>
 			

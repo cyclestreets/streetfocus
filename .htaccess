@@ -1,6 +1,6 @@
 RewriteEngine On
 
 RewriteRule ^$ /index.html?action=home [L,QSA]
-RewriteRule ^(about|map|proposals|my|privacy|contacts)/$ /index.html?action=$1 [L,QSA]
-RedirectMatch Permanent ^/(about|map|proposals|my|privacy|contacts)$ /$1/
+RewriteRule ^(about|map|proposals|my|privacy|contacts|login|logout|register)/$ /index.html?action=$1 [L,QSA]
+RedirectMatch Permanent ^/(about|map|proposals|my|privacy|contacts|login|logout|register)$ /$1/
 RewriteRule ^api/(.+)$ /index.html?action=api&call=$1 [L,QSA]

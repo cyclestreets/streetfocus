@@ -54,6 +54,18 @@ class streetfocus
 				'description' => 'Contact us',
 				'url' => '/contacts/',
 			),
+			'login' => array (
+				'description' => 'Sign in',
+				'url' => '/login/',
+			),
+			'logout' => array (
+				'description' => 'Sign out',
+				'url' => '/logout/',
+			),
+			'register' => array (
+				'description' => 'Register',
+				'url' => '/register/',
+			),
 			'api' => array (
 				'url' => '/api/',
 				'data' => true,
@@ -137,6 +149,27 @@ class streetfocus
 		
 		# Show the HTML
 		echo $html;
+	}
+	
+	
+	# Login
+	private function login ()
+	{
+		
+	}
+	
+	
+	# Logout
+	private function logout ()
+	{
+		
+	}
+	
+	
+	# Register
+	private function register ()
+	{
+		
 	}
 	
 	
