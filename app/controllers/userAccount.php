@@ -17,9 +17,6 @@ class userAccount
 		$this->template = $template;
 		$this->baseUrl = $baseUrl;
 		
-		# Load required libraries
-		require_once ('templating.php');
-		
 		# Begin the session
 		$this->sessionInit ();
 		
