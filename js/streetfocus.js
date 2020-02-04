@@ -203,29 +203,43 @@ var streetfocus = (function ($) {
 				$(this).parent().parent().css ('background-color', _colours[layerId].values[value]);		// Two parents, as label surrounds
 			});
 			
-			// Handle filtering panel options
-			$('#filtering #type input').click (function (e) {
-				var types = [];
-				$.each ($("input[name='app_type']:checked"), function() {
-					types.push ($(this).val ());
-				});
-				parameters.app_type = types.join (',');
-				
-				// Redraw if already present
-				if (_map.getLayer (layerId)) {
-					streetfocus.addData (layerId, apiBaseUrl, parameters);
-				}
-				
-				// Auto-close
+			// Auto-close panel
+			$('#filtering input').click (function (e) {
 				$('#filtering').fadeToggle ();
 			});
 			
 			// Add the data layer
-			streetfocus.addLayer (layerId, apiBaseUrl, parameters);
+			streetfocus.addLayer (layerId, apiBaseUrl, parameters, '#filtering');
 			
 			// Add collisions heatmap layer support
 			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
 			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson', layerId, 16);
+		},
+		
+		
+		// Function to perform a form scan for values
+		scanForm: function (path)
+		{
+			// Start a set of parameters
+			var parameters = {};
+			
+			// Scan form widgets
+			$(path + ' :input').each(function() {
+				var name = $(this).attr('name');
+				var value = $(this).val();
+				if (this.checked) {
+					if (!parameters.hasOwnProperty(name)) {parameters[name] = [];}	// Initialise if required
+					parameters[name].push (value);
+				}
+			});
+			
+			// Join each parameter value by comma delimeter
+			$.each (parameters, function (name, values) {
+				parameters[name] = values.join(',');
+			});
+			
+			// Return the values
+			return parameters;
 		},
 		
 		
@@ -470,7 +484,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to add a data layer to the map
-		addLayer: function (layerId, apiBaseUrl, parameters)
+		addLayer: function (layerId, apiBaseUrl, parameters, filteringFormPath)
 		{
 			// Compile colour lists
 			var colourPairs = [];
@@ -542,22 +556,37 @@ var streetfocus = (function ($) {
 				_map.getCanvas().style.cursor = '';
 			});
 			
-			// Get the data, and register to update on map move
-			streetfocus.addData (layerId, apiBaseUrl, parameters);
+			// Get the data
+			streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath);
+			
+			// Register to update on map move and form changes
 			_map.on ('moveend', function (e) {
-				streetfocus.addData (layerId, apiBaseUrl, parameters);
+				streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath);
 			});
+			
+			// If a form is set to be scanned, update on change
+			if (filteringFormPath) {
+				$(filteringFormPath + ' :input').click (function (e) {
+					streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath);
+				});
+			}
 		},
 		
 		
 		// Function to load the data for a layer
-		addData: function (layerId, apiBaseUrl, parameters)
+		addData: function (layerId, apiBaseUrl, parameters, filteringFormPath)
 		{
 			// Get the map BBOX
 			var bbox = _map.getBounds();
 			bbox = bbox.getWest() + ',' + bbox.getSouth() + ',' + bbox.getEast() + ',' + bbox.getNorth();
 			bbox = streetfocus.reduceBboxAccuracy (bbox);
 			parameters.bbox = bbox;
+			
+			// Obtain the form values
+			if (filteringFormPath) {
+				var formParameters = streetfocus.scanForm (filteringFormPath);
+				$.extend (parameters, formParameters);
+			}
 			
 			// Request the data
 			$.ajax ({
