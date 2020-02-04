@@ -120,9 +120,9 @@ body.map #filtering {display: none; position: absolute; top: 100px; left: 0; wid
 body.map #filtering p.close {float: right; font-size: 30px; line-height: 10px; margin: 0; padding: 0;}
 body.map #filtering p.close a {display: block; text-decoration: none; color: #aaa; margin: 0; padding: 10px; position: relative; right: -30px; top: -10px;}
 body.map #filtering p.close a:hover {color: #999; background-color: #eee;}
-body.map #filtering ul#state, body.map #filtering ul#type, body.map #filtering ul#size {list-style: none; margin: 0; padding: 0;}
-body.map #filtering ul#state li, body.map #filtering ul#type li, body.map #filtering ul#size li {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0 5px 0; border-radius: 6px;}
-body.map #filtering ul#type li label {color: white;}
+body.map #filtering ul#app_state, body.map #filtering ul#app_type, body.map #filtering ul#app_size {list-style: none; margin: 0; padding: 0;}
+body.map #filtering ul#app_state li, body.map #filtering ul#app_type li, body.map #filtering ul#app_size li {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0 5px 0; border-radius: 6px;}
+body.map #filtering ul#app_type li label {color: white;}
 
 /* Collisions */
 #mappanel #collisions {bottom: 7px; left: 120px;}

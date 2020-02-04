@@ -18,12 +18,12 @@
 		<p class="close"><a href="#">×</a></p>
 		<h2>Refine search</h2>
 		<h3>Application activity</h3>
-		<ul id="state">
-			<li><a href="#">Active</a></li>
-			<li><a href="#">Closed</a></li>
+		<ul id="app_state">
+			<li><label><input type="checkbox" name="app_state" value="Undecided"> Active</label></li>
+			<li><label><input type="checkbox" name="app_state" value="Permitted,Conditions,Rejected,Withdrawn,Other"> Closed</label></li>
 		</ul>
 		<h3>Application type</h3>
-		<ul id="type">
+		<ul id="app_type">
 			<li><label><input type="checkbox" name="app_type" value="Full"> Full</label></li>
 			<li><label><input type="checkbox" name="app_type" value="Outline"> Outline</label></li>
 			<li><label><input type="checkbox" name="app_type" value="Amendment"> Amendment</label></li>
@@ -34,10 +34,10 @@
 			<li><label><input type="checkbox" name="app_type" value="Other"> Other</label></li>
 		</ul>
 		<h3>Size of development</h3>
-		<ul id="size">
-			<li><a href="#">Small</a></li>
-			<li><a href="#">Medium</a></li>
-			<li><a href="#">Large</a></li>
+		<ul id="app_size">
+			<li><label><input type="checkbox" name="app_size" value="Small"> Small</label></li>
+			<li><label><input type="checkbox" name="app_size" value="Medium"> Medium</label></li>
+			<li><label><input type="checkbox" name="app_size" value="Large"> Large</label></li>
 		</ul>
 		<h3>Boundary</h3>
 		<p>Draw boundary to limit search results</p>
