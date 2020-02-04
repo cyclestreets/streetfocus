@@ -796,6 +796,33 @@ var streetfocus = (function ($) {
 		},
 		
 		
+		// Function to create a control in a corner
+		// See: https://www.mapbox.com/mapbox-gl-js/api/#icontrol
+		createControl: function (id, position, className)
+		{
+			function myControl() { }
+			
+			myControl.prototype.onAdd = function(_map) {
+				this._map = map;
+				this._container = document.createElement('div');
+				this._container.setAttribute ('id', id);
+				this._container.className = 'mapboxgl-ctrl-group mapboxgl-ctrl local';
+				if (className) {
+					this._container.className += ' ' + className;
+				}
+				return this._container;
+			};
+			
+			myControl.prototype.onRemove = function () {
+				this._container.parentNode.removeChild(this._container);
+				this._map = undefined;
+			};
+			
+			// Instiantiate and add the control
+			_map.addControl (new myControl (), position);
+		},
+		
+		
 		// Function to upper-case the first character
 		ucfirst: function (string)
 		{
