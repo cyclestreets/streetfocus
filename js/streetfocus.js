@@ -203,10 +203,12 @@ var streetfocus = (function ($) {
 				$(this).parent().parent().css ('background-color', _colours[layerId].values[value]);		// Two parents, as label surrounds
 			});
 			
+			/*
 			// Auto-close panel
 			$('#filtering input').click (function (e) {
 				$('#filtering').fadeToggle ();
 			});
+			*/
 			
 			// Add the data layer
 			streetfocus.addLayer (layerId, apiBaseUrl, parameters, '#filtering');
