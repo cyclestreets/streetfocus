@@ -93,6 +93,11 @@ body .mapboxgl-map .mapboxgl-popup-content {line-height: 1.4;}
 .ui-autocomplete li a span {color: gray; font-size: 0.81em;}
 .ui-autocomplete li a.ui-state-active {cursor: pointer; background-color: #f7f7f7;}
 
+/* Layer loading spinner */
+#loading {display: none /* enabled in logic */; width: 29px; height: 290px; background-color: transparent;}
+#loading.mapboxgl-ctrl-group:not(:empty) {-moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;}
+#loading img {display: block; margin: auto; width: 20px; height: 20px;}
+
 /* Control boxes */
 div.control {position: absolute; z-index: 5; border: 1px solid #e7e7e7; padding: 0px 6px; background-color: white; cursor: default; user-select: none; border-radius: 5px; box-shadow: 5px 5px 5px 5px rgba(232,232,232,0.5);}
 
@@ -171,3 +176,4 @@ div.user form input[type='email'], div.user form input[type='password'], div.use
 div.user form input[type='checkbox'] {zoom: 1.01; width: 20px; height: 20px;}
 div.user form input[type='submit'] {-webkit-appearance: none; background-color: #e73455; color: #fff; border: 0;}
 div.message, div.user div.error {width: auto; background-color: #ddd; padding: 5px 15px; margin: 30px 0;}
+

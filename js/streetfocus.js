@@ -558,6 +558,10 @@ var streetfocus = (function ($) {
 				_map.getCanvas().style.cursor = '';
 			});
 			
+			// Add a loading control
+			streetfocus.createControl ('loading', 'top-left');
+			$('#loading').html ('<img src="/images/ui-anim_basic_16x16.gif" />');
+			
 			// Get the data
 			streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath);
 			
@@ -590,6 +594,9 @@ var streetfocus = (function ($) {
 				$.extend (parameters, formParameters);
 			}
 			
+			// Show loading spinner, if not already visible
+			$('#loading').show ();
+			
 			// Request the data
 			$.ajax ({
 				url: apiBaseUrl,
@@ -603,6 +610,7 @@ var streetfocus = (function ($) {
 				},
 				success: function (data, textStatus, jqXHR) {
 					streetfocus.showCurrentData (layerId, data);
+					$('#loading').hide ();
 				}
 			});
 		},
