@@ -254,9 +254,9 @@ var streetfocus = (function ($) {
 			// Populate the HTML content
 			$(element + ' p.applicationId').html (feature.properties.uid);
 			$(element + ' p.officialplans a').attr ('href', feature.properties.url);
-			$(element + ' p.developmentsize span').html ('Unknown size');
-			$(element + ' p.type span').html (feature.properties.app_type);
-			$(element + ' p.state span').html (feature.properties.app_state);
+			$(element + ' p.size span.value').text (feature.properties.app_size);
+			$(element + ' p.type span.value').text (feature.properties.app_type);
+			$(element + ' p.state span.value').text (feature.properties.app_state);
 			$(element + ' p.deadline span').html ('X weeks from ' + feature.properties.start_date);
 			$(element + ' h3.title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 40)));
 			$(element + ' p.description').html (streetfocus.htmlspecialchars (feature.properties.description));

@@ -7,7 +7,7 @@
 	<p class="officialplans"><a href="#">Local council official plans</a></p>
 	<p class="setupalerts"><a href="#">Set up e-mail alerts</a></p>
 	
-	<p class="developmentsize">Size: <span class="value">Development size</span></p>
+	<p class="size">Size: <span class="value">Development size</span></p>
 	<p class="type">Type: <span class="value">type</span></p>
 	<p class="state">State: <span class="value">state</span></p>
 	<p class="deadline">Deadline: <span>days remaining</span></p>
