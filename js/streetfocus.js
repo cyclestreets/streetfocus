@@ -166,9 +166,15 @@ var streetfocus = (function ($) {
 				}
 				
 				// Locate the user
-				navigator.geolocation.getCurrentPosition (function (position) {
-					streetfocus.mapPageLink (position.coords.longitude, position.coords.latitude);
-				});
+				navigator.geolocation.getCurrentPosition (
+					function (position) {
+						streetfocus.mapPageLink (position.coords.longitude, position.coords.latitude);
+					},
+					function (error) {		// E.g. geolocation denied
+						window.location.href = '/map/';
+						return;
+					}
+				);
 			});
 		},
 		
