@@ -263,6 +263,18 @@ var streetfocus = (function ($) {
 		// Function to populate the popup
 		populatePopupPlanningapplications: function (element, feature)
 		{
+			// Get the fuller data, syncronously
+			// #!# Need to restructure calling code to avoid syncronous request
+			var url = feature.properties.link + 'geojson';		// Contains fuller data at the application level
+			$.ajax ({
+				url: url,
+				dataType: 'json',
+				async: false,
+				success: function (data, textStatus, jqXHR) {
+					feature = data;		// Overwrite with this more detailed version
+				}
+			});
+			
 			// Get the centre-point of the geometry
 			var centre = streetfocus.getCentre (feature.geometry);
 			
