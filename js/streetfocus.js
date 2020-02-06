@@ -266,15 +266,27 @@ var streetfocus = (function ($) {
 			// Get the centre-point of the geometry
 			var centre = streetfocus.getCentre (feature.geometry);
 			
+			// Create the all documents link
+			// #!# Other vendors needed
+			var allDocumentsReplacements = {
+				'activeTab=summary': 'activeTab=documents'
+			}
+			var allDocumentsUrl = feature.properties.url;
+			$.each (allDocumentsReplacements, function (key, value) {
+				allDocumentsUrl = allDocumentsUrl.replace(key, value);
+			});
+			
 			// Populate the HTML content
 			$(element + ' p.applicationId').html (feature.properties.uid);
 			$(element + ' p.officialplans a').attr ('href', feature.properties.url);
-			$(element + ' p.size span.value').text (feature.properties.app_size);
-			$(element + ' p.type span.value').text (feature.properties.app_type);
-			$(element + ' p.state span.value').text (feature.properties.app_state);
-			$(element + ' p.deadline span').html ('X weeks from ' + feature.properties.start_date);
-			$(element + ' h3.title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 40)));
+			$(element + ' ul.status li.state').text (feature.properties.app_state + ' application');
+			$(element + ' ul.status li.size').text (feature.properties.app_size + ' development');
+			$(element + ' ul.status li.type').text (feature.properties.app_type);
+			$(element + ' p.date span.type').text ( (feature.properties.app_state == 'Undecided' ? 'Deadline' : 'Date closed') );
+			$(element + ' p.date span.when').text ('X weeks from ' + feature.properties.start_date);
+			$(element + ' .title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 40)));
 			$(element + ' p.description').html (streetfocus.htmlspecialchars (feature.properties.description));
+			$(element + ' p.alldocuments a').attr ('href', allDocumentsUrl);
 			$(element + ' p.address').html (streetfocus.htmlspecialchars (feature.properties.address));
 			$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
 		},

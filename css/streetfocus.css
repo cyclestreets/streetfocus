@@ -151,12 +151,31 @@ body.map #monitor h2 {font-size: 16px; padding-bottom: 5px;}
 #map .mapboxgl-popup {width: 100%; margin-top: 50px; height: calc(100% - 50px); z-index: 10;}
 #map .mapboxgl-popup .mapboxgl-popup-content {max-width: 100%;}		/* Override default */
 #map .mapboxgl-popup .mapboxgl-popup-content {height: 100%; overflow: auto; padding: 30px;}
+#map .mapboxgl-popup-content p.applicationid {text-align: center; font-family: 'PT Sans', sans-serif; font-size: 16px; color: #3f74ba; margin: 0 0 8px; padding: 0;}
 #map .mapboxgl-popup-content h2 {text-align: center; margin: 0; padding: 0;}
-#map .mapboxgl-popup-content p.subheading {text-align: center; color: #646464; margin: 0; padding: 0;}
-#map .mapboxgl-popup-content p.officialplans a, #map .mapboxgl-popup-content p.setupalerts a {color: #183fd4; font-size: 1em;}
-#map .mapboxgl-popup-content h3 {margin-top: 1.2em; border-top: 1px solid #ddd; padding-top: 1em; font-size: 1.2em;}
+#map .mapboxgl-popup-content ul.status {margin: 18px auto; text-align: center; padding: 0 0 18px; border-bottom: 1px solid #f9b54b;}
+#map .mapboxgl-popup-content ul.status li {display: inline; background-color: #d9e3f1; font-size: 14px; color: #152139; padding: 6px 14px; line-height: 38px; border-radius: 14px; margin: 0 5px; white-space: nowrap;}
+#map .mapboxgl-popup-content p {line-height: 23px;}
+#map .mapboxgl-popup-content div.actions {height: 50px;}
+#map .mapboxgl-popup-content div.actions p {display: inline;}
+#map .mapboxgl-popup-content div.actions p a {margin-top: 10px; border: 2px solid #3f74ba; color: #3f74ba; padding: 10px 30px 10px 20px; border-radius: 4px; display: inline-block; width: calc(48% - 58px); background-repeat: no-repeat; background-position: 93% center;}
+#map .mapboxgl-popup-content div.actions p.officialplans a {float: left; background-image: url('/images/offsite.png');}
+#map .mapboxgl-popup-content div.actions p.setupalerts a {float: right; background-image: url('/images/alerts.png');}
+#map .mapboxgl-popup-content p.date {font-weight: bold;}
+#map .mapboxgl-popup-content h3 {font-size: 1.2em; margin-top: 10px; padding-top: 0; text-align: center;}
+#map .mapboxgl-popup-content div.documents, #map .mapboxgl-popup-content div.matches {background-color: #f9f9fc; padding: 30px 30px;}
+#map .mapboxgl-popup-content div.documents {margin: 40px -30px 0;}
+#map .mapboxgl-popup-content div.matches {margin: 0 -30px 0; padding-top: 0;}
+#map .mapboxgl-popup-content div.matches h3 {border-top: 1px solid #f9b54b; width: 100%; padding-top: 30px; margin-top: 0;}
+#map .mapboxgl-popup-content div.documents p.alldocuments {text-align: center;}
+#map .mapboxgl-popup-content div.documents p.alldocuments a span {color: #3f74ba; text-decoration: underline;}
+#map .mapboxgl-popup-content div.listing ul {margin: 0; padding: 0;}
+#map .mapboxgl-popup-content div.listing ul li {display: block; height: 40px; width: 100%; background-repeat: no-repeat; background-position: 0px center; margin-top: 15px; line-height: 40px;}
+#map .mapboxgl-popup-content div.listing ul li a {display: block; height: 100%; padding-left: 52px;}
+#map .mapboxgl-popup-content div.listing ul li:hover {opacity: 0.8;}
+#map .mapboxgl-popup-content div.documents ul li {background-image: url('/images/document.png');}
+#map .mapboxgl-popup-content div.matches ul li {background-image: url('/images/match.png');}
 #map .mapboxgl-popup-content p span.value {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0;}
-#map .planningapplications p.deadline span {float: right;}
 #map .proposals ul.tags {list-style: none; margin: 0; padding: 0;}
 #map .proposals ul.tags li {display: inline; background-color: #eee; margin: 0 3px 0; border-radius: 6px; padding: 3px 5px;}
 #map p.image img {max-width: 100%;}
