@@ -15,7 +15,7 @@ main p, main li {line-height: 1.3em;}
 main ul li {margin-bottom: 6px;}
 
 /* Links */
-a {color: #111; text-decoration: none;}
+a, main #mappanel p a {color: #111; text-decoration: none;}
 main p a {color: #3f74ba; text-decoration: underline;}
 
 /* Header */
