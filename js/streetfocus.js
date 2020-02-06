@@ -50,6 +50,10 @@ var streetfocus = (function ($) {
 			}
 		}
 	};
+	var _keyTypes = [
+		'Design and Access Statement',
+	];
+			
 	
 	// Actions creating a map
 	var _mapActions = ['map', 'proposals'];
@@ -288,6 +292,9 @@ var streetfocus = (function ($) {
 				allDocumentsUrl = allDocumentsUrl.replace(key, value);
 			});
 			
+			// Determine the key documents list
+			var keyDocumentsHtml = streetfocus.keyDocuments (feature.properties.docs);
+			
 			// Populate the HTML content
 			$(element + ' p.applicationId').html (feature.properties.uid);
 			$(element + ' p.officialplans a').attr ('href', feature.properties.url);
@@ -298,9 +305,38 @@ var streetfocus = (function ($) {
 			$(element + ' p.date span.when').text ('X weeks from ' + feature.properties.start_date);
 			$(element + ' .title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 40)));
 			$(element + ' p.description').html (streetfocus.htmlspecialchars (feature.properties.description));
+			$(element + ' div.documents ul').html (keyDocumentsHtml);
 			$(element + ' p.alldocuments a').attr ('href', allDocumentsUrl);
 			$(element + ' p.address').html (streetfocus.htmlspecialchars (feature.properties.address));
 			$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
+		},
+		
+		
+		// Helper function to pick out key documents
+		keyDocuments: function (documents)
+		{
+			// Return empty array if none
+			if (!documents) {return [];}
+			
+			// Start an list of documents to return, ordered by key type
+			var keyDocuments = [];
+			$.each (_keyTypes, function (typeIndex, type) {
+				$.each (documents, function (index, document) {
+					if (document.doc_type == type) {
+						keyDocuments.push (documents[index]);
+					}
+				});
+			});
+			
+			// Convert to HTML
+			var listItems = [];
+			$.each (keyDocuments, function (index, document) {
+				listItems.push ('<li><a href="' + document.doc_url + '" target="_blank">' + document.doc_type + '</li>');
+			});
+			var listItemsHtml = listItems.join ("\n");
+			
+			// Return the key documents list
+			return listItemsHtml;
 		},
 		
 		
