@@ -105,7 +105,8 @@ div.control {position: absolute; z-index: 5; border: 1px solid #e7e7e7; padding:
 body.home h1.name {display: none;}
 body.home p {text-align: center;}
 body.home #introduction {padding: 0 30px 5px;}
-body.home #map {margin-top: 40px; height: 300px;}
+body.home #staticmap {width: 100%; height: 250px; overflow: hidden; position: relative; margin: 0;}
+body.home #staticmap img {left: 50%; margin-left: -649px; top: 50%; margin-top: -342px; position: absolute;}	/* See: https://stackoverflow.com/a/10830946/180733 */
 body.home #statistics {width: 100%; margin: 0;}
 body.home #statistics div {padding: 0; margin: 0; display: inline-block; width: calc(50% - 4px); text-align: center; background-color: white; height: 100px; vertical-align: middle; padding-top: 40px; color: #727272; font-size: 1em; line-height: 33px;}
 body.home #statistics div h3 {font-family: 'Fjalla One', sans-serif; margin: 0; padding: 0; font-size: 14px; line-height: 22px;}

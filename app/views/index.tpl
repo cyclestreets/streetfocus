@@ -6,8 +6,8 @@
 
 {include file='_partials/geocoder.tpl'}
 
-<div id="mappanel">
-	<div id="map"></div>
+<div id="staticmap">
+	<a href="/map/"><img src="/images/staticmap.png" /></a>
 </div>
 
 <div id="statistics">

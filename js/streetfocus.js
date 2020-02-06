@@ -52,7 +52,7 @@ var streetfocus = (function ($) {
 	};
 	
 	// Actions creating a map
-	var _mapActions = ['home', 'map', 'proposals'];
+	var _mapActions = ['map', 'proposals'];
 	
 	
 	return {
@@ -153,14 +153,23 @@ var streetfocus = (function ($) {
 		home: function ()
 		{
 			// Add geocoder control
-			streetfocus.search ('cyclestreets,planit');
+			streetfocus.search ('cyclestreets,planit', '/map/');
 			
-			// Add the planning applications layer, e.g. /api/applics/geojson?limit=30&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076&recent=188&app_type=Full,Trees
-			var apiBaseUrl = _settings.planitApiBaseUrl + '/applics/geojson';
-			var parameters = {
-				recent:	200
-			};
-			streetfocus.addLayer ('planningapplications', apiBaseUrl, parameters);
+			// Add geolocation
+			$('#geolocation, #staticmap a').on ('click', function (e) {
+				e.preventDefault ();	// Prevent link
+				
+				// If not supported, treat as link to the map page
+				if (!navigator.geolocation) {
+					window.location.href = '/map/';
+					return;
+				}
+				
+				// Locate the user
+				navigator.geolocation.getCurrentPosition (function (position) {
+					streetfocus.mapPageLink (position.coords.longitude, position.coords.latitude);
+				});
+			});
 		},
 		
 		
@@ -468,7 +477,7 @@ var streetfocus = (function ($) {
 		
              
 		// Wrapper function to add a search control
-		search: function (sources)
+		search: function (sources, targetUrl)
 		{
 			// Geocoder URL
 			var geocoderApiUrl = '/api/search?sources=' + sources;
@@ -477,11 +486,33 @@ var streetfocus = (function ($) {
 			autocomplete.addTo ('#geocoder input', {
 				sourceUrl: geocoderApiUrl,
 				select: function (event, ui) {
+					
+					// Parse the BBOX
 					var bbox = ui.item.feature.properties.bbox.split(',');	// W,S,E,N
-					_map.fitBounds(bbox, {maxZoom: 17});
-					event.preventDefault();
+					
+					// If there is a target URL, go to that
+					if (targetUrl) {
+						var longitude = (parseFloat(bbox[0]) + parseFloat(bbox[2])) / 2;
+						var latitude  = (parseFloat(bbox[1]) + parseFloat(bbox[3])) / 2;
+						streetfocus.mapPageLink (longitude, latitude);
+						return;
+						
+					// Otherwise, pan the map
+					} else {
+						_map.fitBounds(bbox, {maxZoom: 17});
+						event.preventDefault();
+					}
 				}
 			});
+		},
+		
+		
+		// Function to go the map page
+		mapPageLink: function (longitude, latitude)
+		{
+			var zoom = 13;		// #!# Currently fixed - need to compute dynamically, e.g. https://github.com/mapbox/mapbox-unity-sdk/issues/1125
+			var targetUrl = '/map/' + '#' + zoom + '/' + latitude.toFixed(6) + '/' + longitude.toFixed(6);
+			window.location.href = targetUrl;
 		},
 		
 		
