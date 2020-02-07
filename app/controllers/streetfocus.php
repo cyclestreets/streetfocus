@@ -434,6 +434,7 @@ class streetfocus
 				);
 				break;
 				
+			case 'Polygon':
 			case 'MultiLineString':
 				$longitudes = array ();
 				$latitudes = array ();
