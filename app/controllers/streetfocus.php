@@ -392,6 +392,9 @@ class streetfocus
 		);
 		$issues = $this->getApiData ($url, $parameters);
 		
+		# Remove duplicated values, pending https://github.com/cyclestreets/cyclescape/issues/921#issuecomment-583544405
+		$issues['features'] = array_intersect_key ($issues['features'], array_unique (array_map ('serialize', $issues['features'])));
+		
 		# Map each record to a GeoJSON feature in the same format as the Geocoder response
 		$features = array ();
 		foreach ($issues['features'] as $issue) {
