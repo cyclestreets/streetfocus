@@ -616,7 +616,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to add a data layer to the map
-		addLayer: function (layerId, apiBaseUrl, parameters, filteringFormPath)
+		addLayer: function (layerId, apiBaseUrl, parameters, filteringFormPath, callback)
 		{
 			// Compile colour lists
 			var colourPairs = [];
@@ -693,24 +693,24 @@ var streetfocus = (function ($) {
 			$('#loading').html ('<img src="/images/ui-anim_basic_16x16.gif" />');
 			
 			// Get the data
-			streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath);
+			streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath, callback);
 			
 			// Register to update on map move and form changes
 			_map.on ('moveend', function (e) {
-				streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath);
+				streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath, callback);
 			});
 			
 			// If a form is set to be scanned, update on change
 			if (filteringFormPath) {
 				$(filteringFormPath + ' :input').click (function (e) {
-					streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath);
+					streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath, callback);
 				});
 			}
 		},
 		
 		
 		// Function to load the data for a layer
-		addData: function (layerId, apiBaseUrl, parameters, filteringFormPath)
+		addData: function (layerId, apiBaseUrl, parameters, filteringFormPath, callback)
 		{
 			// Get the map BBOX
 			var bbox = _map.getBounds();
@@ -739,7 +739,7 @@ var streetfocus = (function ($) {
 					}
 				},
 				success: function (data, textStatus, jqXHR) {
-					streetfocus.showCurrentData (layerId, data);
+					streetfocus.showCurrentData (layerId, data, callback);
 					$('#loading').hide ();
 				}
 			});
@@ -917,7 +917,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to show the data for a layer
-		showCurrentData: function (layerId, data)
+		showCurrentData: function (layerId, data, callback)
 		{
 			// If the layer has lines or polygons, reduce to point
 			$.each (data.features, function (index, feature) {
@@ -928,6 +928,11 @@ var streetfocus = (function ($) {
 					}
 				}
 			});
+			
+			// Run the callback, if required, to filter data
+			if (callback) {
+				data = callback (data);
+			}
 			
 			// Set the data
 			_map.getSource (layerId).setData (data);
