@@ -9,6 +9,7 @@ class streetfocus
 		# Specify available arguments as defaults or as NULL (to represent a required argument)
 		$defaults = array (
 			'planitApiBaseUrl'			=> 'https://www.planit.org.uk/api',
+			'cyclescapeApiBaseUrl'		=> 'https://www.cyclescape.org/api',
 			'cyclestreetsApiBaseUrl'	=> 'https://api.cyclestreets.net',
 			'cyclestreetsApiKey'		=> NULL,
 			'mapboxApiKey'				=> NULL,
@@ -327,6 +328,11 @@ class streetfocus
 			}
 		}
 		
+		# If cyclescape issues is a specified datasource, search for an ID first
+		if (in_array ('cyclescape', $sources)) {
+			$data['features'] += $this->searchCyclescape ($q);
+		}
+		
 		# Geocode search
 		if (in_array ('cyclestreets', $sources)) {
 			$data['features'] += $this->searchCycleStreets ($q);
@@ -361,6 +367,44 @@ class streetfocus
 				'properties'	=> array (
 					'name'	=> $this->truncate ($this->reformatCapitalised ($record['properties']['description']), 80),
 					'near'	=> $record['properties']['authority_name'],
+					'bbox'	=> $bbox,
+				),
+				'geometry'	=> array (
+					'type'			=> 'Point',
+					'coordinates'	=> array ($centroid['lon'], $centroid['lat']),
+				),
+			);
+		}
+		
+		# Return the features
+		return $features;
+	}
+	
+	
+	# Helper function to do a Cyclescape issues search
+	private function searchCyclescape ($q)
+	{
+		# Search Cyclescape, e.g. /api/issues?per_page=10&term=chisholm%20trail
+		$url = $this->settings['cyclescapeApiBaseUrl'] . '/issues';
+		$parameters = array (
+			'per_page'	=> 10,
+			'term'		=> $q,
+		);
+		$issues = $this->getApiData ($url, $parameters);
+		
+		# Map each record to a GeoJSON feature in the same format as the Geocoder response
+		$features = array ();
+		foreach ($issues['features'] as $issue) {
+			
+			# Convert geometry to BBOX and centrepoint
+			$centroid = $this->getCentre ($issue['geometry'], $bbox /* returned by reference */);
+			
+			# Register this feature
+			$features[] = array (
+				'type'			=> 'Feature',
+				'properties'	=> array (
+					'name'	=> $issue['properties']['title'],
+					'near'	=> $this->truncate (strip_tags ($issue['properties']['description']), 80),
 					'bbox'	=> $bbox,
 				),
 				'geometry'	=> array (

@@ -378,7 +378,7 @@ var streetfocus = (function ($) {
 		proposals: function ()
 		{
 			// Add geocoder control
-			streetfocus.search ('cyclestreets');
+			streetfocus.search ('cyclescape,cyclestreets');
 			
 			// Set the layer ID
 			var layerId = 'proposals';
@@ -575,7 +575,6 @@ var streetfocus = (function ($) {
 		},
 		
 		
-             
 		// Wrapper function to add a search control
 		search: function (sources, targetUrl)
 		{
