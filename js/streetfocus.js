@@ -309,6 +309,40 @@ var streetfocus = (function ($) {
 			$(element + ' p.alldocuments a').attr ('href', allDocumentsUrl);
 			$(element + ' p.address').html (streetfocus.htmlspecialchars (feature.properties.address));
 			$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
+			
+			// For IDOX-based areas, work around the cookie bug
+			streetfocus.idoxWorkaroundCookie (allDocumentsUrl, feature.properties.name);
+		},
+		
+		
+		// Workaround for IDOX-based areas, requiring a cookie for the main documents list first
+		idoxWorkaroundCookie (allDocumentsUrl, applicationId)
+		{
+			// End if not IDOX
+			if (!allDocumentsUrl.search(/activeTab=documents/)) {return;}
+			
+			// Intercept document clicks, so that the main page can be loaded first
+			$('body').on ('click', 'div.documents ul li a', function (e) {
+				
+				// Do not run if the workaround has already been applied
+				var cookieName = 'idoxWorkaround';
+				var cookieValue;
+				if (cookieValue = streetfocus.getCookie (cookieName)) {
+					if (cookieValue == applicationId) {
+						return;
+					}
+				}
+				
+				// Open the main all documents URL, and self-close after 5 seconds (assumed to be enough time - cannot detect onload for another site)
+				var newWindow = window.open (allDocumentsUrl, 'idoxWorkaround', 'toolbar=1,location=1,directories=1,status=1,menubar=1,scrollbars=1,resizable=1');
+				window.focus ();	// Regain focus of main window
+				setTimeout(function () {
+					streetfocus.setCookie (cookieName, applicationId, 1);
+					newWindow.close();
+				}, 5000);
+				
+				// Browsers will probably show a popup warning, as second link; users can then accept or just retry the link
+			});
 		},
 		
 		
