@@ -11,7 +11,9 @@
 		<li class="type">Type</li>
 	</ul>
 	
-	<p class="description">Description</p>
+	<div class="description">
+		<p>Description</p>
+	</div>
 	
 	<p class="date"><span class="type">Deadline</span>: <span class="when">days remaining</span></p>
 	

@@ -152,9 +152,13 @@ body.map #monitor h2 {font-size: 16px; padding-bottom: 5px;}
 #map .mapboxgl-popup .mapboxgl-popup-content {max-width: 100%;}		/* Override default */
 #map .mapboxgl-popup .mapboxgl-popup-content {height: 100%; overflow: auto; padding: 30px;}
 #map .mapboxgl-popup-content p.applicationid {text-align: center; font-family: 'PT Sans', sans-serif; font-size: 16px; color: #3f74ba; margin: 0 0 8px; padding: 0;}
-#map .mapboxgl-popup-content h2 {text-align: center; margin: 0; padding: 0;}
-#map .mapboxgl-popup-content ul.status {margin: 18px auto; text-align: center; padding: 0 0 18px; border-bottom: 1px solid #f9b54b;}
+#map .mapboxgl-popup-content h2 {text-align: center; margin: 0; padding: 0 0 18px;}
+#map .mapboxgl-popup-content p.calltoaction {vertical-align: middle; margin-top: 22px;}
+#map .mapboxgl-popup-content p.calltoaction a {display: block; width: 100%; color: #fff; background-color: #3f74ba; border: 0; border-radius: 5px; text-align: center; font-family: 'PT Sans', sans-serif; font-size: 16px; padding: 10px;}
+#map .mapboxgl-popup-content p.image {margin-top: 15px;}
+#map .mapboxgl-popup-content ul.status {margin: 0 auto 18px; text-align: center; padding: 0;}
 #map .mapboxgl-popup-content ul.status li {display: inline; background-color: #d9e3f1; font-size: 14px; color: #152139; padding: 6px 14px; line-height: 38px; border-radius: 14px; margin: 0 5px; white-space: nowrap;}
+#map .mapboxgl-popup-content div.description {margin-top: 0; border-top: 1px solid #f9b54b; padding-top: 18px;}
 #map .mapboxgl-popup-content p {line-height: 23px;}
 #map .mapboxgl-popup-content div.actions {height: 50px;}
 #map .mapboxgl-popup-content div.actions p {display: inline;}

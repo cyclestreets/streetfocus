@@ -304,7 +304,7 @@ var streetfocus = (function ($) {
 			$(element + ' p.date span.type').text ( (feature.properties.app_state == 'Undecided' ? 'Deadline' : 'Date closed') );
 			$(element + ' p.date span.when').text ('X weeks from ' + feature.properties.start_date);
 			$(element + ' .title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 40)));
-			$(element + ' p.description').html (streetfocus.htmlspecialchars (feature.properties.description));
+			$(element + ' div.description p').html (streetfocus.htmlspecialchars (feature.properties.description));
 			$(element + ' div.documents ul').html (keyDocumentsHtml);
 			$(element + ' p.alldocuments a').attr ('href', allDocumentsUrl);
 			$(element + ' p.address').html (streetfocus.htmlspecialchars (feature.properties.address));
@@ -415,14 +415,18 @@ var streetfocus = (function ($) {
 			var centre = streetfocus.getCentre (feature.geometry);
 			
 			// Populate the static HTML
-			$(element + ' p.id').html ('#' + feature.properties.id);
+			$(element + ' p.applicationid span.id').text (feature.properties.id);
+			$(element + ' p.applicationid span.date').text (new Date(feature.properties.created_at * 1000).toDateString());
+			$(element + ' h2.title').text (feature.properties.title);
 			$(element + ' p.link a').attr ('href', feature.properties.cyclescape_url);
-			$(element + ' p.date span').html (new Date(feature.properties.created_at * 1000).toDateString());
-			$(element + ' h3.title').html (feature.properties.title);
-			$(element + ' p.description').html (feature.properties.description);
-			$(element + ' p.image img').attr ('src', _settings.cyclescapeBaseUrl + feature.properties.photo_thumb_url);
-			$(element + ' ul.tags').html ('<ul class="tags"><li>' + JSON.parse(feature.properties.tags).join('</li><li>') + '</li></ul>');
-			$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
+			$(element + ' div.description').html (feature.properties.description);		// Will be paragraph(s) of HTML
+			if (feature.properties.photo_thumb_url != 'null') {
+				$(element + ' p.image img').attr ('src', _settings.cyclescapeBaseUrl + feature.properties.photo_thumb_url);
+			} else {
+				$(element + ' p.image').hide ();
+			}
+			//$(element + ' ul.tags').html ('<ul class="tags"><li>' + JSON.parse(feature.properties.tags).join('</li><li>') + '</li></ul>');
+			//$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
 		},
 		
 		
