@@ -406,6 +406,53 @@ class streetfocus
 		# Else return unmodified
 		return $string;
 	}
+	
+	
+	# Helper function to get the centre-point of a geometry
+	private function getCentre ($geometry)
+	{
+		# Determine the centre point
+		switch ($geometry['type']) {
+			
+			case 'Point':
+				$centre = array (
+					'lat'	=> $geometry['coordinates'][1],
+					'lon'	=> $geometry['coordinates'][0]
+				);
+				break;
+				
+			case 'LineString':
+				$longitudes = array ();
+				$latitudes = array ();
+				foreach ($geometry['coordinates'] as $lonLat) {
+					$longitudes[] = $lonLat[0];
+					$latitudes[] = $lonLat[1];
+				}
+				$centre = array (
+					'lat'	=> ((max ($latitudes) + min ($latitudes)) / 2),
+					'lon'	=> ((max ($longitudes) + min ($longitudes)) / 2)
+				);
+				break;
+				
+			case 'MultiLineString':
+				$longitudes = array ();
+				$latitudes = array ();
+				foreach ($geometry['coordinates'] as $line) {
+					foreach ($line as $lonLat) {
+						$longitudes[] = $lonLat[0];
+						$latitudes[] = $lonLat[1];
+					}
+				}
+				$centre = array (
+					'lat'	=> ((max ($latitudes) + min ($latitudes)) / 2),
+					'lon'	=> ((max ($longitudes) + min ($longitudes)) / 2)
+				);
+				break;
+		}
+		
+		# Return the centre
+		return $centre;
+	}
 }
 
 ?>
