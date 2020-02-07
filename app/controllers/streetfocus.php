@@ -337,7 +337,7 @@ class streetfocus
 	private function searchPlanIt ($id)
 	{
 		# Search PlanIt
-		$url = $this->settings['planitApiBaseUrl'] . '/applics/json';
+		$url = $this->settings['planitApiBaseUrl'] . '/applics/geojson';
 		$parameters = array (
 			'id_match'	=> $id,
 		);
@@ -348,17 +348,22 @@ class streetfocus
 		
 		# Map each record to a GeoJSON feature in the same format as the Geocoder response
 		#!# NB Location data is not always present
-		foreach ($applications['records'] as $record) {
+		foreach ($applications['features'] as $record) {
+			
+			# Convert geometry to BBOX and centrepoint
+			$centroid = $this->getCentre ($record['geometry'], $bbox /* returned by reference */);
+				
+			# Register this feature
 			$data['features'][] = array (
 				'type'			=> 'Feature',
 				'properties'	=> array (
-					'name'	=> $this->truncate ($this->reformatCapitalised ($record['description']), 80),
-					'near'	=> $record['authority_name'],
-					'bbox'	=> "{$record['lng']},{$record['lat']},{$record['lng']},{$record['lat']}",
+					'name'	=> $this->truncate ($this->reformatCapitalised ($record['properties']['description']), 80),
+					'near'	=> $record['properties']['authority_name'],
+					'bbox'	=> $bbox,
 				),
 				'geometry'	=> array (
 					'type'			=> 'Point',
-					'coordinates'	=> array ($record['lng'], $record['lat']),
+					'coordinates'	=> array ($centroid['lon'], $centroid['lat']),
 				),
 			);
 		}
