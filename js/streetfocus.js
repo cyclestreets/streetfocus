@@ -383,13 +383,24 @@ var streetfocus = (function ($) {
 			// Set the layer ID
 			var layerId = 'proposals';
 			
+			// Define a callback function to filter out proposals which appear to be an imported planning application
+			var callback = function (data) {
+				var i = data.features.length;
+				while (i--) {		// See: https://stackoverflow.com/a/9882349/180733
+					if (data.features[i].properties.title.match(/^Planning application/)) {
+						data.features.splice (i, 1);
+					}
+				}
+				return data;
+			}
+			
 			// Add the proposals layer, e.g. /api/issues.json?page=1&per_page=100&bbox=-0.127902%2C51.503486%2C-0.067091%2C51.512086
 			var apiBaseUrl = _settings.cyclescapeApiBaseUrl + '/issues.json';
 			var parameters = {
 				page:		1,
 				per_page:	200
 			};
-			streetfocus.addLayer (layerId, apiBaseUrl, parameters);
+			streetfocus.addLayer (layerId, apiBaseUrl, parameters, null, callback);
 			
 			// Add collisions heatmap layer support
 			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
