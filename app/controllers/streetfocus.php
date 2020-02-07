@@ -409,7 +409,7 @@ class streetfocus
 	
 	
 	# Helper function to get the centre-point of a geometry
-	private function getCentre ($geometry)
+	private function getCentre ($geometry, &$bbox = array ())
 	{
 		# Determine the centre point
 		switch ($geometry['type']) {
@@ -419,6 +419,7 @@ class streetfocus
 					'lat'	=> $geometry['coordinates'][1],
 					'lon'	=> $geometry['coordinates'][0]
 				);
+				$bbox = implode (',', array ($centre['lon'], $centre['lat'], $centre['lon'], $centre['lat']));
 				break;
 				
 			case 'LineString':
@@ -432,6 +433,7 @@ class streetfocus
 					'lat'	=> ((max ($latitudes) + min ($latitudes)) / 2),
 					'lon'	=> ((max ($longitudes) + min ($longitudes)) / 2)
 				);
+				$bbox = implode (',', array (min ($longitudes), min ($latitudes), max ($longitudes), max ($latitudes)));
 				break;
 				
 			case 'Polygon':
@@ -448,6 +450,7 @@ class streetfocus
 					'lat'	=> ((max ($latitudes) + min ($latitudes)) / 2),
 					'lon'	=> ((max ($longitudes) + min ($longitudes)) / 2)
 				);
+				$bbox = implode (',', array (min ($longitudes), min ($latitudes), max ($longitudes), max ($latitudes)));
 				break;
 		}
 		
