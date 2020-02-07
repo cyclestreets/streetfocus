@@ -316,16 +316,20 @@ class streetfocus
 			return $this->errorJson ('No sources were specified.');
 		}
 		
+		# Start a GeoJSON result; the search drivers will return GeoJSON features rather than a full GeoJSON result
+		$data = array ('type' => 'FeatureCollection', 'features' => array ());
+		
 		# If planning application is a specified datasource, search for an ID first
 		if (in_array ('planit', $sources)) {
 			if (preg_match ('|^[0-9]{2}/[0-9]{4}/[A-Z]+$|', $q)) {		// E.g. 19/1780/FUL
-				return $data = $this->searchPlanIt ($q);	// Do not search other data sources
+				$data['features'] += $this->searchPlanIt ($q);
+				return $this->asJson ($data);	// Do not search other data sources, so return at this point
 			}
 		}
 		
 		# Geocode search
 		if (in_array ('cyclestreets', $sources)) {
-			$data = $this->searchCycleStreets ($q);
+			$data['features'] += $this->searchCycleStreets ($q);
 		}
 		
 		# Return the response
@@ -343,18 +347,16 @@ class streetfocus
 		);
 		$applications = $this->getApiData ($url, $parameters);
 		
-		# Start a GeoJSON result
-		$data = array ('type' => 'FeatureCollection', 'features' => array ());
-		
 		# Map each record to a GeoJSON feature in the same format as the Geocoder response
 		#!# NB Location data is not always present
+		$features = array ();
 		foreach ($applications['features'] as $record) {
 			
 			# Convert geometry to BBOX and centrepoint
 			$centroid = $this->getCentre ($record['geometry'], $bbox /* returned by reference */);
 				
 			# Register this feature
-			$data['features'][] = array (
+			$features[] = array (
 				'type'			=> 'Feature',
 				'properties'	=> array (
 					'name'	=> $this->truncate ($this->reformatCapitalised ($record['properties']['description']), 80),
@@ -368,8 +370,8 @@ class streetfocus
 			);
 		}
 		
-		# Return the data
-		return $this->asJson ($data);
+		# Return the features
+		return $features;
 	}
 	
 	
@@ -390,8 +392,8 @@ class streetfocus
 		# Obtain the data
 		$data = $this->getApiData ($url, $parameters);
 		
-		# Return the data
-		return $data;
+		# Return the features
+		return $data['features'];
 	}
 	
 	
