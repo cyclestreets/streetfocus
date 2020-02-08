@@ -203,17 +203,8 @@ var streetfocus = (function ($) {
 				$('#filtering').fadeToggle ();
 			});
 			
-			// Close x button
-			$('#filtering .close').click(function () {
-				$('#filtering').fadeToggle ();
-			});
-			
-			// Add implied close by clicking on remaining map slither
-			_map.on ('click', function (e) {
-				if ($('#filtering').is(':visible')) {
-					$('#filtering').fadeToggle ();
-				}
-			});
+			// Add close methods (X button, click on map, escape key)
+			streetfocus.panelClosing ('#filtering');
 			
 			// Set checkbox colours
 			var value;
@@ -235,6 +226,30 @@ var streetfocus = (function ($) {
 			// Add collisions heatmap layer support
 			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
 			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson', layerId, 16);
+		},
+		
+		
+		// Function to handle panel close methods
+		panelClosing: function (path)
+		{
+			// Close x button
+			$(path + ' .close').click(function () {
+				$(path).fadeToggle ();
+			});
+			
+			// Add implied close by clicking on remaining map slither
+			_map.on ('click', function (e) {
+				if ($(path).is(':visible')) {
+					$(path).fadeToggle ();
+				}
+			});
+			
+			// Register escape key handler to close popups
+			$(document).keyup (function (e) {
+				if (e.keyCode === 27) {
+					$(path).hide ();
+				}
+			});
 		},
 		
 		
