@@ -78,6 +78,11 @@ body .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-group {display: none;}		/* Disab
 .mapboxgl-popup-close-button:hover {color: #999; background-color: white; border-top-right-radius: 12px;}
 body .mapboxgl-map .mapboxgl-popup-content {line-height: 1.4;}
 
+/* Popups */
+#details {display: none; position: relative; width: auto; background-color: white; padding: 30px; z-index: 10;}
+body.map #details {margin-top: -480px;}
+body.proposals #details {margin-top: -330px;}
+
 /* Geocoder */
 #geocoder {margin: 5px 25px 30px; height: 50px; width: calc(100%-40px);}
 #geocoder #geolocation {width: 50px; height: 50px; float: left;}
@@ -114,21 +119,23 @@ body.home #statistics div p {font-size: 32px; color: #3f74ba; font-weight: bold;
 
 /* Planning applications and proposals map pages */
 #introduction {padding: 0 30px 5px;}
-body.map #map {height: 600px;}
-body.proposals #map {height: 450px;}
+body.map #map {min-height: 600px;}
+body.proposals #map {min-height: 450px;}
 
 /* Filtering controls */
 body.map div#filter {top: 20px; right: 20px;}
 body.map #filter p {line-height: 20px; font-family: 'PT Sans', sans-serif; font-size: 14px; vertical-align: middle; padding: 0; margin: 0;}
 body.map #filter p a {display: block; padding: 12px;}
 body.map #filter p a img {width: 21px; height: 24px; vertical-align: middle; padding: 0 5px 0 0; margin: 0; border: 0;}
-body.map #filtering {display: none; position: absolute; top: 100px; left: 0; width: auto; height: calc(100% - 100px); z-index: 10; background-color: white; padding: 10px 30px 30px;}
-body.map #filtering p.close {float: right; font-size: 30px; line-height: 10px; margin: 0; padding: 0;}
-body.map #filtering p.close a {display: block; text-decoration: none; color: #aaa; margin: 0; padding: 10px; position: relative; right: -30px; top: -10px;}
-body.map #filtering p.close a:hover {color: #999; background-color: #eee;}
+body.map #filtering {display: none; position: absolute; top: 100px; left: 0; width: auto; height: calc(100% - 100px); z-index: 10; background-color: white; padding: 30px;}
 body.map #filtering ul#app_state, body.map #filtering ul#app_type, body.map #filtering ul#app_size {list-style: none; margin: 0; padding: 0;}
 body.map #filtering ul#app_state li, body.map #filtering ul#app_type li, body.map #filtering ul#app_size li {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0 5px 0; border-radius: 6px;}
 body.map #filtering ul#app_type li label {color: white;}
+
+/* Close button in map panels */
+#mappanel div p.close {float: right; font-size: 30px; line-height: 10px; margin: 0; padding: 0;}
+#mappanel div p.close a {display: block; text-decoration: none; color: #aaa; margin: 0; padding: 10px; position: relative; right: -30px; top: -30px;}
+#mappanel div p.close a:hover {color: #999; background-color: #eee;}
 
 /* Collisions */
 #mappanel #collisions {bottom: 7px; left: 120px;}
@@ -147,39 +154,35 @@ body.map #monitor h2 {font-size: 16px; padding-bottom: 5px;}
 
 /* Map popups */
 #popupcontent {display: none;}
-#map .mapboxgl-popup {max-width: 100% !important; transform: none !important;}		/* Override default */
-#map .mapboxgl-popup {width: 100%; margin-top: 50px; height: calc(100% - 50px); z-index: 10;}
-#map .mapboxgl-popup .mapboxgl-popup-content {max-width: 100%;}		/* Override default */
-#map .mapboxgl-popup .mapboxgl-popup-content {height: 100%; overflow: auto; padding: 30px;}
-#map .mapboxgl-popup-content p.applicationid {text-align: center; font-family: 'PT Sans', sans-serif; font-size: 16px; color: #3f74ba; margin: 0 0 8px; padding: 0;}
-#map .mapboxgl-popup-content h2 {text-align: center; margin: 0; padding: 0 0 18px;}
-#map .mapboxgl-popup-content p.calltoaction {vertical-align: middle; margin-top: 22px;}
-#map .mapboxgl-popup-content p.calltoaction a {display: block; width: 100%; color: #fff; background-color: #3f74ba; border: 0; border-radius: 5px; text-align: center; font-family: 'PT Sans', sans-serif; font-size: 16px; padding: 10px;}
-#map .mapboxgl-popup-content p.image {margin-top: 15px;}
-#map .mapboxgl-popup-content ul.status {margin: 0 auto 18px; text-align: center; padding: 0;}
-#map .mapboxgl-popup-content ul.status li {display: inline; background-color: #d9e3f1; font-size: 14px; color: #152139; padding: 6px 14px; line-height: 38px; border-radius: 14px; margin: 0 5px; white-space: nowrap;}
-#map .mapboxgl-popup-content div.description {margin-top: 0; border-top: 1px solid #f9b54b; padding-top: 18px;}
-#map .mapboxgl-popup-content p {line-height: 23px;}
-#map .mapboxgl-popup-content div.actions {height: 50px;}
-#map .mapboxgl-popup-content div.actions p {display: inline;}
-#map .mapboxgl-popup-content div.actions p a {margin-top: 10px; border: 2px solid #3f74ba; color: #3f74ba; padding: 10px 30px 10px 20px; border-radius: 4px; display: inline-block; width: calc(48% - 58px); background-repeat: no-repeat; background-position: 93% center;}
-#map .mapboxgl-popup-content div.actions p.officialplans a {float: left; background-image: url('/images/offsite.png');}
-#map .mapboxgl-popup-content div.actions p.setupalerts a {float: right; background-image: url('/images/alerts.png');}
-#map .mapboxgl-popup-content p.date {font-weight: bold;}
-#map .mapboxgl-popup-content h3 {font-size: 1.2em; margin-top: 10px; padding-top: 0; text-align: center;}
-#map .mapboxgl-popup-content div.documents, #map .mapboxgl-popup-content div.matches {background-color: #f9f9fc; padding: 30px 30px;}
-#map .mapboxgl-popup-content div.documents {margin: 40px -30px 0;}
-#map .mapboxgl-popup-content div.matches {margin: 0 -30px 0; padding-top: 0;}
-#map .mapboxgl-popup-content div.matches h3 {border-top: 1px solid #f9b54b; width: 100%; padding-top: 30px; margin-top: 0;}
-#map .mapboxgl-popup-content div.documents p.alldocuments {text-align: center;}
-#map .mapboxgl-popup-content div.documents p.alldocuments a span {color: #3f74ba; text-decoration: underline;}
-#map .mapboxgl-popup-content div.listing ul {margin: 0; padding: 0;}
-#map .mapboxgl-popup-content div.listing ul li {display: block; height: 40px; width: 100%; background-repeat: no-repeat; background-position: 0px center; margin-top: 15px; line-height: 40px;}
-#map .mapboxgl-popup-content div.listing ul li a {display: block; height: 100%; padding-left: 52px;}
-#map .mapboxgl-popup-content div.listing ul li:hover {opacity: 0.8;}
-#map .mapboxgl-popup-content div.documents ul li {background-image: url('/images/document.png');}
-#map .mapboxgl-popup-content div.matches ul li {background-image: url('/images/match.png');}
-#map .mapboxgl-popup-content p span.value {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0;}
+#details p.applicationid {text-align: center; font-family: 'PT Sans', sans-serif; font-size: 16px; color: #3f74ba; margin: 0 0 8px; padding: 0;}
+#details h2 {text-align: center; margin: 0; padding: 0 0 18px;}
+#details p.calltoaction {vertical-align: middle; margin-top: 22px;}
+#details p.calltoaction a {display: block; width: 100%; color: #fff; background-color: #3f74ba; border: 0; border-radius: 5px; text-align: center; font-family: 'PT Sans', sans-serif; font-size: 16px; padding: 10px;}
+#details p.image {margin-top: 15px;}
+#details ul.status {margin: 0 auto 18px; text-align: center; padding: 0;}
+#details ul.status li {display: inline; background-color: #d9e3f1; font-size: 14px; color: #152139; padding: 6px 14px; line-height: 38px; border-radius: 14px; margin: 0 5px; white-space: nowrap;}
+#details div.description {margin-top: 0; border-top: 1px solid #f9b54b; padding-top: 18px;}
+#details p {line-height: 23px;}
+#details div.actions {height: 50px;}
+#details div.actions p {display: inline;}
+#details div.actions p a {margin-top: 10px; border: 2px solid #3f74ba; color: #3f74ba; padding: 10px 30px 10px 20px; border-radius: 4px; display: inline-block; width: calc(48% - 58px); background-repeat: no-repeat; background-position: 93% center;}
+#details div.actions p.officialplans a {float: left; background-image: url('/images/offsite.png');}
+#details div.actions p.setupalerts a {float: right; background-image: url('/images/alerts.png');}
+#details p.date {font-weight: bold;}
+#details h3 {font-size: 1.2em; margin-top: 10px; padding-top: 0; text-align: center;}
+#details div.documents, #details div.matches {background-color: #f9f9fc; padding: 30px 30px;}
+#details div.documents {margin: 40px -30px 0;}
+#details div.matches {margin: 0 -30px 0; padding-top: 0;}
+#details div.matches h3 {border-top: 1px solid #f9b54b; width: 100%; padding-top: 30px; margin-top: 0;}
+#details div.documents p.alldocuments {text-align: center;}
+#details div.documents p.alldocuments a span {color: #3f74ba; text-decoration: underline;}
+#details div.listing ul {margin: 0; padding: 0;}
+#details div.listing ul li {display: block; height: 40px; width: 100%; background-repeat: no-repeat; background-position: 0px center; margin-top: 15px; line-height: 40px;}
+#details div.listing ul li a {display: block; height: 100%; padding-left: 52px;}
+#details div.listing ul li:hover {opacity: 0.8;}
+#details div.documents ul li {background-image: url('/images/document.png');}
+#details div.matches ul li {background-image: url('/images/match.png');}
+#details p span.value {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0;}
 #map .proposals ul.tags {list-style: none; margin: 0; padding: 0;}
 #map .proposals ul.tags li {display: inline; background-color: #eee; margin: 0 3px 0; border-radius: 6px; padding: 3px 5px;}
 #map p.image img {max-width: 100%;}

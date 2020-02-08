@@ -1,6 +1,8 @@
 
 <div id="popupcontent">
 	
+	<p class="close"><a href="#">×</a></p>
+	
 	<p class="applicationid"></p>
 	
 	<h2 class="title">Title</h2>

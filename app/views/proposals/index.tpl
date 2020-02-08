@@ -10,6 +10,8 @@
 	
 	<div id="map"></div>
 	
+	<div id="details"></div>
+	
 	<div id="collisions" class="control">
 		<p>Show collision hotspots</p>
 	</div>

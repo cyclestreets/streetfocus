@@ -233,7 +233,7 @@ var streetfocus = (function ($) {
 		panelClosing: function (path)
 		{
 			// Close x button
-			$(path + ' .close').click(function () {
+			$('body').on ('click', path + ' .close', function () {
 				$(path).fadeToggle ();
 			});
 			
@@ -696,19 +696,18 @@ var streetfocus = (function ($) {
 				// Get the HTML
 				var popupHtml = $('#popupcontent').html();
 				
-				// Create the HTML
-				popup = new mapboxgl.Popup ({className: layerId})
-					.setLngLat (e.lngLat)
-					.setHTML (popupHtml)
-					.addTo (_map);
+				// Show the popup (details) pane
+				$('#details').show ();
+				
+				// Set the HTML of the details pane to be the placeholdered content
+				$('#details').html (popupHtml);
+				
+				// Prevent further event propagation, resulting in the map close event auto-closing the panel immediately
+				e.stopPropagation ();
 			});
 			
-			// Register escape key handler to close popups
-			$(document).keyup(function(e) {
-				if (e.keyCode === 27) {
-					popup.remove ();
-				}
-			});
+			// Add close methods (X button, click on map, escape key)
+			streetfocus.panelClosing ('#details');
 			
 			// Change the cursor to a pointer when over a point
 			_map.on ('mouseenter', layerId, function () {

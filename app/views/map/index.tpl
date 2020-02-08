@@ -10,6 +10,8 @@
 	
 	<div id="map"></div>
 	
+	<div id="details"></div>
+	
 	<div id="filter" class="control">
 		<p><a href="#"><img id="filter" src="/images/filter.png" /> Refine search</a></p>
 	</div>
@@ -63,3 +65,4 @@
 
 {include file='_popups/planningapplication.tpl'}
 
+	
