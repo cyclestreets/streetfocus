@@ -299,12 +299,18 @@ var streetfocus = (function ($) {
 			
 			// Create the all documents link
 			// #!# Other vendors needed
-			var allDocumentsReplacements = {
-				'activeTab=summary': 'activeTab=documents'
+			var vendorUiReplacements = {
+				'activeTab=summary': {
+					'documents': 'activeTab=documents',
+					'comments': 'activeTab=makeComment'
+				}
 			}
-			var allDocumentsUrl = feature.properties.url;
-			$.each (allDocumentsReplacements, function (key, value) {
-				allDocumentsUrl = allDocumentsUrl.replace(key, value);
+			var vendorUiLinkBase = feature.properties.url;
+			var vendorLinks = {};
+			$.each (vendorUiReplacements, function (key, values) {
+				$.each (values, function (type, value) {
+					vendorLinks[type] = vendorUiLinkBase.replace (key, value);
+				});
 			});
 			
 			// Determine the key documents list
@@ -312,6 +318,7 @@ var streetfocus = (function ($) {
 			
 			// Populate the HTML content
 			$(element + ' p.applicationId').html (feature.properties.uid);
+			$(element + ' p.link a').attr ('href', vendorLinks.comments);
 			$(element + ' p.officialplans a').attr ('href', feature.properties.url);
 			$(element + ' ul.status li.state').text (feature.properties.app_state + ' application');
 			$(element + ' ul.status li.size').text (feature.properties.app_size + ' development');
@@ -321,12 +328,12 @@ var streetfocus = (function ($) {
 			$(element + ' .title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 40)));
 			$(element + ' div.description p').html (streetfocus.htmlspecialchars (feature.properties.description));
 			$(element + ' div.documents ul').html (keyDocumentsHtml);
-			$(element + ' p.alldocuments a').attr ('href', allDocumentsUrl);
+			$(element + ' p.alldocuments a').attr ('href', vendorLinks.documents);
 			$(element + ' p.address').html (streetfocus.htmlspecialchars (feature.properties.address));
 			$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
 			
 			// For IDOX-based areas, work around the cookie bug
-			streetfocus.idoxWorkaroundCookie (allDocumentsUrl, feature.properties.name);
+			streetfocus.idoxWorkaroundCookie (vendorLinks.documents, feature.properties.name);
 		},
 		
 		

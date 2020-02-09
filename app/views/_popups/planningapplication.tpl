@@ -19,6 +19,8 @@
 	
 	<p class="date"><span class="type">Deadline</span>: <span class="when">days remaining</span></p>
 	
+	<p class="link calltoaction"><a href="#" target="_blank">Respond to this consultation <img src="/images/offsite-white.png" /></a></p>
+	
 	<div class="actions">
 		<p class="officialplans"><a href="#" target="_blank">See official plans</a></p>
 		<p class="setupalerts"><a href="/my/">Set up e-mail alerts</a></p>
