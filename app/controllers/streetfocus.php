@@ -462,11 +462,14 @@ class streetfocus
 		}
 		$bbox = $_GET['bbox'];
 		
-		# Get the Cyclescape issues within the specified BBOX
-		$features = $this->getCyclescapeIssues ($bbox);
+		# Start a GeoJSON result; the search drivers will return GeoJSON features rather than a full GeoJSON result
+		$data = array ('type' => 'FeatureCollection', 'features' => array ());
 		
-		# Assemble the GeoJSON result
-		$data = array ('type' => 'FeatureCollection', 'features' => $features);
+		# Get the Cyclescape issues within the specified BBOX
+		$data['features'] += $this->getCyclescapeIssues ($bbox);
+		
+		# Get the external issues within the specified BBOX
+		$data['features'] = array_merge ($data['features'], $this->getExternalIssues ($bbox));
 		
 		# Return the data
 		return $this->asJson ($data);
@@ -509,6 +512,62 @@ class streetfocus
 				'geometry'	=> array (
 					'type'			=> 'Point',
 					'coordinates'	=> array ($centroid['lon'], $centroid['lat']),
+				),
+			);
+		}
+		
+		# Return the features
+		return $features;
+	}
+	
+	
+	# Helper function to get external issues within a BBOX
+	private function getExternalIssues ($bbox)
+	{
+		# Start a list of features
+		$features = array ();
+		
+		# Split out the BBOX
+		list ($w, $s, $e, $n) = explode (',', $bbox);
+		
+		# Get the features from the database
+		$query = 'SELECT
+			*
+			FROM proposalsexternal
+			WHERE MBRCONTAINS(ST_LINESTRINGFROMTEXT(:linestring), POINT(longitude, latitude))
+		;';
+		$preparedStatementValues = array (
+			'linestring' => "LINESTRING({$w} {$s}, {$e} {$n})",
+		);
+		$data = $this->databaseConnection->getData ($query, false, true, $preparedStatementValues);
+		
+		# Arrange as GeoJSON features
+		foreach ($data as $record) {
+			
+			# Extract the co-ordinates
+			$coordinates = array ($record['longitude'], $record['latitude']);
+			unset ($record['longitude']);
+			unset ($record['latitude']);
+			
+			# Remove unwanted fields
+			unset ($record['agree']);
+			unset ($record['user']);
+			
+			# Emulate title from description where not present
+			if (!$record['title']) {
+				$record['title'] = $this->truncate ($record['description'], 40);
+			}
+			
+			# Convert time
+			$record['when'] = strtotime ($record['when']);
+			
+			# Register the feature
+			$features[] = array (
+				'type'			=> 'Feature',
+				'properties'	=> $record,
+				'geometry'	=> array (
+					'type'			=> 'Point',
+					'coordinates'	=> $coordinates,
 				),
 			);
 		}
