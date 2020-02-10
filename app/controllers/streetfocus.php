@@ -454,6 +454,20 @@ class streetfocus
 		}
 		$bbox = $_GET['bbox'];
 		
+		# Get the Cyclescape issues within the specified BBOX
+		$features = $this->getCyclescapeIssues ($bbox);
+		
+		# Assemble the GeoJSON result
+		$data = array ('type' => 'FeatureCollection', 'features' => $features);
+		
+		# Return the data
+		return $this->asJson ($data);
+	}
+	
+	
+	# Helper function to get Cyclescape issues within a BBOX
+	private function getCyclescapeIssues ($bbox)
+	{
 		# Search Cyclescape, e.g. /api/issues?per_page=10&term=chisholm%20trail
 		$url = $this->settings['cyclescapeApiBaseUrl'] . '/issues';
 		$parameters = array (
@@ -489,11 +503,8 @@ class streetfocus
 			);
 		}
 		
-		# Assemble the GeoJSON result
-		$data = array ('type' => 'FeatureCollection', 'features' => $features);
-		
-		# Return the data
-		return $this->asJson ($data);
+		# Return the features
+		return $features;
 	}
 	
 	
