@@ -956,12 +956,12 @@ var streetfocus = (function ($) {
 		showCurrentData: function (layerId, data, callback)
 		{
 			// If the layer has lines or polygons, reduce to point
+			var centre;
 			$.each (data.features, function (index, feature) {
-				if (feature.geometry.type != 'Point') {
-					data.features[index].geometry = {
-						type: 'Point',
-						coordinates: streetfocus.getCentre (feature.geometry)
-					}
+				centre = streetfocus.getCentre (feature.geometry);
+				data.features[index].geometry = {
+					type: 'Point',
+					coordinates: [centre.lon, centre.lat]
 				}
 			});
 			
