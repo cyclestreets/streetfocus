@@ -10,6 +10,7 @@ class streetfocus
 		$defaults = array (
 			'planitApiBaseUrl'			=> 'https://www.planit.org.uk/api',
 			'cyclescapeApiBaseUrl'		=> 'https://www.cyclescape.org/api',
+			'cyclescapeBaseUrl'			=> 'https://www.cyclescape.org',
 			'cyclestreetsApiBaseUrl'	=> 'https://api.cyclestreets.net',
 			'cyclestreetsApiKey'		=> NULL,
 			'mapboxApiKey'				=> NULL,
@@ -281,7 +282,7 @@ class streetfocus
 	}
 	
 	
-	# Helper fucnction to send an API error
+	# Helper function to send an API error
 	private function errorJson ($errorText)
 	{
 		# Assemble the error repsonse
@@ -360,7 +361,7 @@ class streetfocus
 			
 			# Convert geometry to BBOX and centrepoint
 			$centroid = $this->getCentre ($record['geometry'], $bbox /* returned by reference */);
-				
+			
 			# Register this feature
 			$features[] = array (
 				'type'			=> 'Feature',
@@ -441,6 +442,58 @@ class streetfocus
 		
 		# Return the features
 		return $data['features'];
+	}
+	
+	
+	# Function to serve proposals data
+	private function api_proposals ()
+	{
+		# Ensure a BBOX is specified
+		if (!isSet ($_GET['bbox']) || !strlen ($_GET['bbox']) || !preg_match ('/^([-.0-9]+),([-.0-9]+),([-.0-9]+),([-.0-9]+)$/', $_GET['bbox'])) {
+			return $this->errorJson ('No valid BBOX was specified.');
+		}
+		$bbox = $_GET['bbox'];
+		
+		# Search Cyclescape, e.g. /api/issues?per_page=10&term=chisholm%20trail
+		$url = $this->settings['cyclescapeApiBaseUrl'] . '/issues';
+		$parameters = array (
+			'per_page'	=> 200,
+			'bbox'		=> $bbox,
+		);
+		$issues = $this->getApiData ($url, $parameters);
+		
+		# Simplify the output, converting geometries to Point, and removing non-needed properties
+		$features = array ();
+		foreach ($issues['features'] as $issue) {
+			
+			# Convert geometry to BBOX and centrepoint
+			$centroid = $this->getCentre ($issue['geometry'], $bbox /* returned by reference */);
+			
+			# Register this feature
+			$features[] = array (
+				'type'			=> 'Feature',
+				'properties'	=> array (
+					'id'				=> $issue['properties']['id'],
+					'title'				=> $issue['properties']['title'],
+					'cyclescape_url'	=> $issue['properties']['cyclescape_url'],
+					'description'		=> str_replace ('<a href=', '<a target="_blank" href=', $issue['properties']['description']),
+					'photo_thumb_url'	=> ($issue['properties']['photo_thumb_url'] ? $this->settings['cyclescapeBaseUrl'] . $issue['properties']['photo_thumb_url'] : NULL),
+					'tags'				=> $issue['properties']['tags'],
+					'created_at'		=> $issue['properties']['created_at'],
+					//'bbox'			=> $bbox,
+				),
+				'geometry'	=> array (
+					'type'			=> 'Point',
+					'coordinates'	=> array ($centroid['lon'], $centroid['lat']),
+				),
+			);
+		}
+		
+		# Assemble the GeoJSON result
+		$data = array ('type' => 'FeatureCollection', 'features' => $features);
+		
+		# Return the data
+		return $this->asJson ($data);
 	}
 	
 	

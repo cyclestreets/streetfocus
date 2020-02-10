@@ -13,10 +13,6 @@ var streetfocus = (function ($) {
 		// PlanIt API
 		planitApiBaseUrl: 'https://www.planit.org.uk/api',
 		
-		// Cyclescape API
-		cyclescapeBaseUrl: 'https://www.cyclescape.org',
-		cyclescapeApiBaseUrl: 'https://www.cyclescape.org/api',
-		
 		// Mapbox API key
 		mapboxApiKey: 'YOUR_MAPBOX_API_KEY',
 		
@@ -416,12 +412,9 @@ var streetfocus = (function ($) {
 				return data;
 			}
 			
-			// Add the proposals layer, e.g. /api/issues.json?page=1&per_page=100&bbox=-0.127902%2C51.503486%2C-0.067091%2C51.512086
-			var apiBaseUrl = _settings.cyclescapeApiBaseUrl + '/issues.json';
-			var parameters = {
-				page:		1,
-				per_page:	200
-			};
+			// Add the proposals layer, e.g. /api/proposals?bbox=-0.127902%2C51.503486%2C-0.067091%2C51.512086
+			var apiBaseUrl = '/api/proposals';
+			var parameters = {};
 			streetfocus.addLayer (layerId, apiBaseUrl, parameters, null, callback);
 			
 			// Add collisions heatmap layer support
@@ -442,8 +435,8 @@ var streetfocus = (function ($) {
 			$(element + ' h2.title').text (feature.properties.title);
 			$(element + ' p.link a').attr ('href', feature.properties.cyclescape_url);
 			$(element + ' div.description').html (feature.properties.description);		// Will be paragraph(s) of HTML
-			if (feature.properties.photo_thumb_url != 'null') {
-				$(element + ' p.image img').attr ('src', _settings.cyclescapeBaseUrl + feature.properties.photo_thumb_url);
+			if (feature.properties.photo_thumb_url) {
+				$(element + ' p.image img').attr ('src', feature.properties.photo_thumb_url);
 			} else {
 				$(element + ' p.image').hide ();
 			}
