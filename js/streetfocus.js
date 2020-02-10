@@ -945,6 +945,21 @@ var streetfocus = (function ($) {
 						lon: ((Math.max.apply (null, longitudes) + Math.min.apply (null, longitudes)) / 2)
 					};
 					break;
+					
+				case 'GeometryCollection':
+					var longitudes = [];
+					var latitudes = [];
+					var centre;
+					$.each (geometry.geometries, function (index, geometryItem) {
+						centre = streetfocus.getCentre (geometryItem);		// Iterate
+						longitudes.push (centre.lon);
+						latitudes.push (centre.lat);
+					});
+					centre = {
+						lat: ((Math.max.apply (null, latitudes) + Math.min.apply (null, latitudes)) / 2),
+						lon: ((Math.max.apply (null, longitudes) + Math.min.apply (null, longitudes)) / 2)
+					};
+					break;
 			}
 			
 			// Return the centre

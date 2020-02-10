@@ -528,6 +528,21 @@ class streetfocus
 				);
 				$bbox = implode (',', array (min ($longitudes), min ($latitudes), max ($longitudes), max ($latitudes)));
 				break;
+				
+			case 'GeometryCollection':
+				$longitudes = array ();
+				$latitudes = array ();
+				foreach ($geometry['geometries'] as $geometryItem) {
+					$centroid = $this->getCentre ($geometryItem, $bboxItem);	// Iterate
+					$longitudes[] = $centroid['lon'];
+					$latitudes[] = $centroid['lat'];
+				}
+				$centre = array (
+					'lat'	=> ((max ($latitudes) + min ($latitudes)) / 2),
+					'lon'	=> ((max ($longitudes) + min ($longitudes)) / 2)
+				);
+				$bbox = implode (',', array (min ($longitudes), min ($latitudes), max ($longitudes), max ($latitudes)));	// #!# Need to iterate BBOX items instead
+				break;
 		}
 		
 		# Return the centre
