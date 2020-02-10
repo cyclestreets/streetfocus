@@ -512,14 +512,32 @@ class streetfocus
 				$bbox = implode (',', array (min ($longitudes), min ($latitudes), max ($longitudes), max ($latitudes)));
 				break;
 				
-			case 'Polygon':
 			case 'MultiLineString':
+			case 'Polygon':
 				$longitudes = array ();
 				$latitudes = array ();
 				foreach ($geometry['coordinates'] as $line) {
 					foreach ($line as $lonLat) {
 						$longitudes[] = $lonLat[0];
 						$latitudes[] = $lonLat[1];
+					}
+				}
+				$centre = array (
+					'lat'	=> ((max ($latitudes) + min ($latitudes)) / 2),
+					'lon'	=> ((max ($longitudes) + min ($longitudes)) / 2)
+				);
+				$bbox = implode (',', array (min ($longitudes), min ($latitudes), max ($longitudes), max ($latitudes)));
+				break;
+				
+			case 'MultiPolygon':
+				$longitudes = array ();
+				$latitudes = array ();
+				foreach ($geometry['coordinates'] as $polygon) {
+					foreach ($polygon as $line) {
+						foreach ($line as $lonLat) {
+							$longitudes[] = $lonLat[0];
+							$latitudes[] = $lonLat[1];
+						}
 					}
 				}
 				$centre = array (

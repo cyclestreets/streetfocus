@@ -946,6 +946,23 @@ var streetfocus = (function ($) {
 					};
 					break;
 					
+				case 'MultiPolygon':
+					var longitudes = [];
+					var latitudes = [];
+					$.each (geometry.coordinates, function (index, polygon) {
+						$.each (polygon, function (index, line) {
+							$.each (line, function (index, lonLat) {
+								longitudes.push (lonLat[0]);
+								latitudes.push (lonLat[1]);
+							});
+						});
+					});
+					centre = {
+						lat: ((Math.max.apply (null, latitudes) + Math.min.apply (null, latitudes)) / 2),
+						lon: ((Math.max.apply (null, longitudes) + Math.min.apply (null, longitudes)) / 2)
+					};
+					break;
+					
 				case 'GeometryCollection':
 					var longitudes = [];
 					var latitudes = [];
@@ -960,6 +977,9 @@ var streetfocus = (function ($) {
 						lon: ((Math.max.apply (null, longitudes) + Math.min.apply (null, longitudes)) / 2)
 					};
 					break;
+					
+				default:
+					console.log ('Unsupported geometry type: ' + geometry.type, geometry);
 			}
 			
 			// Return the centre
