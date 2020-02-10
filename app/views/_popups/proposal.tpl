@@ -17,7 +17,7 @@
 	
 	<!--
 	<h3>Tags</h3>
-	<ul class="tags">
+	<ul class="categories">
 		<li><a href="#">street</a></li>
 		<li><a href="#">cycleway</a></li>
 		<li><a href="#">pavement</a></li>
