@@ -162,6 +162,7 @@ body.map #monitor h2 {font-size: 16px; padding-bottom: 5px;}
 #details ul.status {margin: 0 auto 18px; text-align: center; padding: 0;}
 #details ul.status li {display: inline; background-color: #d9e3f1; font-size: 14px; color: #152139; padding: 6px 14px; line-height: 38px; border-radius: 14px; margin: 0 5px; white-space: nowrap;}
 #details div.description {margin-top: 0; border-top: 1px solid #f9b54b; padding-top: 18px;}
+#details div.description a {border-bottom: 1px solid #e7e7e7;}
 #details p {line-height: 23px;}
 #details div.actions {height: 50px;}
 #details div.actions p {display: inline;}
