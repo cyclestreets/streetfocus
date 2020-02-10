@@ -4,6 +4,8 @@ $config = array (
 	'cyclestreetsApiKey'	=> 'YOUR_CYCLESTREETS_API_KEY',
 	'mapboxApiKey'			=> 'YOUR_MAPBOX_API_KEY',
 	'googleApiKey'			=> 'YOUR_GOOGLE_API_KEY',
+	'username'				=> 'YOUR_DATABASE_USERNAME',
+	'password'				=> 'YOUR_DATABASE_PASSWORD',
 );
 
 ?>

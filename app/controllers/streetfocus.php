@@ -17,6 +17,10 @@ class streetfocus
 			'googleApiKey'				=> NULL,
 			'autocompleteBbox'			=> '-6.6577,49.9370,1.7797,57.6924',
 			'authNamespace'				=> 'streetfocus\\',
+			'hostname'					=> 'localhost',
+			'database'					=> 'streetfocus',
+			'username'					=> NULL,
+			'password'					=> NULL,
 		);
 		
 		# Return the defaults
@@ -96,6 +100,7 @@ class streetfocus
 		
 		# Load required libraries
 		require_once ('application.php');
+		require_once ('database.php');
 		
 		# Define the location of the stub launching file
 		$this->baseUrl = application::getBaseUrl ();
@@ -103,6 +108,9 @@ class streetfocus
 		# Assign settings
 		if (!$this->settings = application::assignArguments ($errors, $settings, $this->defaults (), get_class ($this), NULL, $handleErrors = true)) {return false;}
 		
+		# Connect to the database
+		$this->databaseConnection = new database ($this->settings['hostname'], $this->settings['username'], $this->settings['password'], $this->settings['database']);
+
 		# Assign the action, validating against the registry
 		$this->action = $_GET['action'];
 		$this->actions = $this->actions ();
