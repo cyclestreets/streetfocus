@@ -433,7 +433,7 @@ var streetfocus = (function ($) {
 			$(element + ' p.applicationid span.id').text (feature.properties.id);
 			$(element + ' p.applicationid span.date').text (new Date(feature.properties.when * 1000).toDateString());
 			$(element + ' h2.title').text (feature.properties.title);
-			$(element + ' p.link a').attr ('href', feature.properties.cyclescape_url);
+			$(element + ' p.link a').attr ('href', feature.properties.link);
 			$(element + ' div.description').html (feature.properties.description);		// Will be paragraph(s) of HTML
 			if (feature.properties.image) {
 				$(element + ' p.image img').attr ('src', feature.properties.image);
