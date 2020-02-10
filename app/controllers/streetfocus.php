@@ -563,6 +563,10 @@ class streetfocus
 				break;
 		}
 		
+		# Reduce decimal places for output brevity
+		$centre['lon'] = (float) number_format ($centre['lon'], 6);
+		$centre['lat'] = (float) number_format ($centre['lat'], 6);
+		
 		# Return the centre
 		return $centre;
 	}
