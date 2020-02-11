@@ -76,8 +76,8 @@ body .mapboxgl-map .mapboxgl-popup-content {line-height: 1.4;}
 
 /* Popups */
 #details {display: none; position: relative; width: auto; background-color: white; padding: 30px; z-index: 10;}
-body.map #details {margin-top: -480px;}
-body.proposals #details {margin-top: -330px;}
+body.map #details {margin-top: -480px; min-height: 420px /* 480-30-30 */;}
+body.proposals #details {margin-top: -330px; min-height: 270px /* 330-30-30 */;}
 
 /* Geocoder */
 #geocoder {margin: 5px 25px 30px; height: 50px; width: calc(100%-40px);}
