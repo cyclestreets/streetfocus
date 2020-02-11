@@ -66,10 +66,6 @@ footer #colophon p a {text-decoration: underline;}
 #mappanel {position: relative;}
 #map {width: 100%; border: 0;}
 
-/* Geolocation */
-body .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-group {display: none;}		/* Disable built-in styling */
-#map #geolocation {position: absolute; bottom: 30px; right: 15px; width: 40px; height: 40px; background-color: white; padding: 10px; border-radius: 50%;}
-
 /* Popups (adjustments to emulate Leaflet.js) */
 @keyframes fadein {from {opacity: 0;} to {opacity: 1;}}
 .mapboxgl-popup {animation: fadein 0.2s;}
