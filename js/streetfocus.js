@@ -757,27 +757,11 @@ var streetfocus = (function ($) {
 			});
 			
 			// Register popup handler
-			var popup;
 			_map.on ('click', layerId, function (e) {
-				
-				// Substitute the content
 				var feature = e.features[0];
-				var popupFunction = 'populatePopup' + streetfocus.ucfirst (layerId);
-				streetfocus[popupFunction] ('#popupcontent', feature);
 				
-				// Get the HTML
-				var popupHtml = $('#popupcontent').html();
-				
-				// Show the popup (details) pane
-				$('#details').show ();
-				
-				// Set the HTML of the details pane to be the placeholdered content
-				$('#details').html (popupHtml);
-				
-				// Update the URL using HTML5 History pushState
-				var path = '/' + _action + '/' + feature.properties[urlField] + '/';
-				var title = _documentTitle + ': ' + streetfocus.truncateString (feature.properties[titleField], 40);
-				streetfocus.updateUrl (path, title);
+				// Create the popup
+				streetfocus.createPopup (feature, layerId, uniqueIdField, titleField);
 				
 				// Prevent further event propagation, resulting in the map close event auto-closing the panel immediately
 				e.stopPropagation ();
@@ -812,6 +796,29 @@ var streetfocus = (function ($) {
 					streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath, callback);
 				});
 			}
+		},
+		
+		
+		// Function to create a popup
+		createPopup: function (feature, layerId, uniqueIdField, titleField)
+		{
+			// Substitute the content
+			var popupFunction = 'populatePopup' + streetfocus.ucfirst (layerId);
+			streetfocus[popupFunction] ('#popupcontent', feature);
+			
+			// Get the HTML
+			var popupHtml = $('#popupcontent').html();
+			
+			// Show the popup (details) pane
+			$('#details').show ();
+			
+			// Set the HTML of the details pane to be the placeholdered content
+			$('#details').html (popupHtml);
+			
+			// Update the URL using HTML5 History pushState
+			var path = '/' + _action + '/' + feature.properties[uniqueIdField] + '/';
+			var title = _documentTitle + ': ' + streetfocus.truncateString (feature.properties[titleField], 40);
+			streetfocus.updateUrl (path, title);
 		},
 		
 		
