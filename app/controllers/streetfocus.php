@@ -577,7 +577,7 @@ class streetfocus
 		# BBOX support
 		if ($bbox) {
 			list ($w, $s, $e, $n) = explode (',', $bbox);
-			$where[] = 'WHERE MBRCONTAINS(ST_LINESTRINGFROMTEXT(:linestring), POINT(longitude, latitude))';
+			$where[] = 'MBRCONTAINS(ST_LINESTRINGFROMTEXT(:linestring), POINT(longitude, latitude))';
 			$preparedStatementValues['linestring'] = "LINESTRING({$w} {$s}, {$e} {$n})";
 		}
 		
