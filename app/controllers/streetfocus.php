@@ -8,6 +8,7 @@ class streetfocus
 	{
 		# Specify available arguments as defaults or as NULL (to represent a required argument)
 		$defaults = array (
+			'defaultLocation'			=> '17/52.2053/0.1218/0/0',		// Zoom, lat, lon, pitch, bearing
 			'planitApiBaseUrl'			=> 'https://www.planit.org.uk/api',
 			'cyclescapeApiBaseUrl'		=> 'https://www.cyclescape.org/api',
 			'cyclescapeBaseUrl'			=> 'https://www.cyclescape.org',
@@ -275,6 +276,7 @@ class streetfocus
 		return trim ("
 			$(function() {
 				config = {
+					defaultLocation: '{$this->settings['defaultLocation']}',
 					planitApiBaseUrl: '{$this->settings['planitApiBaseUrl']}',
 					cyclestreetsApiKey: '{$this->settings['cyclestreetsApiKey']}',
 					mapboxApiKey: '{$this->settings['mapboxApiKey']}'

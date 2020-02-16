@@ -10,6 +10,9 @@ var streetfocus = (function ($) {
 	// Settings defaults
 	var _settings = {
 		
+		// Initial lat/lon/zoom of map and tile layer
+		defaultLocation: '17/52.2053/0.1218/0/0',	// Zoom, lat, lon, pitch, bearing
+		
 		// PlanIt API
 		planitApiBaseUrl: 'https://www.planit.org.uk/api',
 		
@@ -17,16 +20,7 @@ var streetfocus = (function ($) {
 		mapboxApiKey: 'YOUR_MAPBOX_API_KEY',
 		
 		// Google Maps API key
-		gmapApiKey: 'YOUR_GOOGLEMAPS_API_KEY',
-		
-		// Initial lat/lon/zoom of map and tile layer
-		defaultLocation: {
-			zoom: 17,
-			latitude: 52.2053,
-			longitude: 0.1218,
-			pitch: 0,
-			bearing: 0
-		}
+		gmapApiKey: 'YOUR_GOOGLEMAPS_API_KEY'
 	};
 	
 	
@@ -92,7 +86,7 @@ var streetfocus = (function ($) {
 			
 			// Create the map for a map action page
 			if (_mapActions.includes (action)) {
-				streetfocus.createMap (_settings.defaultLocation, _settings.defaultTileLayer);
+				streetfocus.createMap ();
 				if (typeof streetfocus[action] == 'function') {
 					_map.on ('load', function () {
 						streetfocus[action] ();
@@ -473,7 +467,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to create the map and related controls
-		createMap: function (defaultLocation, defaultTileLayer)
+		createMap: function ()
 		{
 			// Determine default location
 			var initialLocation = streetfocus.getInitialLocation ();
@@ -513,9 +507,9 @@ var streetfocus = (function ($) {
 			// Get the map location cookie, if set
 			var mapLocation = streetfocus.getCookie ('maplocation');
 			
-			// Return the default if no cookie
+			// Use the default if no cookie
 			if (!mapLocation) {
-				return _settings.defaultLocation;
+				mapLocation = _settings.defaultLocation;
 			}
 			
 			// Parse out the location (5-value format, including bearing and pitch)
