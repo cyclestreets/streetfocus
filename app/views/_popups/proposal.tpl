@@ -3,7 +3,7 @@
 	
 	<p class="close"><a href="#">×</a></p>
 	
-	<p class="applicationid">Proposal #<span class="id">id</span>, &nbsp;dated <span class="date">date</span></p>
+	<p class="applicationid"><span class="source">Source</span> proposal #<span class="id">id</span>, &nbsp;dated <span class="date">date</span></p>
 	
 	<h2 class="title">Proposal title</h3>
 	

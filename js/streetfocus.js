@@ -430,6 +430,7 @@ var streetfocus = (function ($) {
 			var centre = streetfocus.getCentre (feature.geometry);
 			
 			// Populate the static HTML
+			$(element + ' p.applicationid span.source').text (feature.properties.source);
 			$(element + ' p.applicationid span.id').text (feature.properties.id);
 			$(element + ' p.applicationid span.date').text (new Date(feature.properties.when * 1000).toDateString());
 			$(element + ' h2.title').text (feature.properties.title);
