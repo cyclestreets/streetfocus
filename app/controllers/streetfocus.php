@@ -146,6 +146,9 @@ class streetfocus
 		}
 		$this->template['_action'] = $this->action;
 		
+		# Assign the ID, if any
+		$this->id = (isSet ($_GET['id']) ? $_GET['id'] : false);
+		
 		# Set the template, being the path from /app/views/, minus .tpl
 		$url = $this->actions[$this->action]['url'];
 		$templatePath = ltrim ($url, '/') . 'index';
@@ -276,7 +279,7 @@ class streetfocus
 					cyclestreetsApiKey: '{$this->settings['cyclestreetsApiKey']}',
 					mapboxApiKey: '{$this->settings['mapboxApiKey']}'
 				};
-				streetfocus.initialise (config, '{$this->action}');
+				streetfocus.initialise (config, '{$this->action}', '{$this->id}');
 			});
 		");
 	}

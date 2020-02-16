@@ -33,6 +33,7 @@ var streetfocus = (function ($) {
 	// Internal class properties
 	var _map = null;
 	var _action;
+	var _id;
 	var _documentTitle;
 	var _isTouchDevice;
 	
@@ -64,7 +65,7 @@ var streetfocus = (function ($) {
 	return {
 		
 		// Main function
-		initialise: function (config, action)
+		initialise: function (config, action, id)
 		{
 			// Merge the configuration into the settings
 			$.each (_settings, function (setting, value) {
@@ -73,8 +74,9 @@ var streetfocus = (function ($) {
 				}
 			});
 			
-			// Set the action
+			// Set the action and ID
 			_action = action;
+			_id = id;
 			
 			// Get the original title
 			_documentTitle = document.title;
@@ -718,7 +720,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to add a data layer to the map
-		addLayer: function (layerId, apiBaseUrl, parameters, filteringFormPath, callback, urlField, titleField)
+		addLayer: function (layerId, apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField)
 		{
 			// Compile colour lists
 			var colourPairs = [];
@@ -783,7 +785,7 @@ var streetfocus = (function ($) {
 			$('#loading').html ('<img src="/images/ui-anim_basic_16x16.gif" />');
 			
 			// Get the data
-			streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath, callback);
+			streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField);
 			
 			// Register to update on map move and form changes
 			_map.on ('moveend', function (e) {
@@ -823,7 +825,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to load the data for a layer
-		addData: function (layerId, apiBaseUrl, parameters, filteringFormPath, callback)
+		addData: function (layerId, apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField)
 		{
 			// Get the map BBOX
 			var bbox = _map.getBounds();
@@ -852,7 +854,7 @@ var streetfocus = (function ($) {
 					}
 				},
 				success: function (data, textStatus, jqXHR) {
-					streetfocus.showCurrentData (layerId, data, callback);
+					streetfocus.showCurrentData (layerId, data, callback, uniqueIdField, titleField);
 					$('#loading').hide ();
 				}
 			});
@@ -1072,7 +1074,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to show the data for a layer
-		showCurrentData: function (layerId, data, callback)
+		showCurrentData: function (layerId, data, callback, uniqueIdField, titleField)
 		{
 			// If the layer has lines or polygons, reduce to point
 			var centre;
@@ -1091,6 +1093,17 @@ var streetfocus = (function ($) {
 			
 			// Set the data
 			_map.getSource (layerId).setData (data);
+			
+			// If an ID is specified, and is present in the data, open its popup
+			if (uniqueIdField) {	// If specified, which happens only for the initial loading state
+				if (_id) {
+					$.each (data.features, function (index, feature) {
+						if (feature.properties[uniqueIdField] == _id) {
+							streetfocus.createPopup (feature, layerId, uniqueIdField, titleField);
+						}
+					});
+				}
+			}
 		},
 		
 		
