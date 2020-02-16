@@ -84,6 +84,30 @@ class streetfocus
 	}
 	
 	
+	# Database structure definition
+	public function databaseStructure ()
+	{
+		return "
+			-- External proposals
+			CREATE TABLE `proposalsexternal` (
+			  `id` varchar(255) PRIMARY KEY NOT NULL,
+			  `source` varchar(255) NOT NULL,
+			  `title` varchar(512) DEFAULT NULL,
+			  `description` text NOT NULL,
+			  `image` varchar(255) DEFAULT NULL,
+			  `link` varchar(255) NOT NULL,
+			  `categories` varchar(255) DEFAULT NULL,
+			  `address` varchar(255) DEFAULT NULL,
+			  `agree` int(11) DEFAULT NULL,
+			  `user` varchar(255) DEFAULT NULL,
+			  `when` datetime NOT NULL,
+			  `longitude` decimal(9,6) NOT NULL,
+			  `latitude` decimal(8,6) NOT NULL
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Proposals data from external sources';
+		";
+	}
+	
+	
 	# Class properties
 	private $settings;
 	private $baseUrl;
