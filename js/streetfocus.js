@@ -33,7 +33,10 @@ var streetfocus = (function ($) {
 	// Internal class properties
 	var _map = null;
 	var _action;
+	var _documentTitle;
 	var _isTouchDevice;
+	
+	// Definitions
 	var _colours = {
 		planningapplications: {
 			field: 'app_type',
@@ -72,6 +75,9 @@ var streetfocus = (function ($) {
 			
 			// Set the action
 			_action = action;
+			
+			// Get the original title
+			_documentTitle = document.title;
 			
 			// Determine if the device is a touch device
 			_isTouchDevice = streetfocus.isTouchDevice ();
@@ -262,7 +268,7 @@ var streetfocus = (function ($) {
 		resetUrl: function ()
 		{
 			var path = '/' + _action + '/' + window.location.hash;
-			var title = document.title;
+			var title = _documentTitle;
 			streetfocus.updateUrl (path, title);
 		},
 		
@@ -770,7 +776,7 @@ var streetfocus = (function ($) {
 				
 				// Update the URL using HTML5 History pushState
 				var path = '/' + _action + '/' + feature.properties[urlField] + '/';
-				var title = document.title + ': ' + streetfocus.truncateString (feature.properties[titleField], 40);
+				var title = _documentTitle + ': ' + streetfocus.truncateString (feature.properties[titleField], 40);
 				streetfocus.updateUrl (path, title);
 				
 				// Prevent further event propagation, resulting in the map close event auto-closing the panel immediately
