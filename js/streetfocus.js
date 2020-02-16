@@ -886,10 +886,17 @@ var streetfocus = (function ($) {
 			// Set 0.1m accuracy; see: https://en.wikipedia.org/wiki/Decimal_degrees
 			var accuracy = 6;
 			
-			// Reduce each value
-			var i;
-			for (i = 0; i < coordinates.length; i++) {
-				coordinates[i] = parseFloat(coordinates[i]).toFixed(accuracy);
+			// Support lng/lat named key format
+			if (coordinates.hasOwnProperty ('lng') && coordinates.hasOwnProperty ('lat')) {
+				coordinates['lng'] = parseFloat(coordinates['lng']).toFixed(accuracy);
+				coordinates['lat'] = parseFloat(coordinates['lat']).toFixed(accuracy);
+			
+			// For indexed list format, reduce each value
+			} else {
+				var i;
+				for (i = 0; i < coordinates.length; i++) {
+					coordinates[i] = parseFloat(coordinates[i]).toFixed(accuracy);
+				}
 			}
 			
 			// Return the modified set
