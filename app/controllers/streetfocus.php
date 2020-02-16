@@ -116,6 +116,7 @@ class streetfocus
 	private $template = array ();
 	private $templateFile;
 	private $user;
+	private $setLocation;
 	
 	
 	# Constructor
@@ -170,14 +171,14 @@ class streetfocus
 		$this->userIsAdministrator = $this->userAccount->getUserIsAdministrator ();
 		$this->template = $this->userAccount->getTemplate ();
 		
-		# Add the application JS to the template
-		$this->template['_applicationJs'] = $this->applicationJs ();
-		
 		# Perform the action, which will write into the page template array
 		$this->{$this->action} ();
 		
 		# End if the action is a data URL rather than a templatised page
 		if (isSet ($this->actions[$this->action]['data']) && $this->actions[$this->action]['data']) {return;}
+		
+		# Add the application JS to the template
+		$this->template['_applicationJs'] = $this->applicationJs ();
 		
 		# Templatise
 		$html = $this->renderTemplate ($templatePath);
@@ -279,7 +280,8 @@ class streetfocus
 					defaultLocation: '{$this->settings['defaultLocation']}',
 					planitApiBaseUrl: '{$this->settings['planitApiBaseUrl']}',
 					cyclestreetsApiKey: '{$this->settings['cyclestreetsApiKey']}',
-					mapboxApiKey: '{$this->settings['mapboxApiKey']}'
+					mapboxApiKey: '{$this->settings['mapboxApiKey']}',
+					setLocation: '{$this->setLocation}'
 				};
 				streetfocus.initialise (config, '{$this->action}', '{$this->id}');
 			});

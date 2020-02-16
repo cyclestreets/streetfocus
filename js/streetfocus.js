@@ -20,7 +20,10 @@ var streetfocus = (function ($) {
 		mapboxApiKey: 'YOUR_MAPBOX_API_KEY',
 		
 		// Google Maps API key
-		gmapApiKey: 'YOUR_GOOGLEMAPS_API_KEY'
+		gmapApiKey: 'YOUR_GOOGLEMAPS_API_KEY',
+		
+		// Forced location
+		setLocation: false
 	};
 	
 	
@@ -483,6 +486,12 @@ var streetfocus = (function ($) {
 				bearing: initialLocation.bearing,
 				hash: true
 			});
+			
+			// If a location is set, move the map, thus ignoring the hash
+			if (_settings.setLocation) {
+				var setLocation = streetfocus.parseLocation (_settings.setLocation);
+				_map.setCenter ([setLocation.longitude, setLocation.latitude]);
+			}
 			
 			// Add navigation (+/-/pitch) controls
 			_map.addControl (new mapboxgl.NavigationControl (), 'top-left');
