@@ -513,6 +513,17 @@ var streetfocus = (function ($) {
 			}
 			
 			// Parse out the location (5-value format, including bearing and pitch)
+			mapLocation = streetfocus.parseLocation (mapLocation);
+			
+			// Return the result
+			return mapLocation;
+		},
+		
+		
+		// Function to parse out a location string
+		parseLocation: function (mapLocation)
+		{
+			// Split into components
 			mapLocation = mapLocation.split ('/');
 			mapLocation = {
 				zoom: mapLocation[0],
