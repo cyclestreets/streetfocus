@@ -19,14 +19,7 @@
 		
 		<script src="/js/streetfocus.js"></script>
 		<script>
-			$(function() {
-				config = {
-					planitApiBaseUrl: '{$_settings.planitApiBaseUrl}',
-					cyclestreetsApiKey: '{$_settings.cyclestreetsApiKey}',
-					mapboxApiKey: '{$_settings.mapboxApiKey}'
-				};
-				streetfocus.initialise (config, '{$_action}');
-			});
+			{$_applicationJs}
 		</script>
 		
 	</head>

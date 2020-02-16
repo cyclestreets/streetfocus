@@ -166,6 +166,9 @@ class streetfocus
 		$this->userIsAdministrator = $this->userAccount->getUserIsAdministrator ();
 		$this->template = $this->userAccount->getTemplate ();
 		
+		# Add the application JS to the template
+		$this->template['_applicationJs'] = $this->applicationJs ();
+		
 		# Perform the action, which will write into the page template array
 		$this->{$this->action} ();
 		
@@ -266,18 +269,16 @@ class streetfocus
 	private function applicationJs ()
 	{
 		# Create the application JS
-		$this->template['applicationJs'] = "
-			<script>
-				$(function() {
-					config = {
-						planitApiBaseUrl: '{$this->settings['planitApiBaseUrl']}',
-						cyclestreetsApiKey: '{$this->settings['cyclestreetsApiKey']}',
-						mapboxApiKey: '{$this->settings['mapboxApiKey']}'
-					};
-					streetfocus.initialise (config, '{$this->action}');
-				});
-			</script>
-		";
+		return trim ("
+			$(function() {
+				config = {
+					planitApiBaseUrl: '{$this->settings['planitApiBaseUrl']}',
+					cyclestreetsApiKey: '{$this->settings['cyclestreetsApiKey']}',
+					mapboxApiKey: '{$this->settings['mapboxApiKey']}'
+				};
+				streetfocus.initialise (config, '{$this->action}');
+			});
+		");
 	}
 	
 	
