@@ -32,6 +32,7 @@ var streetfocus = (function ($) {
 	
 	// Internal class properties
 	var _map = null;
+	var _action;
 	var _isTouchDevice;
 	var _colours = {
 		planningapplications: {
@@ -68,6 +69,9 @@ var streetfocus = (function ($) {
 					_settings[setting] = config[setting];
 				}
 			});
+			
+			// Set the action
+			_action = action;
 			
 			// Determine if the device is a touch device
 			_isTouchDevice = streetfocus.isTouchDevice ();
@@ -219,7 +223,7 @@ var streetfocus = (function ($) {
 			*/
 			
 			// Add the data layer
-			streetfocus.addLayer (layerId, apiBaseUrl, parameters, '#filtering');
+			streetfocus.addLayer (layerId, apiBaseUrl, parameters, '#filtering', null, 'name', 'description');
 			
 			// Add collisions heatmap layer support
 			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
@@ -233,12 +237,14 @@ var streetfocus = (function ($) {
 			// Close x button
 			$('body').on ('click', path + ' .close', function () {
 				$(path).fadeToggle ();
+				streetfocus.resetUrl ();
 			});
 			
 			// Add implied close by clicking on remaining map slither
 			_map.on ('click', function (e) {
 				if ($(path).is(':visible')) {
 					$(path).fadeToggle ();
+					streetfocus.resetUrl ();
 				}
 			});
 			
@@ -246,11 +252,21 @@ var streetfocus = (function ($) {
 			$(document).keyup (function (e) {
 				if (e.keyCode === 27) {
 					$(path).hide ();
+					streetfocus.resetUrl ();
 				}
 			});
 		},
 		
 		
+		// Function to reset the URL and title using HTML5 History pushState
+		resetUrl: function ()
+		{
+			var path = '/' + _action + '/' + window.location.hash;
+			var title = document.title;
+			streetfocus.updateUrl (path, title);
+		},
+		
+				
 		// Function to perform a form scan for values
 		scanForm: function (path)
 		{
@@ -417,7 +433,7 @@ var streetfocus = (function ($) {
 			// Add the proposals layer, e.g. /api/proposals?bbox=-0.127902%2C51.503486%2C-0.067091%2C51.512086
 			var apiBaseUrl = '/api/proposals';
 			var parameters = {};
-			streetfocus.addLayer (layerId, apiBaseUrl, parameters, null, callback);
+			streetfocus.addLayer (layerId, apiBaseUrl, parameters, null, callback, 'moniker', 'title');
 			
 			// Add collisions heatmap layer support
 			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
@@ -696,7 +712,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to add a data layer to the map
-		addLayer: function (layerId, apiBaseUrl, parameters, filteringFormPath, callback)
+		addLayer: function (layerId, apiBaseUrl, parameters, filteringFormPath, callback, urlField, titleField)
 		{
 			// Compile colour lists
 			var colourPairs = [];
@@ -751,6 +767,11 @@ var streetfocus = (function ($) {
 				
 				// Set the HTML of the details pane to be the placeholdered content
 				$('#details').html (popupHtml);
+				
+				// Update the URL using HTML5 History pushState
+				var path = '/' + _action + '/' + feature.properties[urlField] + '/';
+				var title = document.title + ': ' + streetfocus.truncateString (feature.properties[titleField], 40);
+				streetfocus.updateUrl (path, title);
 				
 				// Prevent further event propagation, resulting in the map close event auto-closing the panel immediately
 				e.stopPropagation ();
@@ -1113,6 +1134,7 @@ var streetfocus = (function ($) {
 		},
 		
     	
+		// Function to set a cookie
 		setCookie: function (key, value, expiryDays) {
 			var expires = new Date();
 			expires.setTime (expires.getTime() + (expiryDays * 24 * 60 * 60 * 1000));
@@ -1120,9 +1142,25 @@ var streetfocus = (function ($) {
 		},
 		
 		
+		// Function to get a cookie value
 		getCookie: function (key) {
 			var keyValue = document.cookie.match ('(^|;) ?' + key + '=([^;]*)(;|$)');
 			return keyValue ? keyValue[2] : null;
+		},
+		
+		
+		// Function to update the URL, to provide persistency when a link is circulated
+		updateUrl: function (path, title)
+		{
+			// End if not supported, e.g. IE9
+			if (!history.pushState) {return;}
+			
+			// Construct the URL
+			var url = path + window.location.hash;
+			
+			// Push the URL state
+			history.pushState (url, title, url);
+			document.title = title;		// Workaround for poor browser support; see: https://stackoverflow.com/questions/13955520/
 		}
 	};
 	

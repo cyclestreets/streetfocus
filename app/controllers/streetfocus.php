@@ -533,6 +533,7 @@ class streetfocus
 				'type'			=> 'Feature',
 				'properties'	=> array (
 					'id'				=> $issue['properties']['id'],
+					'moniker'			=> 'cyclescape/' . $issue['properties']['id'],
 					'source'			=> 'Cyclescape',
 					'title'				=> $issue['properties']['title'],
 					'description'		=> str_replace ('<a href=', '<a target="_blank" href=', $issue['properties']['description']),
@@ -594,6 +595,9 @@ class streetfocus
 			
 			# Convert time
 			$record['when'] = strtotime ($record['when']);
+			
+			# Add a unique moniker
+			$record['moniker'] = 'external/' . $record['id'];
 			
 			# Register the feature
 			$features[] = array (
