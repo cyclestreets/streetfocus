@@ -21,9 +21,11 @@ var streetfocus = (function ($) {
 		
 		// Initial lat/lon/zoom of map and tile layer
 		defaultLocation: {
+			zoom: 17,
 			latitude: 52.2053,
 			longitude: 0.1218,
-			zoom: 17
+			pitch: 0,
+			bearing: 0
 		}
 	};
 	
@@ -449,18 +451,23 @@ var streetfocus = (function ($) {
 		// Function to create the map and related controls
 		createMap: function (defaultLocation, defaultTileLayer)
 		{
+			// Determine default location
+			var initialLocation = streetfocus.getInitialLocation ();
+			
 			// Create the map
 			mapboxgl.accessToken = _settings.mapboxApiKey;
 			_map = new mapboxgl.Map ({
 				container: 'map',
 				style: 'mapbox://styles/mapbox/streets-v11',
-				center: [defaultLocation.longitude, defaultLocation.latitude],
-				zoom: defaultLocation.zoom,
+				center: [initialLocation.longitude, initialLocation.latitude],
+				zoom: initialLocation.zoom,
+				pitch: initialLocation.pitch,
+				bearing: initialLocation.bearing,
 				hash: true
 			});
 			
 			// Add navigation (+/-/pitch) controls
-			_map.addControl(new mapboxgl.NavigationControl (), 'top-left');
+			_map.addControl (new mapboxgl.NavigationControl (), 'top-left');
 			
 			// Add geolocation control
 			streetfocus.geolocation ();
@@ -470,6 +477,48 @@ var streetfocus = (function ($) {
 			
 			// Enable pitch gestures
 			streetfocus.enablePitchGestures ();
+			
+			// Set cookie on map move, to provide memory between screens
+			streetfocus.setMapLocationCookie ();
+		},
+		
+		
+		// Function to get the initial map location, whether the default or a map location cookie
+		getInitialLocation: function ()
+		{
+			// Get the map location cookie, if set
+			var mapLocation = streetfocus.getCookie ('maplocation');
+			
+			// Return the default if no cookie
+			if (!mapLocation) {
+				return _settings.defaultLocation;
+			}
+			
+			// Parse out the location (5-value format, including bearing and pitch)
+			mapLocation = mapLocation.split ('/');
+			mapLocation = {
+				zoom: mapLocation[0],
+				latitude: mapLocation[1],
+				longitude: mapLocation[2],
+				bearing: mapLocation[3],
+				pitch: mapLocation[4],
+			}
+			
+			// Return the result
+			return mapLocation;
+		},
+		
+		
+		// Function to set a map location cookie
+		setMapLocationCookie: function ()
+		{
+			// On move end, get the location (5-value format, including bearing and pitch)
+			_map.on ('moveend', function (e) {
+				var centre = _map.getCenter ();
+				centre = streetfocus.reduceCoordinateAccuracy (centre);
+				var mapLocation = [_map.getZoom (), centre.lat, centre.lng, _map.getBearing (), _map.getPitch ()].join ('/')		// E.g. '18.25/52.204729/0.116882/-59.7/60' as per URL hash format;
+				streetfocus.setCookie ('maplocation', mapLocation, 7);
+			});
 		},
 		
 		
@@ -1064,9 +1113,9 @@ var streetfocus = (function ($) {
 		},
 		
     	
-		setCookie: function (key, value, expiry) {
+		setCookie: function (key, value, expiryDays) {
 			var expires = new Date();
-			expires.setTime (expires.getTime() + (expiry * 24 * 60 * 60 * 1000));
+			expires.setTime (expires.getTime() + (expiryDays * 24 * 60 * 60 * 1000));
 			document.cookie = key + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
 		},
 		
