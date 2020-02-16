@@ -132,6 +132,7 @@ class streetfocus
 		require_once ('app/controllers/userAccount.php');
 		$this->userAccount = new userAccount ($this->settings, $this->template, $this->baseUrl);
 		$this->user = $this->userAccount->getUser ();
+		$this->userIsAdministrator = $this->userAccount->getUserIsAdministrator ();
 		$this->template = $this->userAccount->getTemplate ();
 		
 		# Perform the action, which will write into the page template array

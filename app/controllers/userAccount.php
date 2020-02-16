@@ -7,6 +7,7 @@ class userAccount
 	private $settings;
 	private $baseUrl;
 	private $user;
+	private $userIsAdministrator;
 	
 	
 	# Constructor
@@ -29,6 +30,11 @@ class userAccount
 	public function getTemplate ()
 	{
 		return $this->template;
+	}
+	
+	public function getUserIsAdministrator ()
+	{
+		return $this->userIsAdministrator;
 	}
 	
 	
@@ -183,7 +189,7 @@ class userAccount
 		}
 		
 		# Determine privileges
-//		$this->userIsAdministrator = $this->userIs ('administrators', $user['email'], NULL);
+		$this->userIsAdministrator = $this->userIs ('administrator');
 		
 		# Write the login status in the top-right
 		$loginStatusHtml  = "\n<p style=\"text-align: right\"><span style=\"color: #ccc;\">Signed in as: </span>" . htmlspecialchars ($user['email']);
@@ -207,17 +213,13 @@ class userAccount
 	
 	
 	# Function to parse a list of e-mails to check for privilege
-	private function userIs ($field, $email, $userIsAdministrator)
+	private function userIs ($right)
 	{
-		# If the user is an administrator, grant right
-		if ($userIsAdministrator) {return true;}
+		# Return false if no user
+		if (!$this->user) {return false;}
 		
-		# Remove namespacing
-		$email = str_replace ($this->settings['authNamespace'], '', $email);
-		
-		# Determine if the user is an administrator
-		$emails = ($this->settings[$field] ? preg_split ("/\s+/", trim ($this->settings[$field])) : array ());
-		return (in_array ($email, $emails));
+		# Return whether the right is listed in the privileges
+		return (in_array ($right, $this->user['privileges']));
 	}
 	
 	
