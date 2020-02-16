@@ -252,14 +252,54 @@ class streetfocus
 	# Planning applications map page
 	private function map ()
 	{
-		//
+		# If an ID is specified, determine the map location, so that the item is present in the area data
+		if ($this->id) {
+			if (preg_match ('|^(.+)/(.+)$|', $this->id, $matches)) {
+				list ($authority, $id) = explode ('/', $this->id, 2);
+				if ($planningApplication = $this->searchPlanIt ($id, $authority)) {
+					$this->setLocationFromFeature ($planningApplication[0]);
+				}
+			}
+		}
 	}
 	
 	
 	# Proposals map page
 	private function proposals ()
 	{
-		//
+		# If an ID is specified, determine the map location, so that the item is present in the area data
+		if ($this->id) {
+			if (preg_match ('|^(.+)/(.+)$|', $this->id, $matches)) {
+				list ($source, $id) = explode ('/', $this->id, 2);
+				
+				# Select source
+				switch ($source) {
+					
+					# Cyclescape
+					case 'cyclescape':
+						if ($issue = $this->searchCyclescape (false, $id)) {
+							$this->setLocationFromFeature ($issue[0]);
+						}
+						break;
+						
+					# External
+					case 'external':
+						if ($issue = $this->getExternalIssues (false, $id)) {
+							$this->setLocationFromFeature ($issue[0]);
+						}
+						break;
+				}
+			}
+		}
+	}
+	
+	
+	# Function to set a location from a feature
+	private function setLocationFromFeature ($feature)
+	{
+		$latitude  = $feature['geometry']['coordinates'][1];
+		$longitude = $feature['geometry']['coordinates'][0];
+		$this->setLocation = "17/{$latitude}/{$longitude}/0/0";
 	}
 	
 	
@@ -393,13 +433,16 @@ class streetfocus
 	
 	
 	# Helper function to do a PlanIt ID search
-	private function searchPlanIt ($id)
+	private function searchPlanIt ($id, $authority = false)
 	{
 		# Search PlanIt
 		$url = $this->settings['planitApiBaseUrl'] . '/applics/geojson';
 		$parameters = array (
 			'id_match'	=> $id,
 		);
+		if ($authority) {
+			$parameters['auth'] = $authority;
+		}
 		$applications = $this->getApiData ($url, $parameters);
 		
 		# Map each record to a GeoJSON feature in the same format as the Geocoder response
@@ -431,14 +474,19 @@ class streetfocus
 	
 	
 	# Helper function to do a Cyclescape issues search
-	private function searchCyclescape ($q)
+	private function searchCyclescape ($q = false, $id = false)
 	{
 		# Search Cyclescape, e.g. /api/issues?per_page=10&term=chisholm%20trail
 		$url = $this->settings['cyclescapeApiBaseUrl'] . '/issues';
 		$parameters = array (
 			'per_page'	=> 10,
-			'term'		=> $q,
 		);
+		if ($q) {
+			$parameters['term'] = $q;
+		}
+		if ($id) {
+			$parameters['id'] = $id;
+		}
 		$issues = $this->getApiData ($url, $parameters);
 		
 		# Remove duplicated values, pending https://github.com/cyclestreets/cyclescape/issues/921#issuecomment-583544405
@@ -564,8 +612,8 @@ class streetfocus
 	}
 	
 	
-	# Helper function to get external issues within a BBOX
-	private function getExternalIssues ($bbox)
+	# Helper function to get external issues
+	private function getExternalIssues ($bbox = false, $id = false)
 	{
 		# Start a list of features
 		$features = array ();
@@ -579,6 +627,12 @@ class streetfocus
 			list ($w, $s, $e, $n) = explode (',', $bbox);
 			$where[] = 'MBRCONTAINS(ST_LINESTRINGFROMTEXT(:linestring), POINT(longitude, latitude))';
 			$preparedStatementValues['linestring'] = "LINESTRING({$w} {$s}, {$e} {$n})";
+		}
+		
+		# ID support
+		if ($id) {
+			$where[] = 'id = :id';
+			$preparedStatementValues['id'] = $id;
 		}
 		
 		# Get the features from the database

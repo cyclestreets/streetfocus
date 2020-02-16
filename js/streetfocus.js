@@ -490,6 +490,7 @@ var streetfocus = (function ($) {
 			// If a location is set, move the map, thus ignoring the hash
 			if (_settings.setLocation) {
 				var setLocation = streetfocus.parseLocation (_settings.setLocation);
+				_map.setZoom (setLocation.zoom);
 				_map.setCenter ([setLocation.longitude, setLocation.latitude]);
 			}
 			
