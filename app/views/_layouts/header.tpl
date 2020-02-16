@@ -2,7 +2,7 @@
 	
 	<head>
 		
-		<title>StreetFocus - Helping local communities benefit from new developments</title>
+		<title>{$_title}</title>
 
 		<link href="https://fonts.googleapis.com/css?family=Fjalla+One|PT+Sans&amp;display=swap" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="/css/streetfocus.css">

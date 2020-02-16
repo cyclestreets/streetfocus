@@ -46,7 +46,7 @@ class streetfocus
 				'url' => '/map/',
 			),
 			'proposals' => array (
-				'description' => 'Proposals',
+				'description' => 'Proposals for street changes',
 				'url' => '/proposals/',
 			),
 			'my' => array (
@@ -74,6 +74,7 @@ class streetfocus
 				'url' => '/register/',
 			),
 			'api' => array (
+				'description' => false,
 				'url' => '/api/',
 				'data' => true,
 			),
@@ -151,6 +152,12 @@ class streetfocus
 		
 		# Load the application JS, including mapping and the menu handling
 		$this->template['_settings'] = $this->settings;
+		
+		# Set the page title
+		$this->template['_title'] = 'StreetFocus - Helping local communities benefit from new developments';
+		if ($this->actions[$this->action]['description']) {
+			$this->template['_title'] = 'StreetFocus - ' . htmlspecialchars ($this->actions[$this->action]['description']);
+		}
 		
 		# Get the user's details, if authenticated
 		require_once ('app/controllers/userAccount.php');
