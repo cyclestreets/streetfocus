@@ -570,18 +570,24 @@ class streetfocus
 		# Start a list of features
 		$features = array ();
 		
-		# Split out the BBOX
-		list ($w, $s, $e, $n) = explode (',', $bbox);
+		# Start a list of constraints
+		$where = array ();
+		$preparedStatementValues = array ();
+		
+		# BBOX support
+		if ($bbox) {
+			list ($w, $s, $e, $n) = explode (',', $bbox);
+			$where[] = 'WHERE MBRCONTAINS(ST_LINESTRINGFROMTEXT(:linestring), POINT(longitude, latitude))';
+			$preparedStatementValues['linestring'] = "LINESTRING({$w} {$s}, {$e} {$n})";
+		}
 		
 		# Get the features from the database
 		$query = 'SELECT
 			*
 			FROM proposalsexternal
-			WHERE MBRCONTAINS(ST_LINESTRINGFROMTEXT(:linestring), POINT(longitude, latitude))
+			WHERE
+			' . implode (' AND ', $where) . '
 		;';
-		$preparedStatementValues = array (
-			'linestring' => "LINESTRING({$w} {$s}, {$e} {$n})",
-		);
 		$data = $this->databaseConnection->getData ($query, false, true, $preparedStatementValues);
 		
 		# Arrange as GeoJSON features
