@@ -469,8 +469,10 @@ class streetfocus
 		# Get the Cyclescape issues within the specified BBOX
 		$data['features'] += $this->getCyclescapeIssues ($bbox);
 		
-		# Get the external issues within the specified BBOX
-		$data['features'] = array_merge ($data['features'], $this->getExternalIssues ($bbox));
+		# If signed in as an administrator, get the external issues within the specified BBOX
+		if ($this->userIsAdministrator) {
+			$data['features'] = array_merge ($data['features'], $this->getExternalIssues ($bbox));
+		}
 		
 		# Return the data
 		return $this->asJson ($data);
