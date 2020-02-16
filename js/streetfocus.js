@@ -267,7 +267,7 @@ var streetfocus = (function ($) {
 		// Function to reset the URL and title using HTML5 History pushState
 		resetUrl: function ()
 		{
-			var path = '/' + _action + '/' + window.location.hash;
+			var path = '/' + _action + '/';
 			var title = _documentTitle;
 			streetfocus.updateUrl (path, title);
 		},
