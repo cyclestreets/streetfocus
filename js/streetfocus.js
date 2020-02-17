@@ -30,6 +30,7 @@ var streetfocus = (function ($) {
 	// Internal class properties
 	var _map = null;
 	var _action;
+	var _actionUrl;
 	var _id;
 	var _documentTitle;
 	var _isTouchDevice;
@@ -56,13 +57,13 @@ var streetfocus = (function ($) {
 			
 	
 	// Actions creating a map
-	var _mapActions = ['map', 'proposals'];
+	var _mapActions = ['planningapplications', 'proposals'];
 	
 	
 	return {
 		
 		// Main function
-		initialise: function (config, action, id)
+		initialise: function (config, action, actionUrl, id)
 		{
 			// Merge the configuration into the settings
 			$.each (_settings, function (setting, value) {
@@ -71,8 +72,9 @@ var streetfocus = (function ($) {
 				}
 			});
 			
-			// Set the action and ID
+			// Set the action, the action's URL, and any ID
 			_action = action;
+			_actionUrl = actionUrl;
 			_id = id;
 			
 			// Get the original title
@@ -191,7 +193,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Planning applications
-		map: function ()
+		planningapplications: function ()
 		{
 			// Add geocoder control
 			streetfocus.search ('cyclestreets,planit');
@@ -266,7 +268,7 @@ var streetfocus = (function ($) {
 		// Function to reset the URL and title using HTML5 History pushState
 		resetUrl: function ()
 		{
-			var path = '/' + _action + '/';
+			var path = _actionUrl;
 			var title = _documentTitle;
 			streetfocus.updateUrl (path, title);
 		},
@@ -298,7 +300,7 @@ var streetfocus = (function ($) {
 		},
 		
 		
-		// Function to populate the popup
+		// Function to populate the planning applications map popup
 		populatePopupPlanningapplications: function (element, feature)
 		{
 			// Get the fuller data, syncronously
@@ -833,7 +835,7 @@ var streetfocus = (function ($) {
 			$('#details').html (popupHtml);
 			
 			// Update the URL using HTML5 History pushState
-			var path = '/' + _action + '/' + feature.properties[uniqueIdField] + '/';
+			var path = _actionUrl + feature.properties[uniqueIdField] + '/';
 			var title = _documentTitle + ': ' + streetfocus.truncateString (feature.properties[titleField], 40);
 			streetfocus.updateUrl (path, title);
 		},

@@ -42,7 +42,7 @@ class streetfocus
 				'description' => 'About',
 				'url' => '/about/',
 			),
-			'map' => array (
+			'planningapplications' => array (
 				'description' => 'Planning applications',
 				'url' => '/map/',
 			),
@@ -140,6 +140,7 @@ class streetfocus
 
 		# Assign the action, validating against the registry
 		$this->action = $_GET['action'];
+		if ($this->action == 'map') {$this->action = 'planningapplications';}	// Special case, to keep .htaccess rules simple
 		$this->actions = $this->actions ();
 		if (!isSet ($this->actions[$this->action])) {
 			$html = $this->page404 ();
@@ -250,7 +251,7 @@ class streetfocus
 	
 	
 	# Planning applications map page
-	private function map ()
+	private function planningapplications ()
 	{
 		# If an ID is specified, determine the map location, so that the item is present in the area data
 		if ($this->id) {
@@ -323,7 +324,7 @@ class streetfocus
 					mapboxApiKey: '{$this->settings['mapboxApiKey']}',
 					setLocation: '{$this->setLocation}'
 				};
-				streetfocus.initialise (config, '{$this->action}', '{$this->id}');
+				streetfocus.initialise (config, '{$this->action}', '{$this->actions[$this->action]['url']}', '{$this->id}');
 			});
 		");
 	}

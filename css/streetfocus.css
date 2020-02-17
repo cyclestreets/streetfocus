@@ -76,7 +76,7 @@ body .mapboxgl-map .mapboxgl-popup-content {line-height: 1.4;}
 
 /* Popups */
 #details {display: none; position: relative; width: auto; background-color: white; padding: 30px; z-index: 10;}
-body.map #details {margin-top: -480px; min-height: 420px /* 480-30-30 */;}
+body.planningapplications #details {margin-top: -480px; min-height: 420px /* 480-30-30 */;}
 body.proposals #details {margin-top: -330px; min-height: 270px /* 330-30-30 */;}
 
 /* Geocoder */
@@ -120,18 +120,18 @@ body.home #statistics div p {font-size: 32px; color: #3f74ba; font-weight: bold;
 
 /* Planning applications and proposals map pages */
 #introduction {padding: 0 30px 5px;}
-body.map #map {min-height: 600px;}
+body.planningapplications #map {min-height: 600px;}
 body.proposals #map {min-height: 450px;}
 
 /* Filtering controls */
-body.map div#filter {top: 20px; right: 20px;}
-body.map #filter p {line-height: 20px; font-family: 'PT Sans', sans-serif; font-size: 14px; vertical-align: middle; padding: 0; margin: 0;}
-body.map #filter p a {display: block; padding: 12px;}
-body.map #filter p a img {width: 21px; height: 24px; vertical-align: middle; padding: 0 5px 0 0; margin: 0; border: 0;}
-body.map #filtering {display: none; position: absolute; top: 100px; left: 0; width: auto; height: calc(100% - 100px); z-index: 10; background-color: white; padding: 30px;}
-body.map #filtering ul#app_state, body.map #filtering ul#app_type, body.map #filtering ul#app_size {list-style: none; margin: 0; padding: 0;}
-body.map #filtering ul#app_state li, body.map #filtering ul#app_type li, body.map #filtering ul#app_size li {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0 5px 0; border-radius: 6px;}
-body.map #filtering ul#app_type li label {color: white;}
+body.planningapplications div#filter {top: 20px; right: 20px;}
+body.planningapplications #filter p {line-height: 20px; font-family: 'PT Sans', sans-serif; font-size: 14px; vertical-align: middle; padding: 0; margin: 0;}
+body.planningapplications #filter p a {display: block; padding: 12px;}
+body.planningapplications #filter p a img {width: 21px; height: 24px; vertical-align: middle; padding: 0 5px 0 0; margin: 0; border: 0;}
+body.planningapplications #filtering {display: none; position: absolute; top: 100px; left: 0; width: auto; height: calc(100% - 100px); z-index: 10; background-color: white; padding: 30px;}
+body.planningapplications #filtering ul#app_state, body.planningapplications #filtering ul#app_type, body.planningapplications #filtering ul#app_size {list-style: none; margin: 0; padding: 0;}
+body.planningapplications #filtering ul#app_state li, body.planningapplications #filtering ul#app_type li, body.planningapplications #filtering ul#app_size li {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0 5px 0; border-radius: 6px;}
+body.planningapplications #filtering ul#app_type li label {color: white;}
 
 /* Close button in map panels */
 #mappanel div p.close {float: right; font-size: 30px; line-height: 10px; margin: 0; padding: 0;}
@@ -143,11 +143,11 @@ body.map #filtering ul#app_type li label {color: white;}
 #mappanel #collisions p {margin: 0; padding: 0; font-size: 14px;}
 
 /* Monitor */
-body.map #monitor {bottom: 45px; left: 20px; right: 20px;}
-body.map #monitor a {display: block; padding: 20px;}
-body.map #monitor img {float: left; width: 35px; padding: 10px 10px;}
-body.map #monitor h2, body.map #monitor p {margin: 0 0 0 80px; padding: 0;}
-body.map #monitor h2 {font-size: 16px; padding-bottom: 5px;}
+body.planningapplications #monitor {bottom: 45px; left: 20px; right: 20px;}
+body.planningapplications #monitor a {display: block; padding: 20px;}
+body.planningapplications #monitor img {float: left; width: 35px; padding: 10px 10px;}
+body.planningapplications #monitor h2, body.planningapplications #monitor p {margin: 0 0 0 80px; padding: 0;}
+body.planningapplications #monitor h2 {font-size: 16px; padding-bottom: 5px;}
 
 /* Map popups - reset default styles */
 #map.mapboxgl-map {font-family: inherit; font-size: inherit;}
