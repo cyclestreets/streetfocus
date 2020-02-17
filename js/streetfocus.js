@@ -198,9 +198,6 @@ var streetfocus = (function ($) {
 			// Add geocoder control
 			streetfocus.search ('cyclestreets,planit');
 			
-			// Set the layer ID
-			var layerId = 'planningapplications';
-			
 			// Add the planning applications layer, e.g. /api/applics/geojson?limit=30&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076&recent=188&app_type=Full,Trees
 			var apiBaseUrl = _settings.planitApiBaseUrl + '/applics/geojson';
 			var parameters = {
@@ -219,7 +216,7 @@ var streetfocus = (function ($) {
 			var value;
 			$.each ($("input[name='app_type']"), function () {
 				value = $(this).val ();
-				$(this).parent().parent().css ('background-color', _colours[layerId].values[value]);		// Two parents, as label surrounds
+				$(this).parent().parent().css ('background-color', _colours[_action].values[value]);		// Two parents, as label surrounds
 			});
 			
 			/*
@@ -230,11 +227,11 @@ var streetfocus = (function ($) {
 			*/
 			
 			// Add the data layer
-			streetfocus.addLayer (layerId, apiBaseUrl, parameters, '#filtering', null, 'name', 'description');
+			streetfocus.addLayer (apiBaseUrl, parameters, '#filtering', null, 'name', 'description');
 			
 			// Add collisions heatmap layer support
 			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
-			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson', layerId, 16);
+			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson', 16);
 		},
 		
 		
@@ -423,9 +420,6 @@ var streetfocus = (function ($) {
 			// Add geocoder control
 			streetfocus.search ('cyclescape,cyclestreets');
 			
-			// Set the layer ID
-			var layerId = 'proposals';
-			
 			// Define a callback function to filter out proposals which appear to be an imported planning application
 			var callback = function (data) {
 				var i = data.features.length;
@@ -440,11 +434,11 @@ var streetfocus = (function ($) {
 			// Add the proposals layer, e.g. /api/proposals?bbox=-0.127902%2C51.503486%2C-0.067091%2C51.512086
 			var apiBaseUrl = '/api/proposals';
 			var parameters = {};
-			streetfocus.addLayer (layerId, apiBaseUrl, parameters, null, callback, 'moniker', 'title');
+			streetfocus.addLayer (apiBaseUrl, parameters, null, callback, 'moniker', 'title');
 			
 			// Add collisions heatmap layer support
 			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
-			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson', layerId, 16);
+			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson', 16);
 		},
 		
 		
@@ -737,12 +731,12 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to add a data layer to the map
-		addLayer: function (layerId, apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField)
+		addLayer: function (apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField)
 		{
 			// Compile colour lists
 			var colourPairs = [];
-			if (_colours[layerId]) {
-				$.each (_colours[layerId].values, function (key, value) {
+			if (_colours[_action]) {
+				$.each (_colours[_action].values, function (key, value) {
 					colourPairs.push (key);
 					colourPairs.push (value);
 				});
@@ -750,7 +744,7 @@ var streetfocus = (function ($) {
 			
 			// Add the source and layer
 			_map.addLayer ({
-				id: layerId,
+				id: _action,
 				type: 'circle',
 				source: {
 					type: 'geojson',
@@ -763,10 +757,10 @@ var streetfocus = (function ($) {
 				paint: {
 					'circle-radius': 20,
 					'circle-color': (
-						_colours[layerId]
+						_colours[_action]
 						? [
 							'match',
-							['get', _colours[layerId].field],
+							['get', _colours[_action].field],
 							...colourPairs,
 							'#ffc300'
 						]
@@ -776,11 +770,11 @@ var streetfocus = (function ($) {
 			});
 			
 			// Register popup handler
-			_map.on ('click', layerId, function (e) {
+			_map.on ('click', _action, function (e) {
 				var feature = e.features[0];
 				
 				// Create the popup
-				streetfocus.createPopup (feature, layerId, uniqueIdField, titleField);
+				streetfocus.createPopup (feature, uniqueIdField, titleField);
 				
 				// Prevent further event propagation, resulting in the map close event auto-closing the panel immediately
 				e.stopPropagation ();
@@ -790,10 +784,10 @@ var streetfocus = (function ($) {
 			streetfocus.panelClosing ('#details');
 			
 			// Change the cursor to a pointer when over a point
-			_map.on ('mouseenter', layerId, function () {
+			_map.on ('mouseenter', _action, function () {
 				_map.getCanvas().style.cursor = 'pointer';
 			});
-			_map.on ('mouseleave', layerId, function () {
+			_map.on ('mouseleave', _action, function () {
 				_map.getCanvas().style.cursor = '';
 			});
 			
@@ -802,27 +796,27 @@ var streetfocus = (function ($) {
 			$('#loading').html ('<img src="/images/ui-anim_basic_16x16.gif" />');
 			
 			// Get the data
-			streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField);
+			streetfocus.addData (apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField);
 			
 			// Register to update on map move and form changes
 			_map.on ('moveend', function (e) {
-				streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath, callback);
+				streetfocus.addData (apiBaseUrl, parameters, filteringFormPath, callback);
 			});
 			
 			// If a form is set to be scanned, update on change
 			if (filteringFormPath) {
 				$(filteringFormPath + ' :input').click (function (e) {
-					streetfocus.addData (layerId, apiBaseUrl, parameters, filteringFormPath, callback);
+					streetfocus.addData (apiBaseUrl, parameters, filteringFormPath, callback);
 				});
 			}
 		},
 		
 		
 		// Function to create a popup
-		createPopup: function (feature, layerId, uniqueIdField, titleField)
+		createPopup: function (feature, uniqueIdField, titleField)
 		{
 			// Substitute the content
-			var popupFunction = 'populatePopup' + streetfocus.ucfirst (layerId);
+			var popupFunction = 'populatePopup' + streetfocus.ucfirst (_action);
 			streetfocus[popupFunction] ('#popupcontent', feature);
 			
 			// Get the HTML
@@ -842,7 +836,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to load the data for a layer
-		addData: function (layerId, apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField)
+		addData: function (apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField)
 		{
 			// Get the map BBOX
 			var bbox = _map.getBounds();
@@ -871,7 +865,7 @@ var streetfocus = (function ($) {
 					}
 				},
 				success: function (data, textStatus, jqXHR) {
-					streetfocus.showCurrentData (layerId, data, callback, uniqueIdField, titleField);
+					streetfocus.showCurrentData (data, callback, uniqueIdField, titleField);
 					$('#loading').hide ();
 				}
 			});
@@ -879,7 +873,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to add a heatmap layer
-		addHeatmapLayer: function (layerId, datasource, beforeLayerId, preferredZoom)
+		addHeatmapLayer: function (layerId, datasource, preferredZoom)
 		{
 			// Add the data source
 			_map.addSource (layerId, {
@@ -947,7 +941,7 @@ var streetfocus = (function ($) {
 					},
 					*/
 				}
-			}, beforeLayerId);
+			}, _action);
 			
 			// Handle visibility
 			$('#' + layerId).click (function (e) {
@@ -1091,7 +1085,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to show the data for a layer
-		showCurrentData: function (layerId, data, callback, uniqueIdField, titleField)
+		showCurrentData: function (data, callback, uniqueIdField, titleField)
 		{
 			// If the layer has lines or polygons, reduce to point
 			var centre;
@@ -1109,14 +1103,14 @@ var streetfocus = (function ($) {
 			}
 			
 			// Set the data
-			_map.getSource (layerId).setData (data);
+			_map.getSource (_action).setData (data);
 			
 			// If an ID is specified, and is present in the data, open its popup
 			if (uniqueIdField) {	// If specified, which happens only for the initial loading state
 				if (_id) {
 					$.each (data.features, function (index, feature) {
 						if (feature.properties[uniqueIdField] == _id) {
-							streetfocus.createPopup (feature, layerId, uniqueIdField, titleField);
+							streetfocus.createPopup (feature, uniqueIdField, titleField);
 						}
 					});
 				}
