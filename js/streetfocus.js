@@ -455,7 +455,7 @@ var streetfocus = (function ($) {
 			$(element + ' h2.title').text (feature.properties.title);
 			$(element + ' p.link a').attr ('href', feature.properties.link);
 			$(element + ' div.description').html (feature.properties.description);		// Will be paragraph(s) of HTML
-			if (feature.properties.image) {
+			if (feature.properties.image !== 'null') {
 				$(element + ' p.image img').attr ('src', feature.properties.image);
 			} else {
 				$(element + ' p.image').hide ();
