@@ -175,6 +175,14 @@ class streetfocus
 		# Perform the action, which will write into the page template array
 		$this->{$this->action} ();
 		
+		# If not logged in, set the login return-to link
+		$this->template['_returnToUrl'] = false;
+		if (!$this->user) {
+			if ($this->action != 'login') {
+				$this->template['_returnToUrl'] = '?' . $this->actions[$this->action]['url'];
+			}
+		}
+		
 		# End if the action is a data URL rather than a templatised page
 		if (isSet ($this->actions[$this->action]['data']) && $this->actions[$this->action]['data']) {return;}
 		
