@@ -405,7 +405,7 @@ var streetfocus = (function ($) {
 			// Convert to HTML
 			var listItems = [];
 			$.each (keyDocuments, function (index, document) {
-				listItems.push ('<li><a href="' + document.doc_url + '" target="_blank">' + document.doc_type + '</li>');
+				listItems.push ('<li><a href="' + document.doc_url + '" target="_blank">' + document.doc_type + '</a></li>');
 			});
 			var listItemsHtml = listItems.join ("\n");
 			
