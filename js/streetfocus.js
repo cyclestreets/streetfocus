@@ -373,15 +373,27 @@ var streetfocus = (function ($) {
 					}
 				}
 				
-				// Open the main all documents URL, and self-close after 5 seconds (assumed to be enough time - cannot detect onload for another site)
-				var newWindow = window.open (allDocumentsUrl, 'idoxWorkaround', 'toolbar=1,location=1,directories=1,status=1,menubar=1,scrollbars=1,resizable=1');
-				window.focus ();	// Regain focus of main window
-				setTimeout(function () {
-					streetfocus.setCookie (cookieName, applicationId, 1);
-					newWindow.close();
-				}, 5000);
+				// Obtain the clicked document URL
+				var documentUrl = e.target.href;
 				
-				// Browsers will probably show a popup warning, as second link; users can then accept or just retry the link
+				// Open both windows
+				var newWindow = window.open (allDocumentsUrl, '_blank');
+				var count = 0;
+				var interval = setInterval (function () {
+					count += 1;
+					if (newWindow.document.readyState === 'complete') {
+						
+						// Now that the page has loaded, now wait for the cookie to be transferred, and then finally load the required document
+						setTimeout (function () {
+							newWindow.location.href = documentUrl;
+							clearInterval (interval);	// Cancel timer
+							streetfocus.setCookie (cookieName, applicationId, 1);	// Set the local cookie
+						}, 3000);
+						
+					} else if (count >= 500) {
+						clearInterval (interval);	// Cancel timer
+					}
+				}, 100);
 			});
 		},
 		
