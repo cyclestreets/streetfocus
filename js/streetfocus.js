@@ -371,7 +371,7 @@ var streetfocus = (function ($) {
 			$(element + ' ul.status li.state').text (feature.properties.app_state + ' application');
 			$(element + ' ul.status li.size').text ((feature.properties.app_size ? feature.properties.app_size + ' development' : 'Unknown size'));
 			$(element + ' ul.status li.type').text (feature.properties.app_type);
-			$(element + ' p.date').text (streetfocus.consultationDate (feature));
+			$(element + ' p.date').html (streetfocus.consultationDate (feature));
 			$(element + ' .title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 40)));
 			$(element + ' div.description p').html (streetfocus.htmlspecialchars (feature.properties.description));
 			$(element + ' div.documents ul').html (keyDocumentsHtml);
@@ -431,7 +431,7 @@ var streetfocus = (function ($) {
 			}
 			
 			// Construct the string, as the label with the date
-			var consultationDateString = latestConsultationDateFieldLabel + ': ' + latestConsultationDateFormatted + daysRemaining;
+			var consultationDateString = latestConsultationDateFieldLabel + ':&nbsp; ' + latestConsultationDateFormatted + daysRemaining;
 			
 			// Return the result
 			return consultationDateString;
