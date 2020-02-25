@@ -61,6 +61,19 @@ var streetfocus = (function ($) {
 			}
 		}
 	};
+	var _states = {
+		planningapplications: {
+			field: 'app_state',
+			values: {
+				'Undecided':	1,
+				'Permitted':	0.3,
+				'Conditions':	1,
+				'Rejected':		0.3,
+				'Withdrawn':	0.1,
+				'Other':		1
+			}
+		}
+	};
 	var _keyTypes = [
 		'Design and Access Statement',
 	];
@@ -775,6 +788,7 @@ var streetfocus = (function ($) {
 			// Compile colour lists and size lists
 			var colourPairs = streetfocus.compilePairs (_colours);
 			var sizePairs = streetfocus.compilePairs (_sizes);
+			var statesPairs = streetfocus.compilePairs (_states);
 			
 			// Add the source and layer
 			_map.addLayer ({
@@ -789,7 +803,6 @@ var streetfocus = (function ($) {
 					}
 				},
 				paint: {
-					'circle-radius': 20,
 					'circle-radius': (
 						_sizes[_action]
 						? [
@@ -809,6 +822,16 @@ var streetfocus = (function ($) {
 							'#ffc300'
 						]
 						: '#ffc300'
+					),
+					'circle-opacity': (
+						_states[_action]
+						? [
+							'match',
+							['get', _states[_action].field],
+							...statesPairs,
+							_states[_action].values['Undecided']
+						]
+						: _states[_action].values['Undecided']
 					)
 				}
 			});
