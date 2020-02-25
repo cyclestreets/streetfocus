@@ -339,7 +339,7 @@ var streetfocus = (function ($) {
 			$(element + ' p.link a').attr ('href', vendorLinks.comments);
 			$(element + ' p.officialplans a').attr ('href', feature.properties.url);
 			$(element + ' ul.status li.state').text (feature.properties.app_state + ' application');
-			$(element + ' ul.status li.size').text (feature.properties.app_size + ' development');
+			$(element + ' ul.status li.size').text ((feature.properties.app_size ? feature.properties.app_size + ' development' : 'Unknown size'));
 			$(element + ' ul.status li.type').text (feature.properties.app_type);
 			$(element + ' p.date span.type').text ( (feature.properties.app_state == 'Undecided' ? 'Deadline' : 'Date closed') );
 			$(element + ' p.date span.when').text ('X weeks from ' + feature.properties.start_date);
