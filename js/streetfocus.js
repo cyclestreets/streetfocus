@@ -765,23 +765,6 @@ var streetfocus = (function ($) {
 		},
 		
 		
-		// Function to compile configuration pairs for use in a style definition
-		compilePairs (property)
-		{
-			// Add each key and value to a list
-			var pairs = [];
-			if (property[_action]) {
-				$.each (property[_action].values, function (key, value) {
-					pairs.push (key);
-					pairs.push (value);
-				});
-			}
-			
-			// Return the pairs
-			return pairs;
-		},
-		
-		
 		// Function to add a data layer to the map
 		addLayer: function (apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField)
 		{
@@ -876,6 +859,23 @@ var streetfocus = (function ($) {
 					streetfocus.addData (apiBaseUrl, parameters, filteringFormPath, callback);
 				});
 			}
+		},
+		
+		
+		// Function to compile configuration pairs for use in a style definition
+		compilePairs (property)
+		{
+			// Add each key and value to a list
+			var pairs = [];
+			if (property[_action]) {
+				$.each (property[_action].values, function (key, value) {
+					pairs.push (key);
+					pairs.push (value);
+				});
+			}
+			
+			// Return the pairs
+			return pairs;
 		},
 		
 		
