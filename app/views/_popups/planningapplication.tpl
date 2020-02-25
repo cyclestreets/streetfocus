@@ -17,7 +17,7 @@
 		<p>Description</p>
 	</div>
 	
-	<p class="date"><span class="type">Deadline</span>: <span class="when">days remaining</span></p>
+	<p class="date"></p>
 	
 	<p class="link calltoaction"><a href="#" target="_blank">Respond to this consultation <img src="/images/offsite-white.png" /></a></p>
 	

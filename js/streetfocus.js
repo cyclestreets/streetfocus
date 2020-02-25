@@ -371,8 +371,7 @@ var streetfocus = (function ($) {
 			$(element + ' ul.status li.state').text (feature.properties.app_state + ' application');
 			$(element + ' ul.status li.size').text ((feature.properties.app_size ? feature.properties.app_size + ' development' : 'Unknown size'));
 			$(element + ' ul.status li.type').text (feature.properties.app_type);
-			$(element + ' p.date span.type').text ( (feature.properties.app_state == 'Undecided' ? 'Deadline' : 'Date closed') );
-			$(element + ' p.date span.when').text ('X weeks from ' + feature.properties.start_date);
+			$(element + ' p.date').text (streetfocus.consultationDate (feature));
 			$(element + ' .title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 40)));
 			$(element + ' div.description p').html (streetfocus.htmlspecialchars (feature.properties.description));
 			$(element + ' div.documents ul').html (keyDocumentsHtml);
@@ -382,6 +381,44 @@ var streetfocus = (function ($) {
 			
 			// For IDOX-based areas, work around the cookie bug
 			streetfocus.idoxWorkaroundCookie (vendorLinks.documents, feature.properties.name);
+		},
+		
+		
+		// Function to determine the consultation date
+		consultationDate: function (feature)
+		{
+			// Define available fields in the data, and their labels
+			var consultationDateFields = {
+				'consultation_end_date'				: 'Consultation end date',
+				'neighbour_consultation_end_date'	: 'Neighbour consultation end date',
+				'site_notice_end_date'				: 'Site notice end date'
+			};
+			
+			// Determine the latest of the fields, allocating the date and the label
+			var latestConsultationDate = '';	// String comparison will be done for each date field value
+			var latestConsultationDateFieldLabel = 'Deadline';
+			$.each (consultationDateFields, function (consultationDateField, consultationDateFieldLabel) {
+				if (feature.properties.other_fields.hasOwnProperty (consultationDateField)) {
+					if (feature.properties.other_fields[consultationDateField] > latestConsultationDate) {
+						latestConsultationDate = feature.properties.other_fields[consultationDateField];
+						latestConsultationDateFieldLabel = consultationDateFieldLabel;
+					}
+				}
+			});
+			
+			// Convert the date to a human-readable string
+			var latestConsultationDateFormatted = (latestConsultationDate ? new Date (latestConsultationDate).toDateString () : '?');
+			
+			// If the application is past, set the label to be closed
+			if (feature.properties.app_state != 'Undecided') {
+				latestConsultationDateFieldLabel = 'Date closed';
+			}
+			
+			// Construct the string, as the label with the date
+			var consultationDateString = latestConsultationDateFieldLabel + ': ' + latestConsultationDateFormatted;
+			
+			// Return the result
+			return consultationDateString;
 		},
 		
 		
