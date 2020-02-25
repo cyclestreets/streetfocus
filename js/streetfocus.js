@@ -379,7 +379,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Workaround for IDOX-based areas, requiring a cookie for the main documents list first
-		idoxWorkaroundCookie (allDocumentsUrl, applicationId)
+		idoxWorkaroundCookie: function (allDocumentsUrl, applicationId)
 		{
 			// End if not IDOX
 			if (!allDocumentsUrl.search(/activeTab=documents/)) {return;}
