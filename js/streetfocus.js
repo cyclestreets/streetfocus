@@ -742,17 +742,28 @@ var streetfocus = (function ($) {
 		},
 		
 		
+		// Function to compile configuration pairs for use in a style definition
+		compilePairs (property)
+		{
+			// Add each key and value to a list
+			var pairs = [];
+			if (property[_action]) {
+				$.each (property[_action].values, function (key, value) {
+					pairs.push (key);
+					pairs.push (value);
+				});
+			}
+			
+			// Return the pairs
+			return pairs;
+		},
+		
+		
 		// Function to add a data layer to the map
 		addLayer: function (apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField)
 		{
-			// Compile colour lists
-			var colourPairs = [];
-			if (_colours[_action]) {
-				$.each (_colours[_action].values, function (key, value) {
-					colourPairs.push (key);
-					colourPairs.push (value);
-				});
-			}
+			// Compile colour lists and size lists
+			var colourPairs = streetfocus.compilePairs (_colours);
 			
 			// Add the source and layer
 			_map.addLayer ({
