@@ -51,6 +51,16 @@ var streetfocus = (function ($) {
 			}
 		}
 	};
+	var _sizes = {
+		planningapplications: {
+			field: 'app_size',
+			values: {
+				'Small':		8,
+				'Medium':		15,
+				'Large':		25
+			}
+		}
+	};
 	var _keyTypes = [
 		'Design and Access Statement',
 	];
@@ -764,6 +774,7 @@ var streetfocus = (function ($) {
 		{
 			// Compile colour lists and size lists
 			var colourPairs = streetfocus.compilePairs (_colours);
+			var sizePairs = streetfocus.compilePairs (_sizes);
 			
 			// Add the source and layer
 			_map.addLayer ({
@@ -779,6 +790,16 @@ var streetfocus = (function ($) {
 				},
 				paint: {
 					'circle-radius': 20,
+					'circle-radius': (
+						_sizes[_action]
+						? [
+							'match',
+							['get', _sizes[_action].field],
+							...sizePairs,
+							_sizes[_action].values['Medium']
+						]
+						: _sizes[_action].values['Medium']
+					),
 					'circle-color': (
 						_colours[_action]
 						? [
