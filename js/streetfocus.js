@@ -357,6 +357,13 @@ var streetfocus = (function ($) {
 			// Determine the key documents list
 			var keyDocumentsHtml = streetfocus.keyDocuments (feature.properties.docs);
 			
+			// Hide the call to action if already decided/withdrawn/etc.
+			if (feature.properties.app_state == 'Undecided') {
+				$(element + ' p.link').show ();
+			} else {
+				$(element + ' p.link').hide ();
+			}
+			
 			// Populate the HTML content
 			$(element + ' p.applicationId').html (feature.properties.uid);
 			$(element + ' p.link a').attr ('href', vendorLinks.comments);
