@@ -414,8 +414,24 @@ var streetfocus = (function ($) {
 				latestConsultationDateFieldLabel = 'Date closed';
 			}
 			
+			// Determine number of days before the consultation closes
+			var daysRemaining = '';
+			if (latestConsultationDate) {
+				var today = new Date();
+				var closeDate = new Date(latestConsultationDate);
+				var timeDifference = closeDate.setHours(0,0,0,0) - today.setHours(0,0,0,0);		// setHours forces each to midday and casts to Unix timestamp
+				var daysDifference = timeDifference / (1000 * 3600 * 24);
+				if (daysDifference >= 0) {
+					switch (daysDifference) {
+						case 0:  daysRemaining = ' (today)'; break;
+						case 1:  daysRemaining = ' (tomorrow)'; break;
+						default: daysRemaining = ' (' + daysDifference + ' days remaining)';
+					}
+				}
+			}
+			
 			// Construct the string, as the label with the date
-			var consultationDateString = latestConsultationDateFieldLabel + ': ' + latestConsultationDateFormatted;
+			var consultationDateString = latestConsultationDateFieldLabel + ': ' + latestConsultationDateFormatted + daysRemaining;
 			
 			// Return the result
 			return consultationDateString;
