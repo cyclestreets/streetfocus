@@ -391,7 +391,8 @@ var streetfocus = (function ($) {
 			var consultationDateFields = {
 				'consultation_end_date'				: 'Consultation end date',
 				'neighbour_consultation_end_date'	: 'Neighbour consultation end date',
-				'site_notice_end_date'				: 'Site notice end date'
+				'site_notice_end_date'				: 'Site notice end date',
+				'latest_advertisement_expiry_date'	: 'Latest advertisement expiry date'
 			};
 			
 			// Determine the latest of the fields, allocating the date and the label
