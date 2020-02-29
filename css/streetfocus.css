@@ -88,7 +88,7 @@ body.proposals #details {margin-top: -330px; min-height: 270px /* 330-30-30 */;}
 /* Geolocation */
 #map .mapboxgl-ctrl-geolocate {display: none;}	/* Hide native */
 #geocoder #geolocation {width: 50px; height: 50px; float: left;}
-body.home #geocoder #geolocation {animation: pulse 2s infinite;}
+body.home #geocoder #geolocation {animation: pulse 1s infinite;}
 @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
 
 /* Geocoder autocomplete */
