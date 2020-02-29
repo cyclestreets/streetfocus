@@ -514,7 +514,7 @@ var streetfocus = (function ($) {
 		proposals: function ()
 		{
 			// Add geocoder control
-			streetfocus.search ('cyclescape,geocoder');
+			streetfocus.search ('geocoder');
 			
 			// Define a callback function to filter out proposals which appear to be an imported planning application
 			var callback = function (data) {
