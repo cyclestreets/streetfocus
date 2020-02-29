@@ -847,16 +847,6 @@ var streetfocus = (function ($) {
 					}
 				},
 				paint: {
-					'circle-radius': (
-						_sizes[_action]
-						? [
-							'match',
-							['get', _sizes[_action].field],
-							...sizePairs,
-							_sizes[_action].values['Medium']
-						]
-						: 15
-					),
 					'circle-color': (
 						_colours[_action]
 						? [
@@ -866,6 +856,16 @@ var streetfocus = (function ($) {
 							'#ffc300'
 						]
 						: '#ffc300'
+					),
+					'circle-radius': (
+						_sizes[_action]
+						? [
+							'match',
+							['get', _sizes[_action].field],
+							...sizePairs,
+							_sizes[_action].values['Medium']
+						]
+						: 15
 					),
 					'circle-opacity': (
 						_states[_action]
