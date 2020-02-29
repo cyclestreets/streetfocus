@@ -55,8 +55,8 @@ var streetfocus = (function ($) {
 		planningapplications: {
 			field: 'app_size',
 			values: {
-				'Small':		8,
-				'Medium':		15,
+				'Small':		11,
+				'Medium':		18,
 				'Large':		25
 			}
 		}
