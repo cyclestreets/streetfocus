@@ -593,6 +593,9 @@ class streetfocus
 		$features = array ();
 		foreach ($issues['features'] as $issue) {
 			
+			# Skip issues which appear to be planning applications
+			if (in_array ('planning', $issue['properties']['tags'])) {continue;}
+			
 			# Convert geometry to BBOX and centrepoint
 			$centroid = $this->getCentre ($issue['geometry'], $bbox /* returned by reference */);
 			
