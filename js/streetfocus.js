@@ -576,6 +576,7 @@ var streetfocus = (function ($) {
 				zoom: initialLocation.zoom,
 				pitch: initialLocation.pitch,
 				bearing: initialLocation.bearing,
+				maxZoom: 17,
 				hash: true
 			});
 			
@@ -809,7 +810,7 @@ var streetfocus = (function ($) {
 						
 					// Otherwise, pan the map
 					} else {
-						_map.fitBounds(bbox, {maxZoom: 17});
+						_map.fitBounds(bbox);
 						event.preventDefault();
 					}
 				}
@@ -1014,7 +1015,6 @@ var streetfocus = (function ($) {
 				id: layerId,
 				type: 'heatmap',
 				source: layerId,
-				maxzoom: 17,
 				'layout': {
 					'visibility': 'none'
 				},
