@@ -627,13 +627,13 @@ class streetfocus
 	# Helper function to get CycleStreets Photomap issues within a BBOX
 	private function getCyclestreetsIssues ($bbox)
 	{
-		# Search the CycleStreets Photomap, e.g. /v2/photomap.locations?fields=id,title,caption,thumbnailUrl,url,tags,datetime&limit=150&thumbnailsize=300&category=cycleparking&metacategory=bad&bbox=0.137134,52.202825,0.152265,52.205950
+		# Search the CycleStreets Photomap, e.g. /v2/photomap.locations?fields=id,title,caption,thumbnailUrl,url,tags,datetime&limit=150&thumbnailsize=800&category=cycleparking&metacategory=bad&bbox=0.137134,52.202825,0.152265,52.205950
 		$url = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/photomap.locations';
 		$parameters = array (
 			'key'			=> $this->settings['cyclestreetsApiKey'],
 			'fields'		=> 'id,title,caption,thumbnailUrl,url,tags,datetime',
 			'limit'			=> 150,
-			'thumbnailsize'	=> 300,
+			'thumbnailsize'	=> 800,
 			'category'		=> 'cycleparking',		// #!# Need to opt-in other categories, e.g. obstructions, pending API support for multiple categories
 			'metacategory'	=> 'bad',
 			'bbox'			=> $bbox,
