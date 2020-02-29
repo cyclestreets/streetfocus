@@ -426,7 +426,7 @@ class streetfocus
 			}
 		}
 		
-		# If cyclescape issues is a specified datasource, search for an ID first
+		# Cyclescape issues search
 		if (in_array ('cyclescape', $sources)) {
 			$data['features'] += $this->searchCyclescape ($q);
 		}
@@ -565,6 +565,9 @@ class streetfocus
 		# Get the Cyclescape issues within the specified BBOX
 		$data['features'] += $this->getCyclescapeIssues ($bbox);
 		
+		# Get the CycleStreets Photomap issues within the specified BBOX
+		$data['features'] += $this->getCyclestreetsIssues ($bbox);
+		
 		# If signed in as an administrator, get the external issues within the specified BBOX
 		if ($this->userIsAdministrator) {
 			$data['features'] = array_merge ($data['features'], $this->getExternalIssues ($bbox));
@@ -607,6 +610,57 @@ class streetfocus
 					'categories'		=> $issue['properties']['tags'],
 					'address'			=> NULL,
 					'when'				=> $issue['properties']['created_at'],
+					'bbox'				=> $bbox,
+				),
+				'geometry'	=> array (
+					'type'			=> 'Point',
+					'coordinates'	=> array ($centroid['lon'], $centroid['lat']),
+				),
+			);
+		}
+		
+		# Return the features
+		return $features;
+	}
+	
+	
+	# Helper function to get CycleStreets Photomap issues within a BBOX
+	private function getCyclestreetsIssues ($bbox)
+	{
+		# Search the CycleStreets Photomap, e.g. /v2/photomap.locations?fields=id,title,caption,thumbnailUrl,url,tags,datetime&limit=150&thumbnailsize=300&category=cycleparking&metacategory=bad&bbox=0.137134,52.202825,0.152265,52.205950
+		$url = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/photomap.locations';
+		$parameters = array (
+			'key'			=> $this->settings['cyclestreetsApiKey'],
+			'fields'		=> 'id,title,caption,thumbnailUrl,url,tags,datetime',
+			'limit'			=> 150,
+			'thumbnailsize'	=> 300,
+			'category'		=> 'cycleparking',		// #!# Need to opt-in other categories, e.g. obstructions, pending API support for multiple categories
+			'metacategory'	=> 'bad',
+			'bbox'			=> $bbox,
+		);
+		$issues = $this->getApiData ($url, $parameters);
+		
+		# Simplify the output, converting geometries to Point, and removing non-needed properties
+		$features = array ();
+		foreach ($issues['features'] as $issue) {
+			
+			# Convert geometry to BBOX and centrepoint
+			$centroid = $this->getCentre ($issue['geometry'], $bbox /* returned by reference */);
+			
+			# Register this feature
+			$features[] = array (
+				'type'			=> 'Feature',
+				'properties'	=> array (
+					'id'				=> $issue['properties']['id'],
+					'moniker'			=> 'cyclestreets/' . $issue['properties']['id'],
+					'source'			=> 'CycleStreets',
+					'title'				=> $issue['properties']['title'],
+					'description'		=> $issue['properties']['caption'],
+					'image'				=> $issue['properties']['thumbnailUrl'],
+					'link'				=> $issue['properties']['url'],
+					'categories'		=> $issue['properties']['tags'],
+					'address'			=> NULL,
+					'when'				=> $issue['properties']['datetime'],
 					'bbox'				=> $bbox,
 				),
 				'geometry'	=> array (
