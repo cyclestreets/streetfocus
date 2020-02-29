@@ -855,7 +855,7 @@ var streetfocus = (function ($) {
 							...sizePairs,
 							_sizes[_action].values['Medium']
 						]
-						: _sizes[_action].values['Medium']
+						: 15
 					),
 					'circle-color': (
 						_colours[_action]
@@ -875,7 +875,7 @@ var streetfocus = (function ($) {
 							...statesPairs,
 							_states[_action].values['Undecided']
 						]
-						: _states[_action].values['Undecided']
+						: 1
 					)
 				}
 			});
