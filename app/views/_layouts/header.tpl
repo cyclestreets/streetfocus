@@ -34,7 +34,7 @@
 				<img src="/images/hamburger.png" />
 				<ul>
 					<li class="{($_action == 'home') ? 'selected ' : ''}mobile"><a href="/">Home</a></li>
-					<li{($_action == 'map') ? ' class="selected"' : ''}><a href="/map/">Planning applications</a></li>
+					<li{($_action == 'planningapplications') ? ' class="selected"' : ''}><a href="/map/">Planning applications</a></li>
 					<li{($_action == 'proposals') ? ' class="selected"' : ''}><a href="/proposals/">Proposals</a></li>
 					<li{($_action == 'my') ? ' class="selected"' : ''}><a href="/my/">Monitor areas</a></li>
 					<li{($_action == 'blog') ? ' class="selected"' : ''}><a href="/blog/">Blog</a></li>
