@@ -431,9 +431,9 @@ class streetfocus
 			$data['features'] += $this->searchCyclescape ($q);
 		}
 		
-		# Geocode search
-		if (in_array ('cyclestreets', $sources)) {
-			$data['features'] += $this->searchCycleStreets ($q);
+		# Geocoder search
+		if (in_array ('geocoder', $sources)) {
+			$data['features'] += $this->searchGeocoder ($q);
 		}
 		
 		# Return the response
@@ -528,8 +528,8 @@ class streetfocus
 	}
 	
 	
-	# Helper function to do CycleStreets geocoder search
-	private function searchCycleStreets ($q)
+	# Helper function to do geocoder search (part of the CycleStreets API suite)
+	private function searchGeocoder ($q)
 	{
 		# Assemble the request
 		$url = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/geocoder';

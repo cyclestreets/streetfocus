@@ -189,7 +189,7 @@ var streetfocus = (function ($) {
 		home: function ()
 		{
 			// Add geocoder control
-			streetfocus.search ('cyclestreets,planit', '/map/');
+			streetfocus.search ('geocoder,planit', '/map/');
 			
 			// Add geolocation
 			$('#geolocation, #staticmap a').on ('click', function (e) {
@@ -219,7 +219,7 @@ var streetfocus = (function ($) {
 		planningapplications: function ()
 		{
 			// Add geocoder control
-			streetfocus.search ('cyclestreets,planit');
+			streetfocus.search ('geocoder,planit');
 			
 			// Add the planning applications layer, e.g. /api/applics/geojson?limit=30&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076&recent=188&app_type=Full,Trees
 			var apiBaseUrl = _settings.planitApiBaseUrl + '/applics/geojson';
@@ -514,7 +514,7 @@ var streetfocus = (function ($) {
 		proposals: function ()
 		{
 			// Add geocoder control
-			streetfocus.search ('cyclescape,cyclestreets');
+			streetfocus.search ('cyclescape,geocoder');
 			
 			// Define a callback function to filter out proposals which appear to be an imported planning application
 			var callback = function (data) {
