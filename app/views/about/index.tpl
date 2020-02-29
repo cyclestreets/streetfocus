@@ -2,7 +2,6 @@
 
 <p><img class="banner" src="/images/streetscene.jpg" alt="High-quality street scene" /></p>
 
-<p><em>StreetFocus is a new project created by <strong>CycleStreets</strong>, a social enterprise in Cambridge, and which is funded by the <strong>Geospatial Commission / Innovate UK</strong>. [<a href="https://www.gov.uk/government/news/funding-awarded-to-innovative-data-projects">Press release.</a>] </em></p>
 <p>Throughout the UK, public street infrastructure fails to meet the standards of the best European cities. Public space is dominated by fast-moving vehicles, rather than being beautiful and practical places that people can enjoy. Streets are often shabby, with potential improvements starved by lack of funds. At the same time, communities increasingly feel left out of decision-making. New developments are often a source of dispute, rather than seen as opportunities to fulfil long-desired improvements to an area.</p>
 <p><strong>StreetFocus aims to enable Local Authorities and communities to achieve improvements to their streets by automatically identifying where desired improvements could be funded by developers, to mutual benefit. It would combine two new sources of data to enable planning gain.</strong></p>
 <p>Time and time again, opportunities for street improvements are lost because local government is too disparate. Moreover, there is no way for local communities to register future desires in a systematic way. A planning officer considering a proposed new commercial estate is unlikely to be aware that transport groups have been pushing for a safe cycleway on the adjacent road for instance. Likewise, a Highway Authority may be unaware of proposals that could fund accessibility from an existing estate to the nearby park and thus increase physical activity and reduce crime.</p>
@@ -19,3 +18,11 @@
 	<li>Involve the public in a more productive way, and at an earlier stage, by enabling their existing ideas to be matched up with active proposals for development, so that improvements to the public realm can be achieved through planning gain;</li>
 	<li>enhancing public sector data, thereby increasing taxpayer value for money.</li>
 </ul>
+
+<h2>Acknowledgements</h2>
+<p>StreetFocus is a project created by <a href="https://www.cyclestreets.net/" target="_blank"><strong>CycleStreets</strong></a>, a social enterprise based in Cambridge, working in collaboration with <a href="https://www.planit.org.uk/" target="_blank">PlanIt</a>.</p>
+<p>StreetFocus has been made possible thanks to funding from:</p>
+<p id="funders">
+	<a href="https://www.gov.uk/government/news/funding-awarded-to-innovative-data-projects" target="_blank"><img src="/images/innovateuk.png" alt="Innovate UK" /></a>
+	<a href="https://www.scambs.gov.uk/community-development/grants/zero-carbon-communities-grant/" target="_blank"><img src="/images/southcambs.jpg" alt="South Cambridgeshire District Council Zero Carbon Communities Grant" /></a>
+</p>

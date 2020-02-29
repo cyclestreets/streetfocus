@@ -119,6 +119,9 @@ body.home #statistics div {padding: 0; margin: 0; display: inline-block; width: 
 body.home #statistics div h3 {font-family: 'Fjalla One', sans-serif; margin: 0; padding: 0; font-size: 14px; line-height: 22px;}
 body.home #statistics div p {font-size: 32px; color: #3f74ba; font-weight: bold; margin: 0; padding: 0;}
 
+/* About page */
+body.about p#funders img {height: 100px; border: 1px solid #ddd; padding: 15px 25px; margin-right: 20px; margin-bottom: 15px;}
+
 /* Planning applications and proposals map pages */
 #introduction {padding: 0 30px 5px;}
 body.planningapplications #map {min-height: 600px;}
