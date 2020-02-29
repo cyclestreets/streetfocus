@@ -25,10 +25,10 @@ header #logo {width: 130px; border: 0; float: left;}
 header nav {float: right;}
 header nav ul {list-style: none; margin: 0; padding: 0;}
 header nav ul li {display: inline; vertical-align: middle; margin-right: 5px; text-transform: uppercase; font-family: 'Fjalla One', sans-serif; color: #191818; font-size: 18px;}
-header nav ul li a {display: inline-block; padding: 6px 10px;}
+header nav ul li a {display: inline-block; padding: 6px 10px; border-bottom: 2px solid white;}
 header nav ul li a:hover {background-color: #f7f7f7;}
 header nav ul li.mobile {display: none;}
-header nav ul li.selected a {border-bottom: 2px solid #ddd;}
+header nav ul li.selected a {border-color: #ddd;}
 header nav ul li.login a {margin-left: 12px; border: 1px solid #3f74ba; border-radius: 4px; padding: 4px 16px; font-family: 'PT Sans', sans-serif; text-transform: none; font-size: 14px; color: #3f74ba;}
 
 /* Main menu navigation - mobile */
