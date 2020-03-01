@@ -166,6 +166,13 @@ class streetfocus
 			$this->template['_title'] = 'StreetFocus - ' . htmlspecialchars ($this->actions[$this->action]['description']);
 		}
 		
+		# Ensure authentication if required
+		if (isSet ($this->actions[$this->action]['authentication']) && $this->actions[$this->action]['authentication']) {
+			if (!$this->user) {
+				$this->action = 'login';
+			}
+		}
+		
 		# Assign the ID, if any
 		$this->id = (isSet ($_GET['id']) ? $_GET['id'] : false);
 		
