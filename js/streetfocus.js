@@ -227,6 +227,19 @@ var streetfocus = (function ($) {
 				recent:	200
 			};
 			
+			// If a filter state cookie is set, set the filtering form values on initial load
+			// #!# This is a bit slow because the whole function is running inside map load
+			var filteringDefaults;
+			if (filteringDefaults = streetfocus.getCookie ('filtering')) {
+				filteringDefaults = JSON.parse (filteringDefaults);
+				$.each (filteringDefaults, function (parameter, values) {
+					values = values.split (',');
+					$.each (values, function (index, value) {
+						$('#filtering input[name="' + parameter + '"][value="' + value + '"]').attr ('checked', true);
+					});
+				});
+			}
+			
 			// Handle filtering panel visibility
 			$('#filter').click (function (e) {
 				$('#filtering').fadeToggle ();
@@ -315,6 +328,10 @@ var streetfocus = (function ($) {
 			} else {
 				$('#filter').addClass ('filtersenabled');
 			}
+			
+			// Set a cookie containing the parameters, to provide state
+			var parametersString = JSON.stringify (parameters);
+			streetfocus.setCookie ('filtering', parametersString, 7);
 			
 			// Return the values
 			return parameters;
