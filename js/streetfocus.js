@@ -232,16 +232,7 @@ var streetfocus = (function ($) {
 			
 			// If a filter state cookie is set, set the filtering form values on initial load
 			// #!# This is a bit slow because the whole function is running inside map load
-			var filteringDefaults;
-			if (filteringDefaults = streetfocus.getCookie ('filtering')) {
-				filteringDefaults = JSON.parse (filteringDefaults);
-				$.each (filteringDefaults, function (parameter, values) {
-					values = values.split (',');
-					$.each (values, function (index, value) {
-						$('#filtering input[name="' + parameter + '"][value="' + value + '"]').attr ('checked', true);
-					});
-				});
-			}
+			streetfocus.filteringInitialValues ();
 			
 			// Handle filtering panel visibility
 			$('#filter').click (function (e) {
@@ -265,6 +256,28 @@ var streetfocus = (function ($) {
 			// Add collisions heatmap layer support
 			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
 			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/allCambridgeCollisions.geojson', 16);
+		},
+		
+		
+		// Function to set the filtering UI initial values
+		filteringInitialValues: function ()
+		{
+			// Detect cookie, or end
+			var filteringDefaults = streetfocus.getCookie ('filtering');
+			if (!filteringDefaults) {return;}
+			
+			// Parse out the data
+			filteringDefaults = JSON.parse (filteringDefaults);
+			
+			// Loop through each checkbox set
+			$.each (filteringDefaults, function (parameter, values) {
+				
+				// Set each supplied value for its checkbox
+				values = values.split (',');
+				$.each (values, function (index, value) {
+					$('#filtering input[name="' + parameter + '"][value="' + value + '"]').attr ('checked', true);
+				});
+			});
 		},
 		
 		
