@@ -295,7 +295,7 @@ var streetfocus = (function ($) {
 			var parameters = {};
 			
 			// Scan form widgets
-			$(path + ' :input').each(function() {
+			$(path + ' :input').each (function() {
 				var name = $(this).attr('name');
 				var value = $(this).val();
 				if (this.checked) {
@@ -308,6 +308,13 @@ var streetfocus = (function ($) {
 			$.each (parameters, function (name, values) {
 				parameters[name] = values.join(',');
 			});
+			
+			// Set the main filtering button state to indicate whether filters are in place
+			if ($.isEmptyObject (parameters)) {
+				$('#filter').removeClass ('filtersenabled');
+			} else {
+				$('#filter').addClass ('filtersenabled');
+			}
 			
 			// Return the values
 			return parameters;

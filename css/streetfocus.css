@@ -132,6 +132,7 @@ body.planningapplications div#filter {top: 20px; right: 20px;}
 body.planningapplications #filter p {line-height: 20px; font-family: 'PT Sans', sans-serif; font-size: 14px; vertical-align: middle; padding: 0; margin: 0;}
 body.planningapplications #filter p a {display: block; padding: 12px;}
 body.planningapplications #filter p a img {width: 21px; height: 24px; vertical-align: middle; padding: 0 5px 0 0; margin: 0; border: 0;}
+body.planningapplications #filter.filtersenabled {background-color: #99ff99;}
 body.planningapplications #filtering {display: none; position: absolute; top: 100px; left: 0; width: auto; height: calc(100% - 100px); z-index: 10; background-color: white; padding: 30px;}
 body.planningapplications #filtering ul#app_state, body.planningapplications #filtering ul#app_type, body.planningapplications #filtering ul#app_size {list-style: none; margin: 0; padding: 0;}
 body.planningapplications #filtering ul#app_state li, body.planningapplications #filtering ul#app_type li, body.planningapplications #filtering ul#app_size li {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0 5px 0; border-radius: 6px;}
