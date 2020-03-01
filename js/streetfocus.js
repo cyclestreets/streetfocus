@@ -228,8 +228,9 @@ var streetfocus = (function ($) {
 			};
 			
 			// Handle filtering panel visibility
-			$('#filter').click (function () {
+			$('#filter').click (function (e) {
 				$('#filtering').fadeToggle ();
+				e.preventDefault ();
 			});
 			
 			// Add close methods (X button, click on map, escape key)
@@ -241,13 +242,6 @@ var streetfocus = (function ($) {
 				value = $(this).val ();
 				$(this).parent().parent().css ('background-color', _colours[_action].values[value]);		// Two parents, as label surrounds
 			});
-			
-			/*
-			// Auto-close panel
-			$('#filtering input').click (function (e) {
-				$('#filtering').fadeToggle ();
-			});
-			*/
 			
 			// Add the data layer
 			streetfocus.addLayer (apiBaseUrl, parameters, '#filtering', null, 'name', 'description');
