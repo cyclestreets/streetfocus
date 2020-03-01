@@ -79,6 +79,10 @@ class streetfocus
 				'url' => '/api/',
 				'data' => true,
 			),
+			'page404' => array (
+				'description' => '404 page not found',
+				'url' => '/page404/',
+			),
 		);
 		
 		# Return the actions
@@ -354,6 +358,13 @@ class streetfocus
 	
 	# Contact us page
 	private function contacts ()
+	{
+		// Static page
+	}
+	
+	
+	# 404 page
+	private function page404 ()
 	{
 		// Static page
 	}

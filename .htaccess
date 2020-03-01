@@ -8,3 +8,4 @@ RedirectMatch Permanent ^/(map|proposals)/(.+[^/])$ /$1/$2/
 RewriteRule ^api/(.+)$ /index.html?action=api&call=$1 [L,QSA]
 RewriteRule ^(register)/([a-f0-9]{24})/?$ /index.html?action=$1&token=$2 [L]
 
+ErrorDocument 404 /index.html?action=page404

@@ -122,6 +122,9 @@ body.home #statistics div p {font-size: 32px; color: #3f74ba; font-weight: bold;
 /* About page */
 body.about p#funders img {height: 100px; border: 1px solid #ddd; padding: 15px 25px; margin-right: 20px; margin-bottom: 15px;}
 
+/* 404 page */
+body.page404 img {margin-left: 20px; margin-bottom: 20px;}
+
 /* Planning applications and proposals map pages */
 #introduction {padding: 0 30px 5px;}
 body.planningapplications #map {min-height: 600px;}
@@ -198,7 +201,7 @@ body.planningapplications #monitor h2 {font-size: 16px; padding-bottom: 5px;}
 #details div.streetview iframe {width: 100%; height: 100%;}
 
 /* Static pages */
-body.about main, body.contacts main, body.privacy main, body.login main, body.logout main, body.register main {padding-left: 30px; padding-right: 30px; padding-bottom: 40px;}
+body.about main, body.contacts main, body.privacy main, body.login main, body.logout main, body.register main, body.page404 main {padding-left: 30px; padding-right: 30px; padding-bottom: 40px;}
 img.banner {width: 400px; float: right; margin: 10px 0 10px 20px;}
 @media only screen and (max-width: 650px) {
 	img.banner {width: 100%;}
