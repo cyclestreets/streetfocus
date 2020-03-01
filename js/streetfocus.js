@@ -23,7 +23,10 @@ var streetfocus = (function ($) {
 		gmapApiKey: 'YOUR_GOOGLEMAPS_API_KEY',
 		
 		// Forced location
-		setLocation: false
+		setLocation: false,
+		
+		// Page-specific data
+		pageData: {}
 	};
 	
 	

@@ -121,6 +121,7 @@ class streetfocus
 	private $templateFile;
 	private $user;
 	private $setLocation;
+	private $pageData = array ();
 	
 	
 	# Constructor
@@ -341,7 +342,8 @@ class streetfocus
 					planitApiBaseUrl: '{$this->settings['planitApiBaseUrl']}',
 					cyclestreetsApiKey: '{$this->settings['cyclestreetsApiKey']}',
 					mapboxApiKey: '{$this->settings['mapboxApiKey']}',
-					setLocation: '{$this->setLocation}'
+					setLocation: '{$this->setLocation}',
+					pageData: " . json_encode ($this->pageData) . "
 				};
 				streetfocus.initialise (config, '{$this->action}', '{$this->actions[$this->action]['url']}', '{$this->id}');
 			});
