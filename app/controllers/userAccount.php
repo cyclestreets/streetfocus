@@ -8,14 +8,14 @@ class userAccount
 	private $baseUrl;
 	private $user;
 	private $userIsAdministrator;
+	private $template = array ();
 	
 	
 	# Constructor
-	public function __construct ($settings, $template, $baseUrl)
+	public function __construct ($settings, $baseUrl)
 	{
 		# Assign properties
 		$this->settings = $settings;
-		$this->template = $template;
 		$this->baseUrl = $baseUrl;
 		
 		# Begin the session
@@ -27,9 +27,10 @@ class userAccount
 	
 	
 	# Getter for template
-	public function getTemplate ()
+	public function getTemplate ($template)
 	{
-		return $this->template;
+		$template = array_merge ($template, $this->template);
+		return $template;
 	}
 	
 	public function getUserIsAdministrator ()

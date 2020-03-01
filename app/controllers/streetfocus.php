@@ -153,15 +153,12 @@ class streetfocus
 		}
 		$this->template['_action'] = $this->action;
 		
-		# Assign the ID, if any
-		$this->id = (isSet ($_GET['id']) ? $_GET['id'] : false);
-		
-		# Set the template, being the path from /app/views/, minus .tpl
-		$url = $this->actions[$this->action]['url'];
-		$templatePath = ltrim ($url, '/') . 'index';
-		
-		# Load the application JS, including mapping and the menu handling
-		$this->template['_settings'] = $this->settings;
+		# Get the user's details, if authenticated
+		require_once ('app/controllers/userAccount.php');
+		$this->userAccount = new userAccount ($this->settings, $this->baseUrl);
+		$this->user = $this->userAccount->getUser ();
+		$this->userIsAdministrator = $this->userAccount->getUserIsAdministrator ();
+		$this->template = $this->userAccount->getTemplate ($this->template);
 		
 		# Set the page title
 		$this->template['_title'] = 'StreetFocus - Helping local communities benefit from new developments';
@@ -169,12 +166,8 @@ class streetfocus
 			$this->template['_title'] = 'StreetFocus - ' . htmlspecialchars ($this->actions[$this->action]['description']);
 		}
 		
-		# Get the user's details, if authenticated
-		require_once ('app/controllers/userAccount.php');
-		$this->userAccount = new userAccount ($this->settings, $this->template, $this->baseUrl);
-		$this->user = $this->userAccount->getUser ();
-		$this->userIsAdministrator = $this->userAccount->getUserIsAdministrator ();
-		$this->template = $this->userAccount->getTemplate ();
+		# Assign the ID, if any
+		$this->id = (isSet ($_GET['id']) ? $_GET['id'] : false);
 		
 		# Perform the action, which will write into the page template array
 		$this->{$this->action} ();
@@ -190,8 +183,15 @@ class streetfocus
 		# End if the action is a data URL rather than a templatised page
 		if (isSet ($this->actions[$this->action]['data']) && $this->actions[$this->action]['data']) {return;}
 		
+		# Make the settings available to the template
+		$this->template['_settings'] = $this->settings;
+		
 		# Add the application JS to the template
 		$this->template['_applicationJs'] = $this->applicationJs ();
+		
+		# Set the template path, being the path from /app/views/, minus .tpl
+		$url = $this->actions[$this->action]['url'];
+		$templatePath = ltrim ($url, '/') . 'index';
 		
 		# Templatise
 		$html = $this->renderTemplate ($templatePath);
@@ -228,7 +228,7 @@ class streetfocus
 	{
 		# Delegate to the user account class and receive the template values
 		$this->userAccount->login ();
-		$this->template = $this->userAccount->getTemplate ();
+		$this->template = $this->userAccount->getTemplate ($this->template);
 	}
 	
 	
@@ -238,7 +238,7 @@ class streetfocus
 		# Delegate to the user account class and receive the template values
 		$this->userAccount->logout ();
 		$this->user = $this->userAccount->getUser ();	// Re-query, for menu status
-		$this->template = $this->userAccount->getTemplate ();
+		$this->template = $this->userAccount->getTemplate ($this->template);
 	}
 	
 	
@@ -247,7 +247,7 @@ class streetfocus
 	{
 		# Delegate to the user account class and receive the template values
 		$this->userAccount->register ();
-		$this->template = $this->userAccount->getTemplate ();
+		$this->template = $this->userAccount->getTemplate ($this->template);
 	}
 	
 	
