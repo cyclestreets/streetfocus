@@ -230,9 +230,8 @@ var streetfocus = (function ($) {
 				recent:	200
 			};
 			
-			// If a filter state cookie is set, set the filtering form values on initial load
-			// #!# This is a bit slow because the whole function is running inside map load
-			streetfocus.filteringInitialValues ();
+			// Set up the filtering form
+			streetfocus.setupFilteringForm ();
 			
 			// Handle filtering panel visibility
 			$('#filter').click (function (e) {
@@ -243,13 +242,6 @@ var streetfocus = (function ($) {
 			// Add close methods (X button, click on map, escape key)
 			streetfocus.panelClosing ('#filtering');
 			
-			// Set checkbox colours
-			var value;
-			$.each ($("input[name='app_type']"), function () {
-				value = $(this).val ();
-				$(this).parent().parent().css ('background-color', _colours[_action].values[value]);		// Two parents, as label surrounds
-			});
-			
 			// Add the data layer
 			streetfocus.addLayer (apiBaseUrl, parameters, '#filtering', null, 'name', 'description');
 			
@@ -259,7 +251,23 @@ var streetfocus = (function ($) {
 		},
 		
 		
+		// Function to set up the filtering form
+		setupFilteringForm: function ()
+		{
+			// Set checkbox colours
+			var value;
+			$.each ($("input[name='app_type']"), function () {
+				value = $(this).val ();
+				$(this).parent().parent().css ('background-color', _colours[_action].values[value]);		// Two parents, as label surrounds
+			});
+			
+			// If a filter state cookie is set, set the filtering form values on initial load
+			streetfocus.filteringInitialValues ();
+		},
+		
+		
 		// Function to set the filtering UI initial values
+		// #!# This is a bit slow because the whole function is running inside map load
 		filteringInitialValues: function ()
 		{
 			// Detect cookie, or end
