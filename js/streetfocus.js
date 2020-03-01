@@ -230,8 +230,8 @@ var streetfocus = (function ($) {
 				recent:	200
 			};
 			
-			// Set up the filtering form
-			streetfocus.setupFilteringForm ();
+			// Initialise the filtering form
+			streetfocus.initialiseFilteringForm ();
 			
 			// Handle filtering panel visibility
 			$('#filter').click (function (e) {
@@ -251,8 +251,8 @@ var streetfocus = (function ($) {
 		},
 		
 		
-		// Function to set up the filtering form
-		setupFilteringForm: function ()
+		// Function to initialise the filtering form
+		initialiseFilteringForm: function ()
 		{
 			// Set checkbox colours
 			var value;
