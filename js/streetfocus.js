@@ -986,10 +986,7 @@ var streetfocus = (function ($) {
 		addData: function (apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField)
 		{
 			// Get the map BBOX
-			var bbox = _map.getBounds();
-			bbox = bbox.getWest() + ',' + bbox.getSouth() + ',' + bbox.getEast() + ',' + bbox.getNorth();
-			bbox = streetfocus.reduceBboxAccuracy (bbox);
-			parameters.bbox = bbox;
+			parameters.bbox = streetfocus.getBbox ();
 			
 			// Obtain the form values
 			if (filteringFormPath) {
@@ -1016,6 +1013,16 @@ var streetfocus = (function ($) {
 					$('#loading').hide ();
 				}
 			});
+		},
+		
+		
+		// Helper funtion to get the map bounds as a string
+		getBbox: function ()
+		{
+			var bbox = _map.getBounds();
+			bbox = bbox.getWest() + ',' + bbox.getSouth() + ',' + bbox.getEast() + ',' + bbox.getNorth();
+			bbox = streetfocus.reduceBboxAccuracy (bbox);
+			return bbox;
 		},
 		
 		
