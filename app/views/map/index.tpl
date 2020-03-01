@@ -18,29 +18,10 @@
 	
 	<div id="filtering">
 		<p class="close"><a href="#">×</a></p>
+		
 		<h2>Refine search</h2>
-		<h3>Application activity</h3>
-		<ul id="app_state">
-			<li><label><input type="checkbox" name="app_state" value="Undecided"> Active</label></li>
-			<li><label><input type="checkbox" name="app_state" value="Permitted,Conditions,Rejected,Withdrawn,Other"> Closed</label></li>
-		</ul>
-		<h3>Application type</h3>
-		<ul id="app_type">
-			<li><label><input type="checkbox" name="app_type" value="Full"> Full</label></li>
-			<li><label><input type="checkbox" name="app_type" value="Outline"> Outline</label></li>
-			<li><label><input type="checkbox" name="app_type" value="Amendment"> Amendment</label></li>
-			<li><label><input type="checkbox" name="app_type" value="Heritage"> Heritage</label></li>
-			<li><label><input type="checkbox" name="app_type" value="Trees"> Trees</label></li>
-			<li><label><input type="checkbox" name="app_type" value="Advertising"> Advertising</label></li>
-			<li><label><input type="checkbox" name="app_type" value="Telecoms"> Telecoms</label></li>
-			<li><label><input type="checkbox" name="app_type" value="Other"> Other</label></li>
-		</ul>
-		<h3>Size of development</h3>
-		<ul id="app_size">
-			<li><label><input type="checkbox" name="app_size" value="Small"> Small</label></li>
-			<li><label><input type="checkbox" name="app_size" value="Medium"> Medium</label></li>
-			<li><label><input type="checkbox" name="app_size" value="Large"> Large</label></li>
-		</ul>
+		{include file='_partials/filtering.tpl'}
+		
 		<h3>Boundary</h3>
 		<p>Draw boundary to limit search results</p>
 		<div id="boundary">
