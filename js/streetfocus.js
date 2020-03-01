@@ -576,7 +576,7 @@ var streetfocus = (function ($) {
 				zoom: initialLocation.zoom,
 				pitch: initialLocation.pitch,
 				bearing: initialLocation.bearing,
-				maxZoom: 17,
+				maxZoom: 18.5,
 				hash: true
 			});
 			
