@@ -18,6 +18,11 @@ main ul li {margin-bottom: 6px;}
 a, main #mappanel p a {color: #111; text-decoration: none;}
 main p a {color: #3f74ba; text-decoration: underline;}
 
+/* Buttons */
+.button {margin-top: 10px; padding: 10px 20px; background-color: #3f74ba; color: #fff; border: 0; font-size: 16px; border-radius: 3px;}
+input.button {-webkit-appearance: none;}
+a.button {text-decoration: none;}
+
 /* Header */
 header #logo {width: 130px; border: 0; float: left;}
 
@@ -86,7 +91,7 @@ body.proposals #details {margin-top: -330px; min-height: 270px /* 330-30-30 */;}
 #geocoder input[type="image"] {width: 56px; height: 50px; border: 0; float: right;}
 
 /* Geolocation */
-#map .mapboxgl-ctrl-geolocate {display: none;}	/* Hide native */
+body.planningapplications #map .mapboxgl-ctrl-geolocate, body.proposals #map .mapboxgl-ctrl-geolocate {display: none;}	/* Hide native */
 #geocoder #geolocation {width: 50px; height: 50px; float: left;}
 body.home #geocoder #geolocation {animation: pulse 1s infinite;}
 @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
@@ -130,7 +135,7 @@ body.page404 img {margin-left: 20px; margin-bottom: 20px;}
 body.planningapplications #map {min-height: 600px;}
 body.proposals #map {min-height: 450px;}
 
-/* Filtering button */
+/* Planning applications page filtering */
 body.planningapplications div#filter {top: 20px; right: 20px;}
 body.planningapplications #filter p {line-height: 20px; font-family: 'PT Sans', sans-serif; font-size: 14px; vertical-align: middle; padding: 0; margin: 0;}
 body.planningapplications #filter p a {display: block; padding: 12px;}
@@ -158,6 +163,15 @@ body.planningapplications #monitor a {display: block; padding: 20px;}
 body.planningapplications #monitor img {float: left; width: 35px; padding: 10px 10px;}
 body.planningapplications #monitor h2, body.planningapplications #monitor p {margin: 0 0 0 80px; padding: 0;}
 body.planningapplications #monitor h2 {font-size: 16px; padding-bottom: 5px;}
+
+/* Monitors page */
+body.my p.action {margin-top: 30px;}
+
+/* Add monitor page */
+body.add h2 {margin-top: 2em;}
+body.add #map, body.add #filtering {width: auto; border: 1px solid #ddd; box-shadow: 10px 10px 10px 0 #ccc;}
+body.add #map {width: 100%; height: 400px; max-width: 400px;}
+body.add #filtering {padding: 5px 15px 20px;}
 
 /* Map popups - reset default styles */
 #map.mapboxgl-map {font-family: inherit; font-size: inherit;}
@@ -203,7 +217,7 @@ body.planningapplications #monitor h2 {font-size: 16px; padding-bottom: 5px;}
 #details div.streetview iframe {width: 100%; height: 100%;}
 
 /* Static pages */
-body.about main, body.contacts main, body.privacy main, body.login main, body.logout main, body.register main, body.page404 main {padding-left: 30px; padding-right: 30px; padding-bottom: 40px;}
+body.about main, body.contacts main, body.my main, body.add main, body.privacy main, body.login main, body.logout main, body.register main, body.page404 main {padding-left: 30px; padding-right: 30px; padding-bottom: 40px;}
 img.banner {width: 400px; float: right; margin: 10px 0 10px 20px;}
 @media only screen and (max-width: 650px) {
 	img.banner {width: 100%;}

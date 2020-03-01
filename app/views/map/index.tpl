@@ -20,6 +20,11 @@
 		<p class="close"><a href="#">×</a></p>
 		
 		<h2>Refine search</h2>
+		<h3>Application activity</h3>
+		<ul id="app_state">
+			<li><label><input type="checkbox" name="app_state[]" value="Undecided"> Active</label></li>
+			<li><label><input type="checkbox" name="app_state[]" value="Permitted,Conditions,Rejected,Withdrawn,Other"> Closed</label></li>
+		</ul>
 		{include file='_partials/filtering.tpl'}
 		
 		<h3>Boundary</h3>
@@ -30,10 +35,10 @@
 	</div>
 	
 	<div id="monitor" class="control">
-		<a href="#">
+		<a href="/my/add/">
 			<img src="/images/monitor.png" />
 			<h2>Monitor this area</h2>
-			<p>Sign up to receive email alerts when new application plans come up.</p>
+			<p>Sign up to receive e-mail alerts when new application plans come up.</p>
 		</a>
 	</div>
 	

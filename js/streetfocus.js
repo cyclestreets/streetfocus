@@ -83,7 +83,7 @@ var streetfocus = (function ($) {
 			
 	
 	// Actions creating a map
-	var _mapActions = ['planningapplications', 'proposals'];
+	var _mapActions = ['planningapplications', 'proposals', 'add'];
 	
 	
 	return {
@@ -117,11 +117,13 @@ var streetfocus = (function ($) {
 			
 			// Create the map for a map action page
 			if (_mapActions.includes (action)) {
-				streetfocus.createMap ();
-				if (typeof streetfocus[action] == 'function') {
-					_map.on ('load', function () {
-						streetfocus[action] ();
-					});
+				if ($('#map').length > 0) {		// Check map present on the page; may be removed if e.g. message shown instead
+					streetfocus.createMap ();
+					if (typeof streetfocus[action] == 'function') {
+						_map.on ('load', function () {
+							streetfocus[action] ();
+						});
+					}
 				}
 			} else {
 				
@@ -256,9 +258,9 @@ var streetfocus = (function ($) {
 		{
 			// Set checkbox colours
 			var value;
-			$.each ($("input[name='app_type']"), function () {
+			$.each ($("input[name='app_type[]']"), function () {
 				value = $(this).val ();
-				$(this).parent().parent().css ('background-color', _colours[_action].values[value]);		// Two parents, as label surrounds
+				$(this).parent().parent().css ('background-color', _colours['planningapplications'].values[value]);		// Two parents, as label surrounds
 			});
 			
 			// If a filter state cookie is set, set the filtering form values on initial load
@@ -333,7 +335,7 @@ var streetfocus = (function ($) {
 			
 			// Scan form widgets
 			$(path + ' :input').each (function() {
-				var name = $(this).attr('name');
+				var name = $(this).attr('name').replace('[]', '');
 				var value = $(this).val();
 				if (this.checked) {
 					if (!parameters.hasOwnProperty(name)) {parameters[name] = [];}	// Initialise if required
@@ -603,6 +605,26 @@ var streetfocus = (function ($) {
 		},
 		
 		
+		// Add monitor
+		add: function ()
+		{
+			// Reset the pitch and bearing
+			_map.setPitch (0);
+			_map.setBearing (0);
+			
+			// Initialise the filtering form
+			streetfocus.initialiseFilteringForm ();
+			
+			// Capture map location changes, saving these to the hidden input field
+			var bbox = streetfocus.getBbox ();
+			$('#bbox').val (bbox);
+			_map.on ('moveend', function () {
+				bbox = streetfocus.getBbox ();
+				$('#bbox').val (bbox);
+			});
+		},
+		
+		
 		// Function to create the map and related controls
 		createMap: function ()
 		{
@@ -705,7 +727,7 @@ var streetfocus = (function ($) {
 					enableHighAccuracy: true
 				}
 			});
-			_map.addControl (geolocate, 'bottom-right');	// Will be hidden by CSS
+			_map.addControl (geolocate, 'top-right');	// Will be hidden by CSS when external style provides an icon
 			
 			// Add manual trigger from custom image
 			$('#geolocation').on ('click', function () {

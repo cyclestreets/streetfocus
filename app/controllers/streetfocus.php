@@ -54,6 +54,12 @@ class streetfocus
 				'description' => 'Monitor areas',
 				'url' => '/my/',
 			),
+			'add' => array (
+				'description' => 'Monitor an area',
+				'url' => '/my/add/',
+				'useTab' => 'my',
+				'authentication' => true,
+			),
 			'privacy' => array (
 				'description' => 'Privacy',
 				'url' => '/privacy/',
@@ -94,6 +100,16 @@ class streetfocus
 	public function databaseStructure ()
 	{
 		return "
+			-- Monitors
+			CREATE TABLE `monitors` (
+			  `id` INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT 'Automatic key',
+			  `location` GEOMETRY COMMENT 'Location',
+			  `app_type` SET('Full','Outline','Amendment','Heritage','Trees','Advertising','Telecoms','Other') DEFAULT NULL COMMENT 'Type(s)',
+			  `app_size` SET('Small','Medium','Large') DEFAULT NULL COMMENT 'Size(s)',
+			  `email` VARCHAR(255) NOT NULL COMMENT 'E-mail',
+			  `createdAt` DATETIME NOT NULL COMMENT 'Created at'
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Monitors set by users';
+			
 			-- External proposals
 			CREATE TABLE `proposalsexternal` (
 			  `id` varchar(255) PRIMARY KEY NOT NULL,
@@ -328,6 +344,61 @@ class streetfocus
 	private function my ()
 	{
 		//
+	}
+	
+	
+	# Add a monitor page
+	private function add ()
+	{
+		# Set user e-mail for the template
+		$this->template['email'] = $this->user['email'];
+		
+		# End if BBOX not posted; this field must be present but others are optional
+		$bboxRegexp = '^([-\.0-9]+),([-\.0-9]+),([-\.0-9]+),([-\.0-9]+)$';
+		if (!isSet ($_POST['bbox']) || !preg_match ("/{$bboxRegexp}/", $_POST['bbox'], $matches)) {return;}
+		
+		# Start an insert
+		$insert = array ();
+		
+		# Handle BBOX
+		list ($ignore, $w, $s, $e, $n) = $matches;
+		$w = (float) $w;
+		$s = (float) $s;
+		$e = (float) $e;
+		$n = (float) $n;
+		$bbox = array (
+			'type' => 'Polygon',
+			'coordinates' => array (array (
+				array ($w, $s),
+				array ($e, $s),
+				array ($e, $n),
+				array ($w, $n),
+				array ($w, $s)
+			))
+		);
+		$insert['location'] = 'ST_GeomFromGeoJSON(:bbox)';
+		$functionValues = array ('bbox' => json_encode ($bbox));
+		
+		# Add form values, filling in optional values
+		$fields = array ('app_type', 'app_size');	// app_state (i.e. current/historical) is obviously not relevant for alerting of new applications
+		foreach ($fields as $field) {
+			$insert[$field] = (isSet ($_POST[$field]) ? implode (',', $_POST[$field]) : NULL);
+		}
+		
+		# Add fixed data
+		$insert['email'] = $this->user['email'];
+		$insert['createdAt'] = 'NOW()';
+		
+		# Add to the database
+		$result = $this->databaseConnection->insert ($this->settings['database'], 'monitors', $insert, false, true, false, false, 'INSERT', $functionValues);
+		
+		# Confirm the outcome
+		if ($result) {
+			$outcome = '✓ - Your new monitor has saved. We will let you know when new planning applications appear in that area.';
+		} else {
+			$outcome = 'Apologies - there was a problem saving this monitor. Please try again later.';
+		}
+		$this->template['outcome'] = $outcome;
 	}
 	
 	
