@@ -26,12 +26,6 @@
 			<li><label><input type="checkbox" name="app_state[]" value="Permitted,Conditions,Rejected,Withdrawn,Other"> Closed</label></li>
 		</ul>
 		{include file='_partials/filtering.tpl'}
-		
-		<h3>Boundary</h3>
-		<p>Draw boundary to limit search results</p>
-		<div id="boundary">
-			<p>Draw search area</p>
-		</div>
 	</div>
 	
 	<div id="monitor" class="control">
