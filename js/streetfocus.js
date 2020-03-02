@@ -172,19 +172,19 @@ var streetfocus = (function ($) {
 			});
 			
 			// Close x button
-			$('#mobilenav #close').click(function () {
+			$('#mobilenav #close').click (function () {
 				$('#mobilenav').hide ('slide', {direction: 'right'}, 250);
 			});
 			
 			// Enable implicit click/touch on map as close menu
-			$('main, footer').click(function () {
+			$('main, footer').click (function () {
 				if ($('#mobilenav').is(':visible')) {
 					$('#mobilenav').hide ('slide', {direction: 'right'}, 250);
 				};
 			});
 			
 			// Enable closing menu on slide right
-			$('#mobilenav').on('swiperight', function () {
+			$('#mobilenav').on ('swiperight', function () {
 				$('#mobilenav').hide ('slide', {direction: 'right'}, 250);
 			});
 		},
@@ -295,9 +295,10 @@ var streetfocus = (function ($) {
 		panelClosing: function (path)
 		{
 			// Close x button
-			$('body').on ('click', path + ' .close', function () {
+			$('body').on ('click', path + ' .close', function (e) {
 				$(path).fadeToggle ();
 				streetfocus.resetUrl ();
+				e.preventDefault ();
 			});
 			
 			// Add implied close by clicking on remaining map slither
