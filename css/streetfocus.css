@@ -171,8 +171,8 @@ body.my #map {height: 450px;}
 
 /* Add monitor page */
 body.add h2 {margin-top: 2em;}
-body.add #map, body.add #filtering {width: auto; border: 1px solid #ddd; box-shadow: 10px 10px 10px 0 #ccc;}
 body.add #map {width: 100%; height: 400px; max-width: 400px;}
+body.add #filtering {width: auto; border: 1px solid #ddd;}
 body.add #filtering {padding: 5px 15px 20px;}
 
 /* Map popups - reset default styles */
