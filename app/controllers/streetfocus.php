@@ -395,7 +395,7 @@ class streetfocus
 		
 		# Confirm the outcome
 		if ($result) {
-			$outcome = '✓ - Your new monitor has saved. We will let you know when new planning applications appear in that area.';
+			$outcome = '✓ - Your new monitor has been created. We will let you know when new planning applications appear in that area.';
 		} else {
 			$outcome = 'Apologies - there was a problem saving this monitor. Please try again later.';
 		}
