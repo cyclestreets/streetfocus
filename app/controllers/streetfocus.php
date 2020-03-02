@@ -343,7 +343,8 @@ class streetfocus
 	# Monitor areas page
 	private function my ()
 	{
-		//
+		# Determine whether to the map
+		$this->template['user'] = ($this->user);
 	}
 	
 	
@@ -965,6 +966,48 @@ class streetfocus
 		
 		# Return the centre
 		return $centre;
+	}
+	
+	
+	# API call to get the monitored areas of a user
+	private function api_monitors ()
+	{
+		# End if no user
+		if (!$this->user) {
+			return $this->errorJson ('You must be logged in to access this data.');
+		}
+		
+		# Get the data
+		$query = "SELECT
+				id,
+				ST_AsGeoJSON(location) AS location,
+				app_type,
+				app_size
+			FROM monitors
+			WHERE email = :email
+		;";
+		$preparedStatementValues = array ('email' => $this->user['email']);		// Will pick up the user's cookie
+		$data = $this->databaseConnection->getData ($query, false, true, $preparedStatementValues);
+		
+		# Convert each row to a GeoJSON feature
+		$features = array ();
+		foreach ($data as $monitor) {
+			$features[] = array (
+				'type' => 'Feature',
+				'geometry' => json_decode ($monitor['location']),
+				'properties' => array (
+					'id' => (int) $monitor['id'],
+					'app_type' => ($monitor['app_type'] ? str_replace (',', ', ', $monitor['app_type']) : NULL),
+					'app_size' => ($monitor['app_size'] ? str_replace (',', ', ', $monitor['app_size']) : NULL),
+				),
+			);
+		}
+		
+		# Arrange as GeoJSON
+		$result = array ('type' => 'FeatureCollection', 'features' => $features);
+		
+		# Return the data
+		return $this->asJson ($result);
 	}
 }
 

@@ -83,7 +83,7 @@ var streetfocus = (function ($) {
 			
 	
 	// Actions creating a map
-	var _mapActions = ['planningapplications', 'proposals', 'add'];
+	var _mapActions = ['planningapplications', 'proposals', 'my', 'add'];
 	
 	
 	return {
@@ -602,6 +602,93 @@ var streetfocus = (function ($) {
 			}
 			//$(element + ' ul.categories').html ('<ul class="tags"><li>' + JSON.parse(feature.properties.categories).join('</li><li>') + '</li></ul>');
 			//$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
+		},
+		
+		
+		// Monitors (main page)
+		my: function ()
+		{
+			// Get the data
+			$.ajax ({
+				url: '/api/monitors',
+				dataType: 'json',
+				error: function (jqXHR, error, exception) {
+					if (jqXHR.statusText != 'abort') {
+						var data = $.parseJSON(jqXHR.responseText);
+						alert ('Error: ' + data.error);
+					}
+				},
+				success: function (data, textStatus, jqXHR) {
+					
+					// Add the map data
+					var layerId = 'monitors';
+					_map.addLayer ({
+						id: layerId,
+						type: 'fill',
+						source: {
+							type: 'geojson',
+							data: data
+						},
+						'paint': {
+							'fill-color': 'brown',
+							'fill-opacity': 0.4
+						}
+					});
+					
+					// Zoom to extents; see: https://stackoverflow.com/a/59453955/180733
+					let bounds = data.features.reduce (function (bounds, feature) {
+						if (!Array.isArray (feature.geometry.coordinates[0])) { 	// Point feature
+							return bounds.extend (feature.geometry.coordinates);
+						} else {
+							return feature.geometry.coordinates.reduce (function (bounds, coord) {
+								return bounds.extend (coord);
+							}, bounds);
+						}
+					}, new mapboxgl.LngLatBounds());
+					_map.fitBounds (bounds, {padding: 30});
+
+					// Add popups
+					_map.on ('click', layerId, function(e) {
+						var feature = e.features[0];
+						
+						// Determine the coordinates
+						var centre = streetfocus.getCentre (feature.geometry);
+						var coordinates = [centre.lon, centre.lat];
+
+						// Ensure that if the map is zoomed out such that multiple copies of the feature are visible, the popup appears over the copy being pointed to.
+						while (Math.abs (e.lngLat.lng - coordinates[0]) > 180) {
+							coordinates[0] += (e.lngLat.lng > coordinates[0] ? 360 : -360);
+						}
+						
+						// Set the HTML content of the popup
+						var filters = [];
+						if (feature.properties.app_type !== 'null') {
+							filters.push ('Type: ' + feature.properties.app_type.replace (', ', ' / ') + ' applications');
+						}
+						if (feature.properties.app_size != 'null') {
+							filters.push ('Size: ' + feature.properties.app_size.replace (', ', ' / ') + ' applications');
+						}
+						var popupHtml = '<p>' + ($.isEmptyObject (filters) ? 'All planning applications in this area.' : 'Planning applications in this area, limited to:') + '</p>';
+						$.each (filters, function (index, filter) {
+							popupHtml += '<p>' + filter + '</p>';
+						});
+ 						
+						// Create the popup
+						new mapboxgl.Popup ()
+							.setLngLat (coordinates)
+							.setHTML (popupHtml)
+							.addTo (_map);
+					});
+
+					// Change the cursor to a pointer when the mouse is over the places layer, and change back to a pointer when it leaves
+					_map.on ('mouseenter', layerId, function() {
+						_map.getCanvas().style.cursor = 'pointer';
+					});
+					_map.on ('mouseleave', layerId, function() {
+						_map.getCanvas().style.cursor = '';
+					});
+				}
+			});
 		},
 		
 		
