@@ -1120,6 +1120,9 @@ var streetfocus = (function ($) {
 		// Function to load the data for a layer
 		addData: function (apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField)
 		{
+			// Start with a fresh set of parameters, to avoid the form scanning setting a reference to the next form iteration
+			parameters = Object.assign({}, parameters);
+
 			// Get the map BBOX
 			parameters.bbox = streetfocus.getBbox ();
 			
