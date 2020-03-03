@@ -16,7 +16,7 @@
 		<p><a href="#"><img id="filter" src="/images/filter.png" /> Refine search</a></p>
 	</div>
 	
-	<div id="filtering">
+	<div id="filtering" tabindex="2">
 		<p class="close"><a href="#">×</a></p>
 		
 		<h2>Refine search</h2>

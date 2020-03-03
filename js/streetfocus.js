@@ -1117,6 +1117,11 @@ var streetfocus = (function ($) {
 			// Set the HTML of the details pane to be the placeholdered content
 			$('#details').html (popupHtml);
 			
+			// Put the focus on the popup, to ensure keyboard navigation is on the panel, not the map
+			var x = window.scrollX, y = window.scrollY;
+			$('#details').attr ('tabindex', 2).focus ();
+			window.scrollTo (x, y);
+			
 			// Update the URL using HTML5 History pushState
 			var path = _actionUrl + feature.properties[uniqueIdField] + '/';
 			var title = _documentTitle + ': ' + streetfocus.truncateString (feature.properties[titleField], 40);
