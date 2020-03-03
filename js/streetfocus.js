@@ -285,7 +285,7 @@ var streetfocus = (function ($) {
 				// Set each supplied value for its checkbox
 				values = values.split (',');
 				$.each (values, function (index, value) {
-					$('#filtering input[name="' + parameter + '"][value="' + value + '"]').attr ('checked', true);
+					$('#filtering input[name="' + parameter + '[]"][value="' + value + '"]').attr ('checked', true);
 				});
 			});
 		},
