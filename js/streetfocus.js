@@ -949,9 +949,10 @@ var streetfocus = (function ($) {
 			autocomplete.addTo ('#geocoder input', {
 				sourceUrl: geocoderApiUrl,
 				select: function (event, ui) {
+					var feature = ui.item.feature;
 					
 					// Parse the BBOX
-					var bbox = ui.item.feature.properties.bbox.split(',');	// W,S,E,N
+					var bbox = feature.properties.bbox.split(',');	// W,S,E,N
 					
 					// If there is a target URL, go to that
 					if (targetUrl) {
