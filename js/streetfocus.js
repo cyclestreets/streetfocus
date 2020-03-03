@@ -242,7 +242,7 @@ var streetfocus = (function ($) {
 			});
 			
 			// Add close methods (X button, click on map, escape key)
-			streetfocus.panelClosing ('#filtering');
+			streetfocus.panelClosing ('#filtering', '#filter');
 			
 			// Add the data layer
 			streetfocus.addLayer (apiBaseUrl, parameters, '#filtering', null, 'name', 'description');
@@ -292,8 +292,15 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to handle panel close methods
-		panelClosing: function (path)
+		panelClosing: function (path, mobileButton)
 		{
+			// If this layer has a mobile button defined, but is not visible (i.e. the user is desktop view), take no action
+			if (mobileButton) {
+				if (!$(mobileButton).is(':visible')) {
+					return;
+				}
+			}
+			
 			// Close x button
 			$('body').on ('click', path + ' .close', function (e) {
 				$(path).fadeToggle ();
