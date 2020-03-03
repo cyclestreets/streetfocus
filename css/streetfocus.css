@@ -151,7 +151,7 @@ body.planningapplications #filtering {display: block; width: 220px; top: 0; righ
 	body.planningapplications #filter p a {display: block; padding: 12px;}
 	body.planningapplications #filter p a img {width: 21px; height: 24px; vertical-align: middle; padding: 0 5px 0 0; margin: 0; border: 0;}
 	body.planningapplications #filter.filtersenabled {background-color: #99ff99;}
-	body.planningapplications #filtering {display: none; width: auto; top: 165px; left: 0; right: 0; bottom: 0;}
+	body.planningapplications #filtering {display: none; width: auto; top: 100px; left: 0; right: 0; bottom: 0;}
 }
 
 /* Filtering controls */
