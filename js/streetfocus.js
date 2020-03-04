@@ -229,7 +229,8 @@ var streetfocus = (function ($) {
 			// Add the planning applications layer, e.g. /api/applics/geojson?limit=30&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076&recent=188&app_type=Full,Trees
 			var apiBaseUrl = _settings.planitApiBaseUrl + '/applics/geojson';
 			var parameters = {
-				recent:	200
+				limit: 250,
+				pg_sz: 250
 			};
 			
 			// Initialise the filtering form
