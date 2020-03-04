@@ -198,6 +198,7 @@ body.add #filtering {padding: 5px 15px 20px;}
 
 /* Map popups */
 #popupcontent {display: none;}
+#details:focus {outline: none;}
 #details p.applicationid {text-align: center; font-family: 'PT Sans', sans-serif; font-size: 16px; color: #3f74ba; margin: 0 0 8px; padding: 0;}
 #details h2 {text-align: center; margin: 0; padding: 0 0 18px;}
 #details p.calltoaction {vertical-align: middle; margin-top: 22px;}
