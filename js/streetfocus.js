@@ -425,7 +425,7 @@ var streetfocus = (function ($) {
 			$(element + ' ul.status li.size').text ((feature.properties.app_size ? feature.properties.app_size + ' development' : 'Unknown size'));
 			$(element + ' ul.status li.type').text (feature.properties.app_type);
 			$(element + ' p.date').html (streetfocus.consultationDate (feature));
-			$(element + ' .title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 40)));
+			$(element + ' .title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 80)));
 			$(element + ' div.description p').html (streetfocus.htmlspecialchars (feature.properties.description));
 			$(element + ' div.documents ul').html (keyDocumentsHtml);
 			$(element + ' p.alldocuments a').attr ('href', vendorLinks.documents);
