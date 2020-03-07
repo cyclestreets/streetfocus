@@ -22,8 +22,8 @@
 		<h2>Refine search</h2>
 		<h3>Application activity</h3>
 		<ul id="app_state">
-			<li><label><input type="checkbox" name="app_state[]" value="Undecided"> Active</label></li>
-			<li><label><input type="checkbox" name="app_state[]" value="Permitted,Conditions,Rejected,Withdrawn,Other"> Closed</label></li>
+			<li><label><input type="checkbox" name="app_state[]" value="Undecided"> Current</label></li>
+			<li><label><input type="checkbox" name="app_state[]" value="Permitted,Conditions,Rejected,Withdrawn,Other"> Decided</label></li>
 		</ul>
 		{include file='_partials/filtering.tpl'}
 	</div>
