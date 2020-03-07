@@ -38,6 +38,13 @@ var streetfocus = (function ($) {
 	var _documentTitle;
 	var _isTouchDevice;
 	
+	// Default filters
+	var _filteringDefaults = {
+		app_state: 'Undecided'
+		//app_type: 
+		//app_size: 
+	};
+	
 	// Definitions
 	var _colours = {
 		planningapplications: {
@@ -273,12 +280,14 @@ var streetfocus = (function ($) {
 		// #!# This is a bit slow because the whole function is running inside map load
 		filteringInitialValues: function ()
 		{
-			// Detect cookie, or end
-			var filteringDefaults = streetfocus.getCookie ('filtering');
-			if (!filteringDefaults) {return;}
+			// Use default filters
+			var filteringDefaults = _filteringDefaults;
 			
-			// Parse out the data
-			filteringDefaults = JSON.parse (filteringDefaults);
+			// Detect cookie, or end
+			var filteringCookie = streetfocus.getCookie ('filtering');
+			if (filteringCookie) {
+				filteringDefaults = JSON.parse (filteringCookie);
+			}
 			
 			// Loop through each checkbox set
 			$.each (filteringDefaults, function (parameter, values) {
