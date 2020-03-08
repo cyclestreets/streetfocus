@@ -680,6 +680,7 @@ class streetfocus
 			'bbox'				=> $bbox,
 			'excluding_tags'	=> json_encode (array (
 				'planning',			// Omit planning applications imported as issues
+				'consultation',		// Omit council consultations discussed as issues
 			)),
 			'open_threads'		=> true,
 		);
