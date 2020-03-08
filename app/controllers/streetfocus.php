@@ -678,7 +678,9 @@ class streetfocus
 		$parameters = array (
 			'per_page'			=> 200,
 			'bbox'				=> $bbox,
-			'excluding_tags'	=> '["planning"]',
+			'excluding_tags'	=> json_encode (array (
+				'planning',			// Omit planning applications imported as issues
+			)),
 			'open_threads'		=> true,
 		);
 		$issues = $this->getApiData ($url, $parameters);
