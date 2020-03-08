@@ -687,6 +687,9 @@ class streetfocus
 		$features = array ();
 		foreach ($issues['features'] as $issue) {
 			
+			# Omit closed issues; pending rollout of https://github.com/cyclestreets/cyclescape/issues/929
+			if ($issue['properties']['closed']) {continue;}
+			
 			# Convert geometry to BBOX and centrepoint
 			$centroid = $this->getCentre ($issue['geometry'], $bbox /* returned by reference */);
 			
