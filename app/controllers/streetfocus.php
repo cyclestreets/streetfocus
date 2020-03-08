@@ -676,17 +676,15 @@ class streetfocus
 		# Search Cyclescape, e.g. /api/issues?per_page=10&term=chisholm%20trail
 		$url = $this->settings['cyclescapeApiBaseUrl'] . '/issues';
 		$parameters = array (
-			'per_page'	=> 200,
-			'bbox'		=> $bbox,
+			'per_page'			=> 200,
+			'bbox'				=> $bbox,
+			'excluding_tags'	=> '["planning"]',
 		);
 		$issues = $this->getApiData ($url, $parameters);
 		
 		# Simplify the output, converting geometries to Point, and removing non-needed properties
 		$features = array ();
 		foreach ($issues['features'] as $issue) {
-			
-			# Skip issues which appear to be planning applications
-			if (in_array ('planning', $issue['properties']['tags'])) {continue;}
 			
 			# Convert geometry to BBOX and centrepoint
 			$centroid = $this->getCentre ($issue['geometry'], $bbox /* returned by reference */);
