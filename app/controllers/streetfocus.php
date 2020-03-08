@@ -679,6 +679,7 @@ class streetfocus
 			'per_page'			=> 200,
 			'bbox'				=> $bbox,
 			'excluding_tags'	=> '["planning"]',
+			'open_threads'		=> true,
 		);
 		$issues = $this->getApiData ($url, $parameters);
 		
