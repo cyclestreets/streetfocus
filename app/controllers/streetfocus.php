@@ -683,6 +683,8 @@ class streetfocus
 				'consultation',		// Omit council consultations discussed as issues
 				'maintenance',		// Omit maintenance issues, as these require revenue funding and therefore out of scope for S106
 				'enforcement',		// Omit enforcement-related issues, as these do not relate to physical infrastructure
+				'event',			// Omit events, as they are one-off
+				'temporary',		// Omit other temporary matters
 			)),
 			'open_threads'		=> true,
 		);
