@@ -682,6 +682,7 @@ class streetfocus
 				'planning',			// Omit planning applications imported as issues
 				'consultation',		// Omit council consultations discussed as issues
 				'maintenance',		// Omit maintenance issues, as these require revenue funding and therefore out of scope for S106
+				'enforcement',		// Omit enforcement-related issues, as these do not relate to physical infrastructure
 			)),
 			'open_threads'		=> true,
 		);
