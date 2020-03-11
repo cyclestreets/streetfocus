@@ -289,6 +289,14 @@ var streetfocus = (function ($) {
 				filteringDefaults = JSON.parse (filteringCookie);
 			}
 			
+			// Set the values
+			streetfocus.setFilteringUiValues (filteringDefaults);
+		},
+		
+		
+		// Function to set the filtering UI values
+		setFilteringUiValues: function (filteringDefaults)
+		{
 			// Loop through each checkbox set
 			$.each (filteringDefaults, function (parameter, values) {
 				
