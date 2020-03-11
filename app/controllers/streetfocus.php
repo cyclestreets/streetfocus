@@ -694,8 +694,8 @@ class streetfocus
 		$features = array ();
 		foreach ($issues['features'] as $issue) {
 			
-			# Convert geometry to BBOX and centrepoint
-			$centroid = $this->getCentre ($issue['geometry'], $bbox /* returned by reference */);
+			# Get the BBOX
+			$this->getCentre ($issue['geometry'], $bbox /* returned by reference */);
 			
 			# Register this feature
 			$features[] = array (
@@ -715,7 +715,7 @@ class streetfocus
 				),
 				'geometry'	=> array (
 					'type'			=> 'Point',
-					'coordinates'	=> array ($centroid['lon'], $centroid['lat']),
+					'coordinates'	=> array ($issue['properties']['centre']['lon'], $issue['properties']['centre']['lat']),
 				),
 			);
 		}
