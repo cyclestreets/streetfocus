@@ -140,6 +140,9 @@ body.proposals #map {min-height: 450px;}
 
 /* Planning applications page filtering */
 body.planningapplications #filtering {position: absolute; z-index: 10; background-color: white; padding: 30px;}
+body.planningapplications #filtering h2 {margin-top: 0;}
+body.planningapplications #filtering p.reset {float: right; padding: 0; margin: 4px 0 0; font-size: 0.83em;}
+body.planningapplications #filtering p.reset a {color: #ccc; border: 1px solid #ddd; padding: 2px 6px; border-radius: 6px;}
 
 /* Planning applications page filtering - desktop */
 body.planningapplications div#filter {display: none;}

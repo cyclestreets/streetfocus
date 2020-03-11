@@ -291,19 +291,28 @@ var streetfocus = (function ($) {
 			
 			// Set the values
 			streetfocus.setFilteringUiValues (filteringDefaults);
+			
+			// Add a handler for resetting the defaults
+			$('#filtering p.reset a').click (function (e) {
+				streetfocus.setFilteringUiValues (_filteringDefaults);
+				e.preventDefault ();
+			});
 		},
 		
 		
 		// Function to set the filtering UI values
 		setFilteringUiValues: function (filteringDefaults)
 		{
+			// Reset all
+			$('#filtering input:checkbox').prop ('checked', false);
+			
 			// Loop through each checkbox set
 			$.each (filteringDefaults, function (parameter, values) {
 				
 				// Set each supplied value for its checkbox
 				values = values.split (',');
 				$.each (values, function (index, value) {
-					$('#filtering input[name="' + parameter + '[]"][value="' + value + '"]').attr ('checked', true);
+					$('#filtering input[name="' + parameter + '[]"][value="' + value + '"]').trigger ('click');
 				});
 			});
 		},

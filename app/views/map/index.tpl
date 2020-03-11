@@ -19,7 +19,9 @@
 	<div id="filtering" tabindex="2">
 		<p class="close"><a href="#">×</a></p>
 		
+		<p class="reset"><a href="#">Reset</a></p>
 		<h2>Refine search</h2>
+		
 		<h3>Application activity</h3>
 		<ul id="app_state">
 			<li><label><input type="checkbox" name="app_state[]" value="Undecided"> Current</label></li>
