@@ -22,5 +22,3 @@
 </div>
 
 
-{include file='_popups/planningapplication.tpl'}
-
