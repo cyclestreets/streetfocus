@@ -38,7 +38,7 @@ header nav ul li.login a {margin-left: 12px; border: 1px solid #3f74ba; border-r
 /* Main menu navigation - mobile */
 header nav img {display: none;}
 #mobilenav {display: none;}
-@media only screen and (max-width: 875px) {
+@media only screen and (max-width: 900px) {
 	header nav img {display: block; margin-top: 15px; width: 32px; height: 32px;}
 	header nav ul {display: none;}
 	#mobilenav ul li {font-family: 'Fjalla One', sans-serif; text-transform: uppercase;}
@@ -82,7 +82,7 @@ body .mapboxgl-map .mapboxgl-popup-content {line-height: 1.4;}
 #details {display: none; position: relative; width: auto; background-color: white; padding: 30px; z-index: 10;}
 body.planningapplications #details {margin-right: 280px; margin-top: -480px; min-height: 420px /* 480-30-30 */;}
 body.proposals #details {margin-top: -330px; min-height: 270px /* 330-30-30 */;}
-@media only screen and (max-width: 875px) {
+@media only screen and (max-width: 900px) {
 	body.planningapplications #details {margin-right: 0;}
 }
 
@@ -130,7 +130,7 @@ body.home #statistics {width: 100%; margin: 0;}
 body.home #statistics div {padding: 0; margin: 0; display: inline-block; width: calc(50% - 4px); text-align: center; background-color: white; vertical-align: middle; padding-top: 0; color: #727272; font-size: 1em; line-height: 33px;}
 body.home #statistics div h3 {font-family: 'Fjalla One', sans-serif; margin: 0; padding: 0; font-size: 14px; line-height: 22px;}
 body.home #statistics div p {font-size: 26px; color: #3f74ba; font-weight: bold; margin: 0; padding: 0;}
-@media only screen and (max-width: 875px) {
+@media only screen and (max-width: 900px) {
 	body.home .staticmap {display: none;}
 	body.home #pane .staticmap {display: block;}
 	body.home #pane {position: static; width: auto; height: auto; margin: 0; border-radius: 0; box-shadow: none; padding: 0;}
@@ -164,7 +164,7 @@ body.planningapplications #filtering p.close {display: none;}
 body.planningapplications #filtering {display: block; width: 220px; top: 0; right: 0; bottom: 0;}
 
 /* Planning applications page filtering - mobile */
-@media only screen and (max-width: 875px) {
+@media only screen and (max-width: 900px) {
 	body.planningapplications div#filter {display: block; top: 20px; right: 20px;}
 	body.planningapplications #filtering p.close {display: block;}
 	body.planningapplications #filter p {line-height: 20px; font-family: 'PT Sans', sans-serif; font-size: 14px; vertical-align: middle; padding: 0; margin: 0;}
@@ -190,7 +190,7 @@ body.planningapplications #filtering {display: block; width: 220px; top: 0; righ
 
 /* Monitor */
 body.planningapplications #monitor {bottom: 45px; left: 20px; right: 300px;}
-@media only screen and (max-width: 875px) {
+@media only screen and (max-width: 900px) {
 	body.planningapplications #monitor {right: 20px; padding: 20px;}
 }
 body.planningapplications #monitor a {display: block; padding: 10px;}
