@@ -40,7 +40,7 @@ var streetfocus = (function ($) {
 	
 	// Default filters
 	var _filteringDefaults = {
-		app_state: 'Undecided'
+		app_state: ['Undecided']
 		//app_type: 
 		//app_size: 
 	};
@@ -276,6 +276,28 @@ var streetfocus = (function ($) {
 		},
 		
 		
+		// Function to get the filtering option values available
+		getFilteringOptions: function ()
+		{
+			// Loop through each input
+			var filteringOptions = {};
+			var name, value;
+			$('#filtering :input').each (function () {
+				
+				// Extract the name and value, and create a key for the name if not already present
+				name = $(this).attr('name').replace('[]', '');
+				if (!filteringOptions.hasOwnProperty (name)) {filteringOptions[name] = [];}
+				
+				// Add this value
+				value = $(this).val();
+				filteringOptions[name].push (value);
+			});
+			
+			// Return the registry
+			return filteringOptions;
+		},
+		
+		
 		// Function to set the filtering UI initial values
 		// #!# This is a bit slow because the whole function is running inside map load
 		filteringInitialValues: function ()
@@ -303,15 +325,21 @@ var streetfocus = (function ($) {
 		// Function to set the filtering UI values
 		setFilteringUiValues: function (filteringDefaults)
 		{
+			// Determine all available values in the checkbox sets
+			var filteringOptions = streetfocus.getFilteringOptions ();
+			
 			// Reset all
 			$('#filtering input:checkbox').prop ('checked', false);
 			
 			// Loop through each checkbox set
-			$.each (filteringDefaults, function (parameter, values) {
+			var selectedValues;
+			$.each (filteringOptions, function (parameter, allOptions) {
 				
-				// Set each supplied value for its checkbox
-				values = values.split (',');
-				$.each (values, function (index, value) {
+				// If this parameter (e.g. app_type) is present in the defaults, use that, else use all options in the group, as blank means no filtering, i.e. all options)
+				selectedValues = (filteringDefaults.hasOwnProperty (parameter) ? filteringDefaults[parameter] : allOptions);
+				
+				// Set each selected value for its checkbox
+				$.each (selectedValues, function (index, value) {
 					$('#filtering input[name="' + parameter + '[]"][value="' + value + '"]').trigger ('click');
 				});
 			});
@@ -378,11 +406,6 @@ var streetfocus = (function ($) {
 				}
 			});
 			
-			// Join each parameter value by comma delimeter
-			$.each (parameters, function (name, values) {
-				parameters[name] = values.join(',');
-			});
-			
 			// Set the main filtering button state to indicate whether filters are in place
 			if ($.isEmptyObject (parameters)) {
 				$('#filter').removeClass ('filtersenabled');
@@ -393,6 +416,11 @@ var streetfocus = (function ($) {
 			// Set a cookie containing the parameters, to provide state
 			var parametersString = JSON.stringify (parameters);
 			streetfocus.setCookie ('filtering', parametersString, 7);
+			
+			// Join each parameter value by comma delimeter
+			$.each (parameters, function (name, values) {
+				parameters[name] = values.join(',');
+			});
 			
 			// Return the values
 			return parameters;
