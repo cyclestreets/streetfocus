@@ -142,7 +142,7 @@ body.home #statistics div p {font-size: 26px; color: #3f74ba; font-weight: bold;
 }
 
 /* About page */
-body.about p#funders img {height: 100px; border: 1px solid #ddd; padding: 15px 25px; margin-right: 20px; margin-bottom: 15px;}
+body.about p#funders img {height: 90px; border: 1px solid #ddd; padding: 15px 25px; margin-right: 20px; margin-bottom: 15px;}
 
 /* 404 page */
 body.page404 img {margin-left: 20px; margin-bottom: 20px;}
@@ -255,9 +255,9 @@ body.add #filtering {padding: 5px 15px 20px;}
 
 /* Static pages */
 body.about main, body.contacts main, body.my main, body.add main, body.privacy main, body.login main, body.logout main, body.register main, body.page404 main {padding-left: 30px; padding-right: 30px; padding-bottom: 40px;}
-img.banner {width: 400px; float: right; margin: 10px 0 10px 20px;}
-@media only screen and (max-width: 650px) {
-	img.banner {width: 100%;}
+body.about main {padding-right: 430px; height: 500px; overflow: scroll; background-image: url('/images/about.jpg'); background-size: 400px 540px; background-repeat: no-repeat; background-position: top right;}
+@media only screen and (max-width: 900px) {
+	body.about main {padding-right: 30px; height: auto; background-position: bottom center; padding-bottom: 550px;}
 }
 
 /* Login, logout, register */
