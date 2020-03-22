@@ -691,7 +691,7 @@ class streetfocus
 		
 		# Get the CycleStreets Photomap issues within the specified BBOX
 		if ($this->userIsAdministrator) {
-			$data += $this->getCyclestreetsIssues ($bbox);
+			$data = array_merge ($data, $this->getCyclestreetsIssues ($bbox));
 		}
 		
 		# If signed in as an administrator, get the external issues within the specified BBOX
