@@ -241,7 +241,8 @@ body.add #filtering {padding: 5px 15px 20px;}
 #details div.documents p.alldocuments {text-align: center;}
 #details div.documents p.alldocuments a span {color: #3f74ba; text-decoration: underline;}
 #details div.listing ul {margin: 0; padding: 0;}
-#details div.listing ul li {display: block; height: 40px; width: 100%; background-repeat: no-repeat; background-position: 0px center; margin-top: 15px; line-height: 40px;}
+#details div.listing ul li {display: block; height: 40px; width: 100%; background-repeat: no-repeat; background-position: 0px center; margin-top: 15px;}
+#details div.listing ul li span {color: gray;}
 #details div.listing ul li a {display: block; height: 100%; padding-left: 52px;}
 #details div.listing ul li:hover {opacity: 0.8;}
 #details div.documents ul li {background-image: url('/images/document.png');}

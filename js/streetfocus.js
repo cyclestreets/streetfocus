@@ -614,8 +614,16 @@ var streetfocus = (function ($) {
 			
 			// Convert to HTML
 			var listItems = [];
+			var listItem;
 			$.each (keyDocuments, function (index, document) {
-				listItems.push ('<li><a href="' + document.doc_url + '" target="_blank">' + document.doc_type + '</a></li>');
+				listItem  = '<li>';
+				listItem += '<a href="' + document.doc_url + '" target="_blank">';
+				listItem += streetfocus.htmlspecialchars (document.doc_type);
+				listItem += ' - ' + streetfocus.htmlspecialchars (document.doc_title);
+				listItem += ' &nbsp; <span>(' + streetfocus.htmlspecialchars (document.doc_date) + ')</span>';
+				listItem += '</a>';
+				listItem += '</li>';
+				listItems.push (listItem);
 			});
 			var listItemsHtml = listItems.join ("\n");
 			
