@@ -464,6 +464,9 @@ var streetfocus = (function ($) {
 			// Determine the key documents list
 			var keyDocumentsHtml = streetfocus.keyDocuments (feature.properties.docs);
 			
+			// Determine the matching proposals list
+			var matchingProposalsHtml = streetfocus.matchingProposals (feature.properties._proposals);
+			
 			// Only show proposal matches for medium/large applications
 			if (feature.properties.app_size == 'Medium' || feature.properties.app_size == 'Large') {
 				$(element + ' div.matches').show ();
@@ -489,6 +492,7 @@ var streetfocus = (function ($) {
 			$(element + ' .title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 80)));
 			$(element + ' div.description p').html (streetfocus.htmlspecialchars (feature.properties.description));
 			$(element + ' div.documents ul').html (keyDocumentsHtml);
+			$(element + ' div.matches ul').html (matchingProposalsHtml);
 			$(element + ' p.alldocuments a').attr ('href', vendorLinks.documents);
 			$(element + ' p.address').html (streetfocus.htmlspecialchars (feature.properties.address));
 			$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
@@ -627,7 +631,31 @@ var streetfocus = (function ($) {
 			});
 			var listItemsHtml = listItems.join ("\n");
 			
-			// Return the key documents list
+			// Return the list
+			return listItemsHtml;
+		},
+		
+		
+		// Helper function to list matching proposals
+		matchingProposals: function (proposals)
+		{
+			// Return empty array if none
+			if (!proposals) {return [];}
+			
+			// Convert to HTML
+			var listItems = [];
+			var listItem;
+			$.each (proposals, function (index, proposal) {
+				listItem  = '<li>';
+				listItem += '<a href="/proposals/' + proposal.properties.moniker + '/" target="_blank">';
+				listItem += streetfocus.htmlspecialchars (proposal.properties.title);
+				listItem += '</a>';
+				listItem += '</li>';
+				listItems.push (listItem);
+			});
+			var listItemsHtml = listItems.join ("\n");
+			
+			// Return the list
 			return listItemsHtml;
 		},
 		
