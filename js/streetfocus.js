@@ -645,10 +645,13 @@ var streetfocus = (function ($) {
 			// Convert to HTML
 			var listItems = [];
 			var listItem;
+			var date;
 			$.each (proposals, function (index, proposal) {
 				listItem  = '<li>';
 				listItem += '<a href="/proposals/' + proposal.properties.moniker + '/" target="_blank">';
 				listItem += streetfocus.htmlspecialchars (proposal.properties.title);
+				date = new Date (proposal.properties.when * 1000);
+				listItem += ' &nbsp; <span>(' + streetfocus.htmlspecialchars (date.getFullYear ()) + ')</span>';
 				listItem += '</a>';
 				listItem += '</li>';
 				listItems.push (listItem);
