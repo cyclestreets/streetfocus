@@ -655,6 +655,13 @@ class streetfocus
 		$apiUrl = $this->settings['planitBaseUrl'] . '/planapplic/' . $id . '/geojson';
 		$data = $this->getApiData ($apiUrl);
 		
+		# Determine a BBOX around the planning application
+		$distanceKm = 0.1;
+		$bbox = $this->pointToBbox ($data['geometry']['coordinates'][1], $data['geometry']['coordinates'][0], $distanceKm);
+		
+		# Get the proposals, and these to the data
+		$data['properties']['_proposals'] = $this->getProposals ($bbox);
+		
 		# Return the data
 		return $this->asJson ($data);
 	}
