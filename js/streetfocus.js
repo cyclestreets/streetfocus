@@ -464,6 +464,13 @@ var streetfocus = (function ($) {
 			// Determine the key documents list
 			var keyDocumentsHtml = streetfocus.keyDocuments (feature.properties.docs);
 			
+			// Only show proposal matches for medium/large applications
+			if (feature.properties.app_size == 'Medium' || feature.properties.app_size == 'Large') {
+				$(element + ' div.matches').show ();
+			} else {
+				$(element + ' div.matches').hide ();
+			}
+			
 			// Hide the call to action if already decided/withdrawn/etc.
 			if (feature.properties.app_state == 'Undecided') {
 				$(element + ' p.link').show ();
