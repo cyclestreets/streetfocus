@@ -672,21 +672,35 @@ class streetfocus
 		# Start a GeoJSON result; the search drivers will return GeoJSON features rather than a full GeoJSON result
 		$data = array ('type' => 'FeatureCollection', 'features' => array ());
 		
+		# Get the proposals
+		$data['features'] = $this->getProposals ($bbox);
+		
+		# Return the data
+		return $this->asJson ($data);
+	}
+	
+	
+	# Function to get proposals
+	private function getProposals ($bbox)
+	{
+		# Start a data array
+		$data = array ();
+		
 		# Get the Cyclescape issues within the specified BBOX
-		$data['features'] += $this->getCyclescapeIssues ($bbox);
+		$data += $this->getCyclescapeIssues ($bbox);
 		
 		# Get the CycleStreets Photomap issues within the specified BBOX
 		if ($this->userIsAdministrator) {
-			$data['features'] += $this->getCyclestreetsIssues ($bbox);
+			$data += $this->getCyclestreetsIssues ($bbox);
 		}
 		
 		# If signed in as an administrator, get the external issues within the specified BBOX
 		if ($this->userIsAdministrator) {
-			$data['features'] = array_merge ($data['features'], $this->getExternalIssues ($bbox));
+			$data = array_merge ($data, $this->getExternalIssues ($bbox));
 		}
 		
 		# Return the data
-		return $this->asJson ($data);
+		return $data;
 	}
 	
 	
