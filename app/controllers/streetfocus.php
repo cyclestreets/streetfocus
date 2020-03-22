@@ -642,6 +642,24 @@ class streetfocus
 	}
 	
 	
+	# Function to serve data on a planning application
+	private function api_planningapplication ()
+	{
+		# Ensure an application ID is specified
+		if (!isSet ($_GET['id']) || !strlen ($_GET['id'])) {
+			return $this->errorJson ('No application ID was specified.');
+		}
+		$id = $_GET['id'];
+		
+		# Get the data from PlanIt
+		$apiUrl = $this->settings['planitBaseUrl'] . '/planapplic/' . $id . '/geojson';
+		$data = $this->getApiData ($apiUrl);
+		
+		# Return the data
+		return $this->asJson ($data);
+	}
+	
+	
 	# Function to serve proposals data
 	private function api_proposals ()
 	{
@@ -848,7 +866,7 @@ class streetfocus
 	
 	
 	# Helper function to get data from an API
-	private function getApiData ($url, $parameters)
+	private function getApiData ($url, $parameters = array ())
 	{
 		# Construct the URL
 		if ($parameters) {

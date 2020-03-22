@@ -432,7 +432,7 @@ var streetfocus = (function ($) {
 		{
 			// Get the fuller data, syncronously
 			// #!# Need to restructure calling code to avoid syncronous request
-			var url = feature.properties.link + 'geojson';		// Contains fuller data at the application level
+			var url = '/api/planningapplication?id=' + feature.properties.name;		// Contains fuller data at the application level
 			$.ajax ({
 				url: url,
 				dataType: 'json',
