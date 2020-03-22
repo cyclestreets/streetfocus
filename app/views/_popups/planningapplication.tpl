@@ -7,6 +7,8 @@
 	
 	<h2 class="title">Title</h2>
 	
+	<p class="address centred">Street,<br />Town</p>
+	
 	<ul class="status">
 		<li class="state">State</li>
 		<li class="size">Development size</li>

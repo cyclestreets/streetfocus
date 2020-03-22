@@ -222,6 +222,7 @@ body.add #filtering {padding: 5px 15px 20px;}
 #details p.calltoaction a {display: block; width: auto; color: #fff; background-color: #3f74ba; border: 0; border-radius: 5px; text-align: center; font-family: 'PT Sans', sans-serif; font-size: 16px; padding: 10px;}
 #details p.image {margin-top: 15px; width: auto; height: 400px;}
 #details p.image img {max-width: 100%; max-height: 100%; object-fit: contain;}
+#details p.address.centred {text-align: center; margin-top: 0;}
 #details ul.status {margin: 0 auto 18px; text-align: center; padding: 0;}
 #details ul.status li {display: inline; background-color: #d9e3f1; font-size: 14px; color: #152139; padding: 6px 14px; line-height: 38px; border-radius: 14px; margin: 0 5px; white-space: nowrap;}
 #details div.description {margin-top: 0; border-top: 1px solid #f9b54b; padding-top: 18px;}
