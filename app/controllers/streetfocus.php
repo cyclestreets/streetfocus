@@ -660,6 +660,36 @@ class streetfocus
 	}
 	
 	
+	# Function to get a BBOX surrounding a point
+	private function pointToBbox ($latitude, $longitude, $distance /* in km */)
+	{
+		# Work through each bearing to assign a point
+		# See: https://www.sitepoint.com/community/t/adding-distance-to-gps-coordinates-to-get-bounding-box/5820/11
+		$coordinates = array ();
+		$bearings = array ('w' => 270, 's' => 180, 'e' => 90, 'n' => 0);
+		foreach ($bearings as $direction => $bearing) {
+			$radius = 6371;
+			$newLatitude = rad2deg (asin (sin (deg2rad ($latitude)) * cos ($distance / $radius) + cos (deg2rad ($latitude)) * sin ($distance / $radius) * cos (deg2rad ($bearing))));
+			$newLongitude = rad2deg (deg2rad ($longitude) + atan2 (sin (deg2rad ($bearing)) * sin ($distance / $radius) * cos (deg2rad ($latitude)), cos ($distance / $radius) - sin (deg2rad ($latitude)) * sin (deg2rad ($newLatitude))));
+			$coordinates[$direction] = array ($newLatitude, $newLongitude);
+		}
+		
+		# Construct the BBOX
+		$bbox = array (
+			'w'	=> round ($coordinates['w'][1], 6),
+			's'	=> round ($coordinates['s'][0], 6),
+			'e'	=> round ($coordinates['e'][1], 6),
+			'n'	=> round ($coordinates['n'][0], 6),
+		);
+		
+		# Implode to string
+		$bbox = implode (',', $bbox);
+		
+		# Return the result
+		return $bbox;
+	}
+	
+	
 	# Function to serve proposals data
 	private function api_proposals ()
 	{
