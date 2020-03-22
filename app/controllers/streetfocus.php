@@ -676,7 +676,9 @@ class streetfocus
 		$data['features'] += $this->getCyclescapeIssues ($bbox);
 		
 		# Get the CycleStreets Photomap issues within the specified BBOX
-		$data['features'] += $this->getCyclestreetsIssues ($bbox);
+		if ($this->userIsAdministrator) {
+			$data['features'] += $this->getCyclestreetsIssues ($bbox);
+		}
 		
 		# If signed in as an administrator, get the external issues within the specified BBOX
 		if ($this->userIsAdministrator) {
