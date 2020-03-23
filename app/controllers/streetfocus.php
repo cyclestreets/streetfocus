@@ -280,9 +280,30 @@ class streetfocus
 	private function home ()
 	{
 		# Add totals
+		$this->template['totalApplications'] = $this->getTotalPlanningApplications ();
 		// #!# Example data at present - needs API integration
-		$this->template['totalApplications'] = '32306';
 		$this->template['matchedProposals'] = '253';
+	}
+	
+	
+	# Function to get the total number of planning applications
+	private function getTotalPlanningApplications ()
+	{
+		# Get the data from the PlanIt API
+		$url = $this->settings['planitBaseUrl'] . '/api/applics/json';
+		$parameters = array (
+			'limit'		=> 1,
+			'pg_sz'		=> 1,
+			'recent'	=> 100,		// 100 days, just over 14 weeks
+			'app_state'	=> 'Undecided',
+		);
+		$data = $this->getApiData ($url, $parameters);
+		
+		# Extract the value
+		$total = $data['total'];
+		
+		# Return the result
+		return $total;
 	}
 	
 	
