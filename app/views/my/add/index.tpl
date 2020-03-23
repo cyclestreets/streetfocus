@@ -6,8 +6,8 @@
 {else}
 
 
-{if isSet ($outcome)}
-	<p>{$outcome|htmlspecialchars}</p>
+{if isSet ($outcomeHtml)}
+	<p>{$outcomeHtml}</p>
 {else}
 	
 

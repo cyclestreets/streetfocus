@@ -416,11 +416,12 @@ class streetfocus
 		
 		# Confirm the outcome
 		if ($result) {
-			$outcome = '✓ - Your new monitor has been created. We will let you know when new planning applications appear in that area.';
+			$outcomeHtml  = '✓ - Your new monitor has been created. We will let you know when new planning applications appear in that area.';
+			$outcomeHtml .= '<br /><br /><span class="warning">Beta note: E-mails are not yet going out, but will be shortly.</span>';
 		} else {
-			$outcome = 'Apologies - there was a problem saving this monitor. Please try again later.';
+			$outcomeHtml = 'Apologies - there was a problem saving this monitor. Please try again later.';
 		}
-		$this->template['outcome'] = $outcome;
+		$this->template['outcomeHtml'] = $outcomeHtml;
 	}
 	
 	
