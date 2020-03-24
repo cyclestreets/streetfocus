@@ -771,6 +771,8 @@ class streetfocus
 		$parameters = array (
 			'per_page'			=> 200,
 			'bbox'				=> $bbox,
+			'order'				=> 'id',
+			'order_direction'	=> 'desc',
 			'excluding_tags'	=> json_encode (array (
 				'planning',			// Omit planning applications imported as issues
 				'consultation',		// Omit council consultations discussed as issues
