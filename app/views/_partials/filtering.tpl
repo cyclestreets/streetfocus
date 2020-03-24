@@ -16,4 +16,5 @@
 			<li><label><input type="checkbox" name="app_type[]" value="Advertising"> Advertising</label></li>
 			<li><label><input type="checkbox" name="app_type[]" value="Telecoms"> Telecoms</label></li>
 			<li><label><input type="checkbox" name="app_type[]" value="Other"> Other</label></li>
+			<li><label><input type="checkbox" name="app_type[]" value="Conditions"> Conditions</label></li>
 		</ul>

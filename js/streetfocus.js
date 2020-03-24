@@ -57,7 +57,8 @@ var streetfocus = (function ($) {
 				'Trees':		'green',
 				'Advertising':	'red',
 				'Telecoms':		'purple',
-				'Other':		'gray'
+				'Other':		'gray',
+				'Conditions':	'#aed6f1'
 			}
 		}
 	};
