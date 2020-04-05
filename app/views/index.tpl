@@ -2,7 +2,7 @@
 	
 	<div id="introduction">
 		<h1 class="name">StreetFocus</h1>
-		<h1>Helping local communities benefit from new development</h1>
+		<h1>Helping local communities benefit from new developments</h1>
 		<p>Find out what planning applications there currently are in your area and discover whether there is funding for neighbourhood projects.</p>
 	</div>
 	
