@@ -1,10 +1,12 @@
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
 	
 	<head>
 		
 		<title>{$_title}</title>
 
-		<link href="https://fonts.googleapis.com/css?family=Fjalla+One|PT+Sans&amp;display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Fjalla+One%7CPT+Sans&amp;display=swap" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="/css/streetfocus.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		
@@ -15,7 +17,7 @@
 		<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js"></script>
 		<link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css" rel="stylesheet" />
 		
-		<script type="text/javascript" src="/js/lib/geocoder.js"></script>
+		<script src="/js/lib/geocoder.js"></script>
 		
 		<script src="/js/streetfocus.js"></script>
 		<script>

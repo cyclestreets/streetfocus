@@ -1,6 +1,6 @@
 <div id="geocoder">
-	<a href="#"><img id="geolocation" src="/images/gps.png" /></a>
+	<a href="#"><img id="geolocation" src="/images/gps.png" alt="My location" /></a>
 	<input type="search" name="location" autocomplete="off" placeholder="Search for {($_action == 'planningapplications') ? 'place, postcode or planning ref.' : 'place or postcode'}" tabindex="1" spellcheck="false" />
-	<input type="image" src="/images/search.png" />
+	<input type="image" src="/images/search.png" alt="Search!" />
 </div>
 

@@ -21,7 +21,7 @@
 	
 	<p class="date"></p>
 	
-	<p class="link calltoaction"><a href="#" target="_blank">Respond to this consultation <img src="/images/offsite-white.png" /></a></p>
+	<p class="link calltoaction"><a href="#" target="_blank">Respond to this consultation <img src="/images/offsite-white.png" alt="Offsite" /></a></p>
 	
 	<div class="actions">
 		<p class="officialplans"><a href="#" target="_blank">See official plans</a></p>

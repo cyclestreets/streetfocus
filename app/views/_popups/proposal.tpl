@@ -11,7 +11,7 @@
 		<p>Description</p>
 	</div>
 	
-	<p class="link calltoaction"><a href="#" target="_blank">More details on this proposal <img src="/images/offsite-white.png" /></a></p>
+	<p class="link calltoaction"><a href="#" target="_blank">More details on this proposal <img src="/images/offsite-white.png" alt="Offsite" /></a></p>
 	
 	<p class="image"><img src="#" /></p>
 	

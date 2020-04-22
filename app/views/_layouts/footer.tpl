@@ -11,7 +11,7 @@
 			</div>
 			
 			<div id="socialmedia">
-				<p>Follow us <a href="https://www.facebook.com/CycleStreets/"><img src="/images/facebook.png"></a> <a href="https://twitter.com/streetfocusuk"><img src="/images/twitter.png"></a></p>
+				<p>Follow us <a href="https://www.facebook.com/CycleStreets/"><img src="/images/facebook.png" alt="Facebook" /></a> <a href="https://twitter.com/streetfocusuk"><img src="/images/twitter.png" alt="Twitter" /></a></p>
 			</div>
 			
 			<div id="colophon">

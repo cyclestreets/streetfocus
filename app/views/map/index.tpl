@@ -13,7 +13,7 @@
 	<div id="details"></div>
 	
 	<div id="filter" class="control">
-		<p><a href="#"><img id="filter" src="/images/filter.png" /> Refine search</a></p>
+		<p><a href="#"><img id="filter" src="/images/filter.png" alt="Filter" /> Refine search</a></p>
 	</div>
 	
 	<div id="filtering" tabindex="2">
@@ -24,16 +24,20 @@
 		
 		{include file='_partials/filtering.tpl'}
 		
+		<h3>Date range</h3>
+		<p><input type="text" id="amount" readonly="readonly" style="border:0; color:#f6931f; font-weight:bold;" /></p>
+		<div id="slider-range"></div>
+		
 		<h3>Application activity</h3>
 		<ul id="app_state">
-			<li><label><input type="checkbox" name="app_state[]" value="Undecided"> Current</label></li>
-			<li><label><input type="checkbox" name="app_state[]" value="Permitted,Conditions,Rejected,Withdrawn,Other"> Decided</label></li>
+			<li><label><input type="checkbox" name="app_state[]" value="Undecided" /> Current</label></li>
+			<li><label><input type="checkbox" name="app_state[]" value="Permitted,Conditions,Rejected,Withdrawn,Other" /> Decided</label></li>
 		</ul>
 	</div>
 	
 	<div id="monitor" class="control">
 		<a href="/my/add/">
-			<img src="/images/monitor.png" />
+			<img src="/images/monitor.png" alt="Monitor" />
 			<h2>Monitor this area</h2>
 			<p>Sign up to receive e-mail alerts when new application plans come up.</p>
 		</a>
