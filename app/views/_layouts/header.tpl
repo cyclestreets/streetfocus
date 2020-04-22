@@ -33,7 +33,7 @@
 			<p><a href="/"><img src="/images/logo.png" id="logo" alt="StreetFocus" /></a></p>
 			
 			<nav>
-				<img src="/images/hamburger.png" />
+				<img src="/images/hamburger.png" alt="Menu" />
 				<ul>
 					<li class="{($_action == 'home') ? 'selected ' : ''}mobile"><a href="/">Home</a></li>
 					<li{($_action == 'planningapplications') ? ' class="selected"' : ''}><a href="/map/">Planning applications</a></li>

@@ -13,7 +13,7 @@
 	<div id="details"></div>
 	
 	<div id="filter" class="control">
-		<p><a href="#"><img id="filter" src="/images/filter.png" alt="Filter" /> Refine search</a></p>
+		<p><a href="#"><img src="/images/filter.png" alt="Filter" /> Refine search</a></p>
 	</div>
 	
 	<div id="filtering" tabindex="2">

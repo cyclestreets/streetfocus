@@ -5,7 +5,7 @@
 	
 	<p class="applicationid"><span class="source">Source</span> proposal #<span class="id">id</span>, &nbsp;dated <span class="date">date</span></p>
 	
-	<h2 class="title">Proposal title</h3>
+	<h2 class="title">Proposal title</h2>
 	
 	<div class="description">
 		<p>Description</p>
@@ -13,7 +13,7 @@
 	
 	<p class="link calltoaction"><a href="#" target="_blank">More details on this proposal <img src="/images/offsite-white.png" alt="Offsite" /></a></p>
 	
-	<p class="image"><img src="#" /></p>
+	<p class="image"><img src="#" alt="Photo of this proposal" /></p>
 	
 	<!--
 	<h3>Tags</h3>
