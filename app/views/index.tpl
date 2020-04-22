@@ -9,7 +9,7 @@
 	{include file='_partials/geocoder.tpl'}
 	
 	<div class="staticmap">
-		<a href="/map/"><img src="/images/staticmap.png" /></a>
+		<a href="/map/"><img src="/images/staticmap.png" alt="Map" /></a>
 	</div>
 	
 	<div id="statistics">
@@ -26,6 +26,6 @@
 </div>
 
 <div class="staticmap">
-	<a href="/map/"><img src="/images/staticmap.png" /></a>
+	<a href="/map/"><img src="/images/staticmap.png" alt="Map" /></a>
 </div>
 
