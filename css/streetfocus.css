@@ -153,9 +153,9 @@ body.planningapplications #map {min-height: 600px;}
 body.proposals #map {min-height: 450px;}
 
 /* Planning applications page filtering */
-body.planningapplications #filtering {position: absolute; z-index: 10; background-color: #f7f7f7; padding: 30px;}
+body.planningapplications #filtering {position: absolute; z-index: 10; background-color: #f7f7f7; padding: 20px 30px;}
 body.planningapplications #filtering h2 {margin-top: 0;}
-body.planningapplications #filtering h3 {margin-top: 1.8em; margin-bottom: 0.5em;}
+body.planningapplications #filtering h3 {margin-top: 1.2em; margin-bottom: 0.2em;}
 body.planningapplications #filtering p.reset {float: right; padding: 0; margin: 4px 0 0; font-size: 0.83em;}
 body.planningapplications #filtering p.reset a {color: #ccc; border: 1px solid #ddd; padding: 2px 6px; border-radius: 6px;}
 
@@ -177,8 +177,10 @@ body.planningapplications #filtering {display: block; width: 220px; top: 0; righ
 
 /* Filtering controls */
 #filtering ul#app_state, #filtering ul#app_type, #filtering ul#app_size {list-style: none; margin: 0; padding: 2px 0 0; line-height: 33px;}
-#filtering ul#app_state li, #filtering ul#app_type li, #filtering ul#app_size li {display: inline-block; border: 1px solid #707070; padding: 3px 8px; color: #707070; width: auto; margin: 0 5px 0 0; border-radius: 6px;}
+#filtering ul#app_state li, #filtering ul#app_type li, #filtering ul#app_size li {display: inline-block; border: 1px solid #707070; padding: 2px 6px; color: #707070; width: auto; margin: 0 5px 0 0; border-radius: 6px;}
 #filtering ul#app_type li label {color: white;}
+#filtering p {margin: 6px 0;}
+#filtering p input {font-size: 16px;}
 
 /* Close button in map panels */
 #mappanel div p.close {float: right; font-size: 30px; line-height: 10px; margin: 0; padding: 0;}

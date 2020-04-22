@@ -15,6 +15,7 @@ var streetfocus = (function ($) {
 		
 		// PlanIt API
 		planitApiBaseUrl: 'https://www.planit.org.uk/api',
+		planitEarliestYear: 2000,
 		
 		// Mapbox API key
 		mapboxApiKey: 'YOUR_MAPBOX_API_KEY',
@@ -40,9 +41,10 @@ var streetfocus = (function ($) {
 	
 	// Default filters
 	var _filteringDefaults = {
+		//app_size:
+		//app_type:
+		//start_date:
 		app_state: ['Undecided']
-		//app_type: 
-		//app_size: 
 	};
 	
 	// Definitions
@@ -265,6 +267,14 @@ var streetfocus = (function ($) {
 		// Function to initialise the filtering form
 		initialiseFilteringForm: function ()
 		{
+			// Set min and max dates
+			var yearRange = {
+				min: _settings.planitEarliestYear,
+				max: new Date().getFullYear()
+			};
+			$('input[name="start_date"], input[name="end_date"]').attr ('min', yearRange.min);
+			$('input[name="start_date"], input[name="end_date"]').attr ('max', yearRange.max);
+			
 			// Set checkbox colours
 			var value;
 			$.each ($("input[name='app_type[]']"), function () {
@@ -282,16 +292,23 @@ var streetfocus = (function ($) {
 		{
 			// Loop through each input
 			var filteringOptions = {};
-			var name, value;
+			var name, value, type;
 			$('#filtering :input').each (function () {
+				name = $(this).attr('name');
+				value = $(this).val();
 				
 				// Extract the name and value, and create a key for the name if not already present
-				name = $(this).attr('name').replace('[]', '');
-				if (!filteringOptions.hasOwnProperty (name)) {filteringOptions[name] = [];}
-				
-				// Add this value
-				value = $(this).val();
-				filteringOptions[name].push (value);
+				type = $(this).attr('type');
+				switch (type) {
+					case 'checkbox':
+						name = name.replace('[]', '');
+						if (!filteringOptions.hasOwnProperty (name)) {filteringOptions[name] = [];}		// Initialise array if required
+						filteringOptions[name].push (value);
+						break;
+					case 'number':
+						filteringOptions[name] = value;
+						break;
+				}
 			});
 			
 			// Return the registry
@@ -332,17 +349,21 @@ var streetfocus = (function ($) {
 			// Reset all
 			$('#filtering input:checkbox').prop ('checked', false);
 			
-			// Loop through each checkbox set
-			var selectedValues;
+			// Loop through each checkbox set / input
+			var parameterValue;
 			$.each (filteringOptions, function (parameter, allOptions) {
 				
 				// If this parameter (e.g. app_type) is present in the defaults, use that, else use all options in the group, as blank means no filtering, i.e. all options)
-				selectedValues = (filteringDefaults.hasOwnProperty (parameter) ? filteringDefaults[parameter] : allOptions);
+				parameterValue = (filteringDefaults.hasOwnProperty (parameter) ? filteringDefaults[parameter] : allOptions);
 				
 				// Set each selected value for its checkbox
-				$.each (selectedValues, function (index, value) {
-					$('#filtering input[name="' + parameter + '[]"][value="' + value + '"]').trigger ('click');
-				});
+				if (Array.isArray (parameterValue)) {
+					$.each (parameterValue, function (index, subValue) {
+						$('#filtering input[name="' + parameter + '[]"][value="' + subValue + '"]').trigger ('click');
+					});
+				} else {
+					$('#filtering input[name="' + parameter + '"]').val (parameterValue);
+				}
 			});
 		},
 		
@@ -398,12 +419,24 @@ var streetfocus = (function ($) {
 			var parameters = {};
 			
 			// Scan form widgets
+			var name, value, type;
 			$(path + ' :input').each (function() {
-				var name = $(this).attr('name').replace('[]', '');
-				var value = $(this).val();
-				if (this.checked) {
-					if (!parameters.hasOwnProperty(name)) {parameters[name] = [];}	// Initialise if required
-					parameters[name].push (value);
+				name = $(this).attr('name').replace('[]', '');
+				value = $(this).val();
+				
+				type = $(this).attr('type');
+				switch (type) {
+					case 'checkbox':
+						if (this.checked) {
+							if (!parameters.hasOwnProperty(name)) {parameters[name] = [];}	// Initialise if required
+							parameters[name].push (value);
+						}
+						break;
+					case 'number':
+						if (value.length > 0) {
+							parameters[name] = value;
+						}
+						break;
 				}
 			});
 			
@@ -420,8 +453,18 @@ var streetfocus = (function ($) {
 			
 			// Join each parameter value by comma delimeter
 			$.each (parameters, function (name, values) {
-				parameters[name] = values.join(',');
+				if (Array.isArray (values)) {
+					parameters[name] = values.join(',');
+				}
 			});
+			
+			// Deal with date fields, which need to be converted from year to date
+			if (parameters.hasOwnProperty ('start_date')) {
+				parameters.start_date += '-01-01';
+			}
+			if (parameters.hasOwnProperty ('end_date')) {
+				parameters.end_date += '-12-31';
+			}
 			
 			// Return the values
 			return parameters;
@@ -1245,6 +1288,13 @@ var streetfocus = (function ($) {
 			if (filteringFormPath) {
 				var formParameters = streetfocus.scanForm (filteringFormPath);
 				$.extend (parameters, formParameters);
+			}
+			
+			// If there is a start date and end date, take no action if in wrong date order
+			if (parameters.start_date && parameters.end_date) {
+				if (parameters.start_date > parameters.end_date) {
+					return;
+				}
 			}
 			
 			// Show loading spinner, if not already visible
