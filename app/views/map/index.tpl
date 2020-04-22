@@ -24,10 +24,6 @@
 		
 		{include file='_partials/filtering.tpl'}
 		
-		<h3>Date range</h3>
-		<p><input type="text" id="amount" readonly="readonly" style="border:0; color:#f6931f; font-weight:bold;" /></p>
-		<div id="slider-range"></div>
-		
 		<h3>Application activity</h3>
 		<ul id="app_state">
 			<li><label><input type="checkbox" name="app_state[]" value="Undecided" /> Current</label></li>
