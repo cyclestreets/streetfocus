@@ -44,6 +44,7 @@ var streetfocus = (function ($) {
 		//app_size:
 		//app_type:
 		//start_date:
+		//end_date:
 		app_state: ['Undecided']
 	};
 	
@@ -347,22 +348,38 @@ var streetfocus = (function ($) {
 			var filteringOptions = streetfocus.getFilteringOptions ();
 			
 			// Reset all
+			$('#filtering input[type="number"]').val ('');
 			$('#filtering input:checkbox').prop ('checked', false);
 			
 			// Loop through each checkbox set / input
+			var inputType;
+			var isScalarInputType;
 			var parameterValue;
 			$.each (filteringOptions, function (parameter, allOptions) {
 				
-				// If this parameter (e.g. app_type) is present in the defaults, use that, else use all options in the group, as blank means no filtering, i.e. all options)
-				parameterValue = (filteringDefaults.hasOwnProperty (parameter) ? filteringDefaults[parameter] : allOptions);
+				// Detect whether the parameter is for a scalar type, rather than, e.g. checkboxes
+				inputType = $('input[name="' + parameter + '"').attr ('type');			// Checkboxes like name="foo[]", or <select> element will therefore not match
+				isScalarInputType = (inputType == 'text' || inputType == 'number');
 				
-				// Set each selected value for its checkbox
-				if (Array.isArray (parameterValue)) {
+				// Scalar input types
+				if (isScalarInputType) {
+					
+					// If this parameter (e.g. app_type) is present in the defaults, use that; else set empty
+					parameterValue = (filteringDefaults.hasOwnProperty (parameter) ? filteringDefaults[parameter] : '');
+					
+					// Set the value
+					$('#filtering input[name="' + parameter + '"]').val (parameterValue);
+					
+				// Array types, e.g. checkboxes
+				} else {
+					
+					// If this parameter (e.g. app_type) is present in the defaults, use that; blank means no filtering, i.e. all options
+					parameterValue = (filteringDefaults.hasOwnProperty (parameter) ? filteringDefaults[parameter] : allOptions);
+					
+					// Set each selected value for its checkbox
 					$.each (parameterValue, function (index, subValue) {
 						$('#filtering input[name="' + parameter + '[]"][value="' + subValue + '"]').trigger ('click');
 					});
-				} else {
-					$('#filtering input[name="' + parameter + '"]').val (parameterValue);
 				}
 			});
 		},
