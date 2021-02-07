@@ -543,7 +543,7 @@ var streetfocus = (function ($) {
 			}
 			
 			// Populate the HTML content
-			$(element + ' p.applicationId').html (feature.properties.uid);
+			$(element + ' p.applicationid').html (feature.properties.uid);
 			$(element + ' p.link a').attr ('href', vendorLinks.comments);
 			$(element + ' p.officialplans a').attr ('href', feature.properties.url);
 			$(element + ' ul.status li.state').text (feature.properties.app_state + ' application');
