@@ -402,7 +402,7 @@ class streetfocus
 		$functionValues = array ('bbox' => json_encode ($bbox));
 		
 		# Add form values, filling in optional values
-		$fields = array ('app_type', 'app_size');	// app_state (i.e. current/historical) is obviously not relevant for alerting of new applications
+		$fields = array ('type', 'size');	// app_state (i.e. current/historical) is obviously not relevant for alerting of new applications
 		foreach ($fields as $field) {
 			$insert[$field] = (isSet ($_POST[$field]) ? implode (',', $_POST[$field]) : NULL);
 		}
@@ -433,7 +433,7 @@ class streetfocus
 			$(function() {
 				config = {
 					defaultLocation: '{$this->settings['defaultLocation']}',
-					planitApiBaseUrl: '{$this->settings['planitBaseUrl']}/api',
+					cyclestreetsApiBaseUrl: '{$this->settings['cyclestreetsApiBaseUrl']}',
 					cyclestreetsApiKey: '{$this->settings['cyclestreetsApiKey']}',
 					mapboxApiKey: '{$this->settings['mapboxApiKey']}',
 					setLocation: '{$this->setLocation}',
@@ -1082,8 +1082,8 @@ class streetfocus
 		$query = "SELECT
 				id,
 				ST_AsGeoJSON(location) AS location,
-				app_type,
-				app_size
+				type,
+				size
 			FROM monitors
 			WHERE email = :email
 		;";
@@ -1098,8 +1098,8 @@ class streetfocus
 				'geometry' => json_decode ($monitor['location']),
 				'properties' => array (
 					'id' => (int) $monitor['id'],
-					'app_type' => ($monitor['app_type'] ? str_replace (',', ', ', $monitor['app_type']) : NULL),
-					'app_size' => ($monitor['app_size'] ? str_replace (',', ', ', $monitor['app_size']) : NULL),
+					'type' => ($monitor['type'] ? str_replace (',', ', ', $monitor['type']) : NULL),
+					'size' => ($monitor['size'] ? str_replace (',', ', ', $monitor['size']) : NULL),
 				),
 			);
 		}

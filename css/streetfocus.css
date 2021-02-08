@@ -176,9 +176,9 @@ body.planningapplications #filtering {display: block; width: 220px; top: 0; righ
 }
 
 /* Filtering controls */
-#filtering ul#app_state, #filtering ul#app_type, #filtering ul#app_size {list-style: none; margin: 0; padding: 2px 0 0; line-height: 33px;}
-#filtering ul#app_state li, #filtering ul#app_type li, #filtering ul#app_size li {display: inline-block; border: 1px solid #707070; padding: 2px 6px; color: #707070; width: auto; margin: 0 5px 0 0; border-radius: 6px;}
-#filtering ul#app_type li label {color: white;}
+#filtering ul#state, #filtering ul#type, #filtering ul#size {list-style: none; margin: 0; padding: 2px 0 0; line-height: 33px;}
+#filtering ul#state li, #filtering ul#type li, #filtering ul#size li {display: inline-block; border: 1px solid #707070; padding: 2px 6px; color: #707070; width: auto; margin: 0 5px 0 0; border-radius: 6px;}
+#filtering ul#type li label {color: white;}
 #filtering p {margin: 6px 0;}
 #filtering p input {font-size: 16px;}
 

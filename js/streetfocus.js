@@ -13,8 +13,11 @@ var streetfocus = (function ($) {
 		// Initial lat/lon/zoom of map and tile layer
 		defaultLocation: '17/52.2053/0.1218/0/0',	// Zoom, lat, lon, pitch, bearing
 		
+		// CycleStreets API
+		cyclestreetsApiBaseUrl: 'https://api.cyclestreets.net',
+		cyclestreetsApiKey: null,
+		
 		// PlanIt API
-		planitApiBaseUrl: 'https://www.planit.org.uk/api',
 		planitEarliestYear: 2000,
 		
 		// Mapbox API key
@@ -41,17 +44,17 @@ var streetfocus = (function ($) {
 	
 	// Default filters
 	var _filteringDefaults = {
-		//app_size:
-		//app_type:
+		//size:
+		//type:
 		//start_date:
 		//end_date:
-		app_state: ['Undecided']
+		state: ['Undecided']
 	};
 	
 	// Definitions
 	var _colours = {
 		planningapplications: {
-			field: 'app_type',
+			field: 'type',
 			values: {
 				'Full':			'#007cbf',
 				'Outline':		'blue',
@@ -67,7 +70,7 @@ var streetfocus = (function ($) {
 	};
 	var _sizes = {
 		planningapplications: {
-			field: 'app_size',
+			field: 'size',
 			values: {
 				'Small':		11,
 				'Medium':		18,
@@ -77,7 +80,7 @@ var streetfocus = (function ($) {
 	};
 	var _states = {
 		planningapplications: {
-			field: 'app_state',
+			field: 'state',
 			values: {
 				'Undecided':	1,
 				'Permitted':	0.3,
@@ -237,11 +240,10 @@ var streetfocus = (function ($) {
 			// Add geocoder control
 			streetfocus.search ('geocoder,planit');
 			
-			// Add the planning applications layer, e.g. /api/applics/geojson?limit=30&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076&recent=188&app_type=Full,Trees
-			var apiBaseUrl = _settings.planitApiBaseUrl + '/applics/geojson';
+			// Add the planning applications layer, e.g. /v2/planningapplications.locations?type=Full,Trees&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076
+			var apiUrl = _settings.cyclestreetsApiBaseUrl + '/v2/planningapplications.locations';
 			var parameters = {
-				limit: 250,
-				pg_sz: 250
+				key: _settings.cyclestreetsApiKey
 			};
 			
 			// Initialise the filtering form
@@ -257,7 +259,7 @@ var streetfocus = (function ($) {
 			streetfocus.panelClosing ('#filtering', '#filter');
 			
 			// Add the data layer
-			streetfocus.addLayer (apiBaseUrl, parameters, '#filtering', null, 'name', 'description');
+			streetfocus.addLayer (apiUrl, parameters, '#filtering', null, 'id', 'description');
 			
 			// Add collisions heatmap layer support
 			// /v2/collisions.locations?fields=severity&boundary=[[0.05,52.15],[0.05,52.25],[0.2,52.25],[0.2,52.15],[0.05,52.15]]&casualtiesinclude=cyclist'
@@ -278,7 +280,7 @@ var streetfocus = (function ($) {
 			
 			// Set checkbox colours
 			var value;
-			$.each ($("input[name='app_type[]']"), function () {
+			$.each ($("input[name='type[]']"), function () {
 				value = $(this).val ();
 				$(this).parent().parent().css ('background-color', _colours['planningapplications'].values[value]);		// Two parents, as label surrounds
 			});
@@ -364,7 +366,7 @@ var streetfocus = (function ($) {
 				// Scalar input types
 				if (isScalarInputType) {
 					
-					// If this parameter (e.g. app_type) is present in the defaults, use that; else set empty
+					// If this parameter (e.g. type) is present in the defaults, use that; else set empty
 					parameterValue = (filteringDefaults.hasOwnProperty (parameter) ? filteringDefaults[parameter] : '');
 					
 					// Set the value
@@ -373,7 +375,7 @@ var streetfocus = (function ($) {
 				// Array types, e.g. checkboxes
 				} else {
 					
-					// If this parameter (e.g. app_type) is present in the defaults, use that; blank means no filtering, i.e. all options
+					// If this parameter (e.g. type) is present in the defaults, use that; blank means no filtering, i.e. all options
 					parameterValue = (filteringDefaults.hasOwnProperty (parameter) ? filteringDefaults[parameter] : allOptions);
 					
 					// Set each selected value for its checkbox
@@ -493,13 +495,18 @@ var streetfocus = (function ($) {
 		{
 			// Get the fuller data, syncronously
 			// #!# Need to restructure calling code to avoid syncronous request
-			var url = '/api/planningapplication?id=' + feature.properties.name;		// Contains fuller data at the application level
+			var url = _settings.cyclestreetsApiBaseUrl + '/v2/planningapplications.location';
+			var parameters = {
+				key: _settings.cyclestreetsApiKey,
+				id: feature.properties.id		// Contains fuller data at the application level
+			};
 			$.ajax ({
 				url: url,
+				data: parameters,
 				dataType: 'json',
 				async: false,
 				success: function (data, textStatus, jqXHR) {
-					feature = data;		// Overwrite with this more detailed version
+					feature = data.features[0];		// Overwrite with this more detailed version
 				}
 			});
 			
@@ -523,20 +530,20 @@ var streetfocus = (function ($) {
 			});
 			
 			// Determine the key documents list
-			var keyDocumentsHtml = streetfocus.keyDocuments (feature.properties.docs);
+			var keyDocumentsHtml = streetfocus.keyDocuments (feature.properties.documents);
 			
 			// Determine the matching proposals list
 			var matchingProposalsHtml = streetfocus.matchingProposals (feature.properties._proposals);
 			
 			// Only show proposal matches for medium/large applications
-			if (feature.properties.app_size == 'Medium' || feature.properties.app_size == 'Large') {
+			if (feature.properties.size == 'Medium' || feature.properties.size == 'Large') {
 				$(element + ' div.matches').show ();
 			} else {
 				$(element + ' div.matches').hide ();
 			}
 			
 			// Hide the call to action if already decided/withdrawn/etc.
-			if (feature.properties.app_state == 'Undecided') {
+			if (feature.properties.state == 'Undecided') {
 				$(element + ' p.link').show ();
 			} else {
 				$(element + ' p.link').hide ();
@@ -546,9 +553,9 @@ var streetfocus = (function ($) {
 			$(element + ' p.applicationid').html (feature.properties.uid);
 			$(element + ' p.link a').attr ('href', vendorLinks.comments);
 			$(element + ' p.officialplans a').attr ('href', feature.properties.url);
-			$(element + ' ul.status li.state').text (feature.properties.app_state + ' application');
-			$(element + ' ul.status li.size').text ((feature.properties.app_size ? feature.properties.app_size + ' development' : 'Unknown size'));
-			$(element + ' ul.status li.type').text (feature.properties.app_type);
+			$(element + ' ul.status li.state').text (feature.properties.state + ' application');
+			$(element + ' ul.status li.size').text ((feature.properties.size ? feature.properties.size + ' development' : 'Unknown size'));
+			$(element + ' ul.status li.type').text (feature.properties.type);
 			$(element + ' p.date').html (streetfocus.consultationDate (feature));
 			$(element + ' .title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 80)));
 			$(element + ' div.description p').html (streetfocus.htmlspecialchars (feature.properties.description));
@@ -578,9 +585,9 @@ var streetfocus = (function ($) {
 			var latestConsultationDate = '';	// String comparison will be done for each date field value
 			var latestConsultationDateFieldLabel = 'Deadline';
 			$.each (consultationDateFields, function (consultationDateField, consultationDateFieldLabel) {
-				if (feature.properties.other_fields.hasOwnProperty (consultationDateField)) {
-					if (feature.properties.other_fields[consultationDateField] > latestConsultationDate) {
-						latestConsultationDate = feature.properties.other_fields[consultationDateField];
+				if (feature.properties.otherfields.hasOwnProperty (consultationDateField)) {
+					if (feature.properties.otherfields[consultationDateField] > latestConsultationDate) {
+						latestConsultationDate = feature.properties.otherfields[consultationDateField];
 						latestConsultationDateFieldLabel = consultationDateFieldLabel;
 					}
 				}
@@ -590,7 +597,7 @@ var streetfocus = (function ($) {
 			var latestConsultationDateFormatted = (latestConsultationDate ? new Date (latestConsultationDate).toDateString () : '?');
 			
 			// If the application is past, set the label to be closed
-			if (feature.properties.app_state != 'Undecided') {
+			if (feature.properties.state != 'Undecided') {
 				latestConsultationDateFieldLabel = 'Date closed';
 			}
 			
@@ -671,7 +678,7 @@ var streetfocus = (function ($) {
 			var keyDocuments = [];
 			$.each (_keyTypes, function (typeIndex, type) {
 				$.each (documents, function (index, document) {
-					if (document.doc_type == type) {
+					if (document.type == type) {
 						keyDocuments.push (documents[index]);
 					}
 				});
@@ -682,10 +689,10 @@ var streetfocus = (function ($) {
 			var listItem;
 			$.each (keyDocuments, function (index, document) {
 				listItem  = '<li>';
-				listItem += '<a href="' + document.doc_url + '" target="_blank">';
-				listItem += streetfocus.htmlspecialchars (document.doc_type);
-				listItem += ' - ' + streetfocus.htmlspecialchars (document.doc_title);
-				listItem += ' &nbsp; <span>(' + streetfocus.htmlspecialchars (document.doc_date) + ')</span>';
+				listItem += '<a href="' + document.url + '" target="_blank">';
+				listItem += streetfocus.htmlspecialchars (document.type);
+				listItem += ' - ' + streetfocus.htmlspecialchars (document.title);
+				listItem += ' &nbsp; <span>(' + streetfocus.htmlspecialchars (document.date) + ')</span>';
 				listItem += '</a>';
 				listItem += '</li>';
 				listItems.push (listItem);
@@ -833,11 +840,11 @@ var streetfocus = (function ($) {
 						
 						// Set the HTML content of the popup
 						var filters = [];
-						if (feature.properties.app_type !== 'null') {
-							filters.push ('Type: ' + feature.properties.app_type.replace (', ', ' / ') + ' applications');
+						if (feature.properties.type !== 'null') {
+							filters.push ('Type: ' + feature.properties.type.replace (', ', ' / ') + ' applications');
 						}
-						if (feature.properties.app_size != 'null') {
-							filters.push ('Size: ' + feature.properties.app_size.replace (', ', ' / ') + ' applications');
+						if (feature.properties.size != 'null') {
+							filters.push ('Size: ' + feature.properties.size.replace (', ', ' / ') + ' applications');
 						}
 						var popupHtml = '<p>' + ($.isEmptyObject (filters) ? 'All planning applications in this area.' : 'Planning applications in this area, limited to:') + '</p>';
 						$.each (filters, function (index, filter) {

@@ -28,9 +28,9 @@
 		<p><input type="number" name="start_date" min="1970" max="2038" step="1" /> - <input type="number" name="end_date" min="1970" max="2038" step="1" /></p>
 		
 		<h3>Application activity</h3>
-		<ul id="app_state">
-			<li><label><input type="checkbox" name="app_state[]" value="Undecided" /> Current</label></li>
-			<li><label><input type="checkbox" name="app_state[]" value="Permitted,Conditions,Rejected,Withdrawn,Other" /> Decided</label></li>
+		<ul id="state">
+			<li><label><input type="checkbox" name="state[]" value="Undecided" /> Current</label></li>
+			<li><label><input type="checkbox" name="state[]" value="Conditions,Permitted,Referred,Rejected,Unresolved,Withdrawn" /> Decided</label></li>
 		</ul>
 	</div>
 	
