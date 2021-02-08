@@ -104,8 +104,8 @@ class streetfocus
 			CREATE TABLE `monitors` (
 			  `id` INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT 'Automatic key',
 			  `location` GEOMETRY COMMENT 'Location',
-			  `app_type` SET('Full','Outline','Amendment','Heritage','Trees','Advertising','Telecoms','Other') DEFAULT NULL COMMENT 'Type(s)',
-			  `app_size` SET('Small','Medium','Large') DEFAULT NULL COMMENT 'Size(s)',
+			  `type` SET('Full','Outline','Amendment','Conditions','Heritage','Trees','Advertising','Telecoms','Other') DEFAULT NULL COMMENT 'Type(s)',
+			  `size` SET('Small','Medium','Large') DEFAULT NULL COMMENT 'Size(s)',
 			  `email` VARCHAR(255) NOT NULL COMMENT 'E-mail',
 			  `createdAt` DATETIME NOT NULL COMMENT 'Created at'
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Monitors set by users';
