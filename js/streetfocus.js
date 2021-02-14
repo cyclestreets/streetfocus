@@ -562,11 +562,16 @@ var streetfocus = (function ($) {
 				$(element + ' p.link').hide ();
 			}
 			
+			// Determine state image
+			var stateImage = '';
+			if (feature.properties.state == 'Permitted') {stateImage = '<img src="/images/permitted.png" /> ';}
+			if (feature.properties.state == 'Rejected') {stateImage = '<img src="/images/rejected.png" /> ';}
+			
 			// Populate the HTML content
 			$(element + ' p.applicationid').html (feature.properties.uid);
 			$(element + ' p.link a').attr ('href', vendorLinks.comments);
 			$(element + ' p.officialplans a').attr ('href', feature.properties.url);
-			$(element + ' ul.status li.state').text (feature.properties.state + ' application');
+			$(element + ' ul.status li.state').html (stateImage + feature.properties.state + ' application');
 			$(element + ' ul.status li.size').text ((feature.properties.size ? feature.properties.size + ' development' : 'Unknown size'));
 			$(element + ' ul.status li.type').text (feature.properties.type);
 			$(element + ' p.date').html (streetfocus.consultationDate (feature));
