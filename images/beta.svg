@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1019 1019">
+  <defs>
+      <linearGradient id="star" x1="0.7" x2="0" y1="0" y2="1">
+        <stop offset="20%" stop-color="sandybrown"/>
+        <stop offset="80%" stop-color="orangered"/>
+      </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="10" dy="20" stdDeviation="10"/>
+    </filter>
+    <style>
+      path.star {stroke:gray; stroke-width:10; fill:url(#star);filter:url(#shadow);}
+    text.marking {font-size:160pt; fill: white;font-family:sans-serif;letter-spacing:0.15em;font-weight:bold;}
+    </style>
+  </defs>
+  <!-- http://www.smiffysplace.com/stars.html -->
+  <path class="star"
+	d="M 500 900 l 104 89 l 59 -124 l 131 40 l 3 -137 l 136 -18 l -53 -126 l 117 -72 l -99 -94 l 78 -113 l -130 -45 l 26 -135 l -137 11 l -32 -133 l -120 66 l -83 -109 l -83 109 l -120 -66 l -32 133 l -137 -11 l 26 135 l -130 45 l 78 113 l -99 94 l 117 72 l -53 126 l 136 18 l 3 137 l 131 -40 l 59 124 Z" />
+  <path id="midway" stroke-width="0" stroke="black"
+        d="M 170,480
+           L 830,670" />
+  <text class="marking">
+    <textPath xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#midway">
+      BETA
+    </textPath>
+  </text>
+</svg>

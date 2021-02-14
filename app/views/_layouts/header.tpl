@@ -31,7 +31,7 @@
 		
 		<header>
 			
-			<p><a href="/"><img src="/images/logo.png" id="logo" alt="StreetFocus" /></a></p>
+			<p><a href="/"><img src="/images/logo.png" id="logo" alt="StreetFocus" /> <img src="/images/beta.svg" width="45" height="45" id="beta" title="Public beta - some features are not yet live" /></a></p>
 			
 			<nav>
 				<img src="/images/hamburger.png" alt="Menu" />
