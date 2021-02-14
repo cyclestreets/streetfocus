@@ -157,7 +157,8 @@ body.planningapplications #filtering {position: absolute; z-index: 10; backgroun
 body.planningapplications #filtering h2 {margin-top: 0;}
 body.planningapplications #filtering h3 {margin-top: 1.2em; margin-bottom: 0.2em;}
 body.planningapplications #filtering p.reset {float: right; padding: 0; margin: 4px 0 0; font-size: 0.83em;}
-body.planningapplications #filtering p.reset a {color: #ccc; border: 1px solid #ddd; padding: 2px 6px; border-radius: 6px;}
+body.planningapplications #filtering p.reset a {color: #999; border: 1px solid #999; padding: 2px 6px; border-radius: 6px;}
+
 
 /* Planning applications page filtering - desktop */
 body.planningapplications div#filter {display: none;}
