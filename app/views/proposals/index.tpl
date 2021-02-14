@@ -1,7 +1,8 @@
-<h1>Proposals for street changes</h1>
+<h1>Ideas for street changes</h1>
 
 <div id="introduction">
-	<p>This map shows proposals for changes to streets and places. Currently, these come from the Cyclescape website, but further data sources may be added in future.</p>
+	<p>This community map shows issues and ideas for changes to streets and places.</p>
+	<p>Currently, these come from the Cyclescape website, but further data sources may be added in future.</p>
 </div>
 
 {include file='_partials/geocoder.tpl'}
