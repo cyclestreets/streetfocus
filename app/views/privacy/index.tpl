@@ -6,4 +6,4 @@
 <p>StreetFocus is one of the CycleStreets family of websites, and as such uses the CycleStreets data interface to provide and store data.</p>
 <p>We won't share your information with any other organisations for marketing, market research or commercial purposes, and we don't pass on your details to other websites.</p>
 <p>In common with most websites, this site automatically logs certain information about every request made of it (see below for more details). This information is used for system administration, for bug tracking, and for producing usage statistics. The logged information may be kept for a reasonable period in accordance with the Data Protection Act.</p>
-<p>CycleStreets is operated by CycleStreets Ltd, company number 06948959. CycleStreets is a not-for-profit social enterprise.</p>
+<p>StreetFocus and CycleStreets are operated by CycleStreets Ltd, company number 06948959. CycleStreets is a not-for-profit social enterprise.</p>
