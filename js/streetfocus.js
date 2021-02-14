@@ -504,14 +504,14 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to populate the planning applications map popup
-		populatePopupPlanningapplications: function (element, feature)
+		populatePopupPlanningapplications: function (element, feature, uniqueIdField)
 		{
 			// Get the fuller data, syncronously
 			// #!# Need to restructure calling code to avoid syncronous request
 			var url = _settings.cyclestreetsApiBaseUrl + '/v2/planningapplications.location';
 			var parameters = {
 				key: _settings.cyclestreetsApiKey,
-				id: feature.properties.id		// Contains fuller data at the application level
+				id: feature.properties[uniqueIdField]		// uniqueIdField will be 'id' when planning application from map, or 'moniker' when from geocoder direct match result
 			};
 			$.ajax ({
 				url: url,
@@ -778,7 +778,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to populate the popup
-		populatePopupProposals: function (element, feature)
+		populatePopupProposals: function (element, feature, uniqueIdField /* ignored */)
 		{
 			// Get the centre-point of the geometry
 			var centre = streetfocus.getCentre (feature.geometry);
@@ -1294,7 +1294,7 @@ var streetfocus = (function ($) {
 		{
 			// Substitute the content
 			var popupFunction = 'populatePopup' + streetfocus.ucfirst (_action);
-			streetfocus[popupFunction] ('#popupcontent', feature);
+			streetfocus[popupFunction] ('#popupcontent', feature, uniqueIdField);
 			
 			// Get the HTML
 			var popupHtml = $('#popupcontent').html();
