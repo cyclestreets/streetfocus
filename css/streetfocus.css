@@ -186,6 +186,9 @@ body.planningapplications #filtering {display: block; width: 220px; top: 0; righ
 #filtering p {margin: 6px 0;}
 #filtering p input {font-size: 16px;}
 
+/* Proposals page */
+p#addidea {float: right; margin-left: 20px;}
+
 /* Close button in map panels */
 #mappanel div p.close {float: right; font-size: 30px; line-height: 10px; margin: 0; padding: 0;}
 #mappanel div p.close a {display: block; text-decoration: none; color: #aaa; margin: 0; padding: 10px; position: relative; right: -30px; top: -30px;}

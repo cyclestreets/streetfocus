@@ -1,6 +1,7 @@
 <h1>Ideas for street changes</h1>
 
 <div id="introduction">
+	<p id="addidea"><a href="https://www.cyclescape.org/issues/new" class="button" title="This will take you to the (separate) Cyclescape website"><strong>+</strong>&nbsp; Add cycling idea at Cyclescape</a></p>
 	<p>This community map shows issues and ideas for changes to streets and places.</p>
 	<p>Currently, these come from the Cyclescape website, but further data sources may be added in future.</p>
 </div>
