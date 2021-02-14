@@ -115,6 +115,9 @@ body.home #geocoder #geolocation {animation: pulse 1s infinite;}
 /* Control boxes */
 div.control {position: absolute; z-index: 5; border: 1px solid #e7e7e7; padding: 0px 6px; background-color: white; cursor: default; user-select: none; border-radius: 5px; box-shadow: 5px 5px 5px 5px rgba(232,232,232,0.5);}
 
+/* Tooltips */
+body .ui-tooltip {padding: 2px 6px; position: absolute; z-index: 9999; max-width: 300px; border-width: 2px; background-color: white; font-family: 'PT Sans', sans-serif; font-size: 16px; border-radius: 3px; box-shadow: 0 0 10px rgba(0,0,0,1);}
+
 /* Home page */
 body.home main {position: relative;}
 body.home .staticmap {display: block; height: 500px; overflow: hidden;}

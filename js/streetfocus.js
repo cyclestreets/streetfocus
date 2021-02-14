@@ -129,6 +129,9 @@ var streetfocus = (function ($) {
 			// Create mobile navigation
 			streetfocus.createMobileNavigation ();
 			
+			// Add tooltip support
+			streetfocus.tooltips ();
+			
 			// Create the map for a map action page
 			if (_mapActions.includes (action)) {
 				if ($('#map').length > 0) {		// Check map present on the page; may be removed if e.g. message shown instead
@@ -204,6 +207,16 @@ var streetfocus = (function ($) {
 		},
 		
 		
+		// Function to add tooltips, using the title value
+		tooltips: function ()
+		{
+			// Use jQuery tooltips; see: https://jqueryui.com/tooltip/
+			$('#filtering').tooltip ({
+				track: true
+			});
+		},
+
+
 		// Home page
 		home: function ()
 		{
