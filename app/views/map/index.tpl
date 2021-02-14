@@ -19,7 +19,7 @@
 	<div id="filtering" tabindex="2">
 		<p class="close"><a href="#">×</a></p>
 		
-		<p class="reset"><a href="#">Reset</a></p>
+		<p class="reset"><a href="#" title="Reset all filters below, to show everything">Reset</a></p>
 		<h2>Refine search</h2>
 		
 		{include file='_partials/filtering.tpl'}
@@ -29,8 +29,8 @@
 		
 		<h3>Application activity</h3>
 		<ul id="state">
-			<li><label><input type="checkbox" name="state[]" value="Undecided" /> Current</label></li>
-			<li><label><input type="checkbox" name="state[]" value="Conditions,Permitted,Referred,Rejected,Unresolved,Withdrawn" /> Decided</label></li>
+			<li title="Applications currently being consulted on or undecided"><label><input type="checkbox" name="state[]" value="Undecided" /> Current</label></li>
+			<li title="Approved applications"><label><input type="checkbox" name="state[]" value="Conditions,Permitted,Referred,Rejected,Unresolved,Withdrawn" /> Decided</label></li>
 		</ul>
 	</div>
 	
