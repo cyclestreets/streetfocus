@@ -419,6 +419,7 @@ var streetfocus = (function ($) {
 			
 			// Add implied close by clicking on remaining map slither
 			_map.on ('click', function (e) {
+				if (e.defaultPrevented) {return;}	// See: https://stackoverflow.com/a/61366984
 				if ($(path).is(':visible')) {
 					$(path).fadeToggle ();
 					streetfocus.resetUrl ();
@@ -1237,7 +1238,7 @@ var streetfocus = (function ($) {
 				streetfocus.createPopup (feature, uniqueIdField, titleField);
 				
 				// Prevent further event propagation, resulting in the map close event auto-closing the panel immediately
-				e.stopPropagation ();
+				e.preventDefault ();	// See: https://stackoverflow.com/a/61366984 and e.defaultPrevented check elsewhere
 			});
 			
 			// Add close methods (X button, click on map, escape key)
