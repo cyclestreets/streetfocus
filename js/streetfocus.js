@@ -163,6 +163,7 @@ var streetfocus = (function ($) {
 		// Prevent viewport zooming, which is problematic for iOS Safari; see: https://stackoverflow.com/questions/37808180/
 		preventViewportZooming: function ()
 		{
+			if (!(/iPad|iPhone|iPod/.test (navigator.userAgent))) {return;}		// Apply only on iOS
 			document.addEventListener ('touchmove', function (event) {
 				if (event.scale !== 1) {
 					event.preventDefault ();
