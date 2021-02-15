@@ -23,7 +23,7 @@ input.button {-webkit-appearance: none;}
 a.button {text-decoration: none;}
 
 /* Header */
-header #logo {width: 130px; border: 0; float: left;}
+header #logo {width: 130px; height: 66px; border: 0; float: left;}
 header #beta {width: 45px; height: 45px; position: absolute; top: 10px; left: 170px; opacity: 0.9;}
 
 /* Main menu navigation */
