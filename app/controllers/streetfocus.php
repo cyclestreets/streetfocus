@@ -601,11 +601,13 @@ class streetfocus
 			$centroid = $this->getCentre ($issue['geometry'], $bbox /* returned by reference */);
 			
 			# Register this feature
+			#!# 'when' is added as a minimal extra field for populating popup - need to align the geocoder and map formats
 			$features[] = array (
 				'type'			=> 'Feature',
 				'properties'	=> array (
 					'name'	=> $issue['properties']['title'],
 					'near'	=> $this->truncate (strip_tags ($issue['properties']['description']), 80),
+					'when'	=> $issue['properties']['created_at'],
 					'bbox'	=> $bbox,
 				),
 				'geometry'	=> array (
