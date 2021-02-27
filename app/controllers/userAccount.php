@@ -206,7 +206,7 @@ class userAccount
 		$user['username'] = str_replace ($this->settings['authNamespace'], '', $user['username']);
 		
 		# Set the template value
-		$this->template['_user'] = $this->user['email'];
+		$this->template['_user'] = $user['email'];
 		
 		# Return the user details
 		return $user;
