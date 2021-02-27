@@ -558,7 +558,7 @@ class streetfocus
 			$features[] = array (
 				'type'			=> 'Feature',
 				'properties'	=> array (
-					'name'	=> $this->truncate ($this->reformatCapitalised ($record['properties']['description']), 80),
+					'name'	=> self::truncate ($this->reformatCapitalised ($record['properties']['description']), 80),
 					'near'	=> $record['properties']['authority_name'],
 					'bbox'	=> $bbox,
 				),
@@ -606,7 +606,7 @@ class streetfocus
 				'type'			=> 'Feature',
 				'properties'	=> array (
 					'name'	=> $issue['properties']['title'],
-					'near'	=> $this->truncate (strip_tags ($issue['properties']['description']), 80),
+					'near'	=> self::truncate (strip_tags ($issue['properties']['description']), 80),
 					'when'	=> $issue['properties']['created_at'],
 					'bbox'	=> $bbox,
 				),
@@ -898,7 +898,7 @@ class streetfocus
 			
 			# Emulate title from description where not present
 			if (!$record['title']) {
-				$record['title'] = $this->truncate ($record['description'], 40);
+				$record['title'] = self::truncate ($record['description'], 40);
 			}
 			
 			# Convert time
@@ -941,7 +941,7 @@ class streetfocus
 	
 	
 	# Function to truncate a string
-	private function truncate ($string, $length)
+	private static function truncate ($string, $length)
 	{
 		if (mb_strlen ($string) > $length) {
 			$string = mb_substr ($string, 0, $length) . '…';
