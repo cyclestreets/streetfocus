@@ -552,7 +552,7 @@ class streetfocus
 		foreach ($applications['features'] as $record) {
 			
 			# Convert geometry to BBOX and centrepoint
-			$centroid = $this->getCentre ($record['geometry'], $bbox /* returned by reference */);
+			$centroid = self::getCentre ($record['geometry'], $bbox /* returned by reference */);
 			
 			# Register this feature
 			$features[] = array (
@@ -598,7 +598,7 @@ class streetfocus
 		foreach ($issues['features'] as $issue) {
 			
 			# Convert geometry to BBOX and centrepoint
-			$centroid = $this->getCentre ($issue['geometry'], $bbox /* returned by reference */);
+			$centroid = self::getCentre ($issue['geometry'], $bbox /* returned by reference */);
 			
 			# Register this feature
 			#!# 'when' is added as a minimal extra field for populating popup - need to align the geocoder and map formats
@@ -771,7 +771,7 @@ class streetfocus
 		foreach ($issues['features'] as $issue) {
 			
 			# Get the BBOX
-			$this->getCentre ($issue['geometry'], $bbox /* returned by reference */);
+			self::getCentre ($issue['geometry'], $bbox /* returned by reference */);
 			
 			# Register this feature
 			$features[] = array (
@@ -822,7 +822,7 @@ class streetfocus
 		foreach ($issues['features'] as $issue) {
 			
 			# Convert geometry to BBOX and centrepoint
-			$centroid = $this->getCentre ($issue['geometry'], $bbox /* returned by reference */);
+			$centroid = self::getCentre ($issue['geometry'], $bbox /* returned by reference */);
 			
 			# Register this feature
 			$features[] = array (
@@ -964,7 +964,7 @@ class streetfocus
 	
 	
 	# Helper function to get the centre-point of a geometry
-	private function getCentre ($geometry, &$bbox = array ())
+	private static function getCentre ($geometry, &$bbox = array ())
 	{
 		# Determine the centre point
 		switch ($geometry['type']) {
@@ -1030,7 +1030,7 @@ class streetfocus
 				$longitudes = array ();
 				$latitudes = array ();
 				foreach ($geometry['geometries'] as $geometryItem) {
-					$centroid = $this->getCentre ($geometryItem, $bboxItem);	// Iterate
+					$centroid = self::getCentre ($geometryItem, $bboxItem);	// Iterate
 					$longitudes[] = $centroid['lon'];
 					$latitudes[] = $centroid['lat'];
 				}
