@@ -279,31 +279,14 @@ class streetfocus
 	# Home page
 	private function home ()
 	{
-		# Add totals
-		$this->template['totalApplications'] = $this->getTotalPlanningApplications ();
+		# Get the total number of planning applications
+		require_once ('app/models/planningapplications.php');
+		$planningapplicationsModel = new planningapplicationsModel ($this->settings);
+		$this->template['totalApplications'] = $planningapplicationsModel->getTotal ();
+		
+		# Get total matched proposals
 		// #!# Example data at present - needs API integration
 		$this->template['matchedProposals'] = '253';
-	}
-	
-	
-	# Function to get the total number of planning applications
-	private function getTotalPlanningApplications ()
-	{
-		# Get the data from the PlanIt API
-		$url = $this->settings['planitBaseUrl'] . '/api/applics/json';
-		$parameters = array (
-			'limit'		=> 1,
-			'pg_sz'		=> 1,
-			'recent'	=> 100,		// 100 days, just over 14 weeks
-			'app_state'	=> 'Undecided',
-		);
-		$data = self::getApiData ($url, $parameters);
-		
-		# Extract the value
-		$total = $data['total'];
-		
-		# Return the result
-		return $total;
 	}
 	
 	
@@ -558,15 +541,10 @@ class streetfocus
 	# Helper function to do a PlanIt ID search
 	private function searchPlanIt ($id, $authority = false)
 	{
-		# Search PlanIt
-		$url = $this->settings['planitBaseUrl'] . '/api/applics/geojson';
-		$parameters = array (
-			'id_match'	=> $id,
-		);
-		if ($authority) {
-			$parameters['auth'] = $authority;
-		}
-		$applications = self::getApiData ($url, $parameters);
+		# Get matching planning applications
+		require_once ('app/models/planningapplications.php');
+		$planningapplicationsModel = new planningapplicationsModel ($this->settings);
+		$applications = $planningapplicationsModel->searchById ($id, $authority);
 		
 		# Map each record to a GeoJSON feature in the same format as the Geocoder response
 		#!# NB Location data is not always present
@@ -673,9 +651,10 @@ class streetfocus
 		}
 		$id = $_GET['id'];
 		
-		# Get the data from PlanIt
-		$apiUrl = $this->settings['planitBaseUrl'] . '/planapplic/' . $id . '/geojson';
-		$data = self::getApiData ($apiUrl);
+		# Get the planning application
+		require_once ('app/models/planningapplications.php');
+		$planningapplicationsModel = new planningapplicationsModel ($this->settings);
+		$data = $planningapplicationsModel->getOne ($id);
 		
 		# Determine a BBOX around the planning application
 		$distanceKm = 0.1;
@@ -943,7 +922,7 @@ class streetfocus
 	
 	
 	# Helper function to get data from an API
-	private static function getApiData ($url, $parameters = array ())
+	public static function getApiData ($url, $parameters = array ())
 	{
 		# Construct the URL
 		if ($parameters) {
