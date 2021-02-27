@@ -297,7 +297,7 @@ class streetfocus
 			'recent'	=> 100,		// 100 days, just over 14 weeks
 			'app_state'	=> 'Undecided',
 		);
-		$data = $this->getApiData ($url, $parameters);
+		$data = self::getApiData ($url, $parameters);
 		
 		# Extract the value
 		$total = $data['total'];
@@ -566,7 +566,7 @@ class streetfocus
 		if ($authority) {
 			$parameters['auth'] = $authority;
 		}
-		$applications = $this->getApiData ($url, $parameters);
+		$applications = self::getApiData ($url, $parameters);
 		
 		# Map each record to a GeoJSON feature in the same format as the Geocoder response
 		#!# NB Location data is not always present
@@ -610,7 +610,7 @@ class streetfocus
 		if ($id) {
 			$parameters['id'] = $id;
 		}
-		$issues = $this->getApiData ($url, $parameters);
+		$issues = self::getApiData ($url, $parameters);
 		
 		# Remove duplicated values, pending https://github.com/cyclestreets/cyclescape/issues/921#issuecomment-583544405
 		$issues['features'] = array_intersect_key ($issues['features'], array_unique (array_map ('serialize', $issues['features'])));
@@ -657,7 +657,7 @@ class streetfocus
 		);
 		
 		# Obtain the data
-		$data = $this->getApiData ($url, $parameters);
+		$data = self::getApiData ($url, $parameters);
 		
 		# Return the features
 		return $data['features'];
@@ -675,7 +675,7 @@ class streetfocus
 		
 		# Get the data from PlanIt
 		$apiUrl = $this->settings['planitBaseUrl'] . '/planapplic/' . $id . '/geojson';
-		$data = $this->getApiData ($apiUrl);
+		$data = self::getApiData ($apiUrl);
 		
 		# Determine a BBOX around the planning application
 		$distanceKm = 0.1;
@@ -783,7 +783,7 @@ class streetfocus
 			)),
 			'open_threads'		=> true,
 		);
-		$issues = $this->getApiData ($url, $parameters);
+		$issues = self::getApiData ($url, $parameters);
 		
 		# Simplify the output, converting geometries to Point, and removing non-needed properties
 		$features = array ();
@@ -834,7 +834,7 @@ class streetfocus
 			'metacategory'	=> 'bad',
 			'bbox'			=> $bbox,
 		);
-		$issues = $this->getApiData ($url, $parameters);
+		$issues = self::getApiData ($url, $parameters);
 		
 		# Simplify the output, converting geometries to Point, and removing non-needed properties
 		$features = array ();
@@ -943,7 +943,7 @@ class streetfocus
 	
 	
 	# Helper function to get data from an API
-	private function getApiData ($url, $parameters = array ())
+	private static function getApiData ($url, $parameters = array ())
 	{
 		# Construct the URL
 		if ($parameters) {
