@@ -567,7 +567,7 @@ class streetfocus
 			$features[] = array (
 				'type'			=> 'Feature',
 				'properties'	=> array (
-					'name'	=> self::truncate ($this->reformatCapitalised ($record['properties']['description']), 80),
+					'name'	=> self::truncate (self::reformatCapitalised ($record['properties']['description']), 80),
 					'near'	=> $record['properties']['authority_name'],
 					'bbox'	=> $bbox,
 				),
@@ -691,7 +691,7 @@ class streetfocus
 	
 	
 	# Function to reformat capitalised text
-	private function reformatCapitalised ($string)
+	private static function reformatCapitalised ($string)
 	{
 		# Convert to sentence case if no lower-case letters present and a group of two or more upper-case letters are present
 		if (!preg_match ('/[a-z]/', $string) && preg_match ('/[A-Z]{2,}/', $string)) {
