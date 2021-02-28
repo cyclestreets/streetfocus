@@ -536,7 +536,9 @@ class streetfocus
 		
 		# Geocoder search
 		if (in_array ('geocoder', $sources)) {
-			$data['features'] += $this->searchGeocoder ($q);
+			require_once ('app/models/geocoder.php');
+			$geocoderModel = new geocoderModel ($this->settings);
+			$data['features'] += $geocoderModel->search ($q);
 		}
 		
 		# Return the response
