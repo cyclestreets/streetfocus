@@ -342,9 +342,10 @@ class streetfocus
 	# Function to set a location from a feature
 	private function setLocationFromFeature ($feature)
 	{
+		$zoom = 17;
 		$latitude  = $feature['geometry']['coordinates'][1];
 		$longitude = $feature['geometry']['coordinates'][0];
-		$this->setLocation = "17/{$latitude}/{$longitude}/0/0";
+		$this->setLocation = "{$zoom}/{$latitude}/{$longitude}/0/0";
 	}
 	
 	
