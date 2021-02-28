@@ -4,13 +4,38 @@
 class proposalsModel
 {
 	# Constructor
-	public function __construct ($settings, $databaseConnection)
+	public function __construct ($settings, $databaseConnection, $userIsAdministrator)
 	{
 		# Create properties handles
 		$this->settings = $settings;
 		$this->databaseConnection = $databaseConnection;
+		$this->userIsAdministrator = $userIsAdministrator;
 	}
 	
+	
+	
+	# Main entry point function to get proposals
+	public function getProposals ($bbox)
+	{
+		# Start a data array
+		$data = array ();
+		
+		# Get the Cyclescape issues within the specified BBOX
+		$data += $this->getCyclescapeIssues ($bbox);
+		
+		# Get the CycleStreets Photomap issues within the specified BBOX
+		if ($this->userIsAdministrator) {
+			$data = array_merge ($data, $this->getCyclestreetsIssues ($bbox));
+		}
+		
+		# If signed in as an administrator, get the external issues within the specified BBOX
+		if ($this->userIsAdministrator) {
+			$data = array_merge ($data, $this->getExternalIssues ($bbox));
+		}
+		
+		# Return the data
+		return $data;
+	}
 	
 	
 	# Helper function to do a Cyclescape issues search
@@ -62,7 +87,7 @@ class proposalsModel
 	
 	
 	# Helper function to get Cyclescape issues within a BBOX
-	public function getCyclescapeIssues ($bbox)
+	private function getCyclescapeIssues ($bbox)
 	{
 		# Search Cyclescape, e.g. /api/issues?per_page=10&term=chisholm%20trail
 		$url = $this->settings['cyclescapeApiBaseUrl'] . '/issues';
@@ -119,7 +144,7 @@ class proposalsModel
 	
 	
 	# Helper function to get CycleStreets Photomap issues within a BBOX
-	public function getCyclestreetsIssues ($bbox)
+	private function getCyclestreetsIssues ($bbox)
 	{
 		# Search the CycleStreets Photomap, e.g. /v2/photomap.locations?fields=id,title,caption,thumbnailUrl,url,tags,datetime&limit=150&thumbnailsize=800&category=cycleparking&metacategory=bad&bbox=0.137134,52.202825,0.152265,52.205950
 		$url = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/photomap.locations';

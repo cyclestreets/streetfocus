@@ -624,7 +624,9 @@ class streetfocus
 		$bbox = $this->pointToBbox ($data['geometry']['coordinates'][1], $data['geometry']['coordinates'][0], $distanceKm);
 		
 		# Get the proposals, and these to the data
-		$data['properties']['_proposals'] = $this->getProposals ($bbox);
+		require_once ('app/models/proposals.php');
+		$proposalsModel = new proposalsModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
+		$data['properties']['_proposals'] = $proposalsModel->getProposals ($bbox);
 		
 		# Return the data
 		return $this->asJson ($data);
@@ -674,38 +676,12 @@ class streetfocus
 		$data = array ('type' => 'FeatureCollection', 'features' => array ());
 		
 		# Get the proposals
-		$data['features'] = $this->getProposals ($bbox);
+		require_once ('app/models/proposals.php');
+		$proposalsModel = new proposalsModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
+		$data['features'] = $proposalsModel->getProposals ($bbox);
 		
 		# Return the data
 		return $this->asJson ($data);
-	}
-	
-	
-	# Function to get proposals
-	private function getProposals ($bbox)
-	{
-		# Start a data array
-		$data = array ();
-		
-		# Load the proposals model
-		require_once ('app/models/proposals.php');
-		$proposalsModel = new proposalsModel ($this->settings, $this->databaseConnection);
-		
-		# Get the Cyclescape issues within the specified BBOX
-		$data += $proposalsModel->getCyclescapeIssues ($bbox);
-		
-		# Get the CycleStreets Photomap issues within the specified BBOX
-		if ($this->userIsAdministrator) {
-			$data = array_merge ($data, $proposalsModel->getCyclestreetsIssues ($bbox));
-		}
-		
-		# If signed in as an administrator, get the external issues within the specified BBOX
-		if ($this->userIsAdministrator) {
-			$data = array_merge ($data, $proposalsModel->getExternalIssues ($bbox));
-		}
-		
-		# Return the data
-		return $data;
 	}
 	
 	
