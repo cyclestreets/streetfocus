@@ -583,28 +583,6 @@ class streetfocus
 	}
 	
 	
-	# Helper function to do geocoder search (part of the CycleStreets API suite)
-	private function searchGeocoder ($q)
-	{
-		# Assemble the request
-		$url = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/geocoder';
-		$parameters = array (
-			'key'			=> $this->settings['cyclestreetsApiKey'],
-			'bounded'		=> 1,
-			'bbox'			=> $this->settings['autocompleteBbox'],
-			'limit'			=> 12,
-			'countrycodes'	=> 'gb,ie',
-			'q'				=> $q,
-		);
-		
-		# Obtain the data
-		$data = self::getApiData ($url, $parameters);
-		
-		# Return the features
-		return $data['features'];
-	}
-	
-	
 	# Function to serve data on a planning application
 	private function api_planningapplication ()
 	{
