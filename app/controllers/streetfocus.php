@@ -295,7 +295,7 @@ class streetfocus
 	{
 		# If an ID is specified, determine the map location, so that the item is present in the area data
 		if ($this->id) {
-			if (preg_match ('|^(.+)/(.+)$|', $this->id, $matches)) {
+			if (preg_match ('|^(.+)/(.+)$|', $this->id)) {
 				list ($authority, $id) = explode ('/', $this->id, 2);
 				if ($planningApplication = $this->searchPlanIt ($id, $authority)) {
 					$this->setLocationFromFeature ($planningApplication[0]);
@@ -314,7 +314,7 @@ class streetfocus
 		
 		# If an ID is specified, determine the map location, so that the item is present in the area data
 		if ($this->id) {
-			if (preg_match ('|^(.+)/(.+)$|', $this->id, $matches)) {
+			if (preg_match ('|^(.+)/(.+)$|', $this->id)) {
 				list ($source, $id) = explode ('/', $this->id, 2);
 				
 				# Select source
@@ -521,7 +521,7 @@ class streetfocus
 		
 		# If planning application is a specified datasource, search for an ID first
 		if (in_array ('planit', $sources)) {
-			if (preg_match ('|^[0-9]{2}/[0-9]{4}/[A-Z]+$|', $q)) {		// E.g. 19/1780/FUL
+			if (preg_match ('|^(.+)/(.+)$|', $q)) {		// E.g. 19/1780/FUL
 				$data['features'] += $this->searchPlanIt ($q);
 				return $this->asJson ($data);	// Do not search other data sources, so return at this point
 			}

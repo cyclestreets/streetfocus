@@ -6,9 +6,10 @@ class planningapplicationsModel
 	# Constructor
 	public function __construct ($settings)
 	{
-		# Global the settings
+		# Create properties handles
 		$this->settings = $settings;
 	}
+	
 	
 	
 	# Function to get a single planning application by full ID (place+id)
