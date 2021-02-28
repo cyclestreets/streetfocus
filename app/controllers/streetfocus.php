@@ -308,14 +308,14 @@ class streetfocus
 	# Proposals map page
 	private function proposals ()
 	{
-		# Load the proposals model
-		require_once ('app/models/proposals.php');
-		$proposalsModel = new proposalsModel ($this->settings, $this->databaseConnection);
-		
 		# If an ID is specified, determine the map location, so that the item is present in the area data
 		if ($this->id) {
 			if (preg_match ('|^(.+)/(.+)$|', $this->id)) {
 				list ($source, $id) = explode ('/', $this->id, 2);
+				
+				# Load the proposals model
+				require_once ('app/models/proposals.php');
+				$proposalsModel = new proposalsModel ($this->settings, $this->databaseConnection);
 				
 				# Select source
 				switch ($source) {
