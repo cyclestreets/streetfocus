@@ -354,14 +354,8 @@ class streetfocus
 		$monitorsModel = new monitorsModel ($this->settings, $this->databaseConnection);
 		$result = $monitorsModel->add ($bbox, $type, $size, $this->user['email']);
 		
-		# Confirm the outcome
-		if ($result) {
-			$outcomeHtml  = '✓ - Your new monitor has been created. We will let you know when new planning applications appear in that area.';
-			$outcomeHtml .= '<br /><br /><span class="warning">Beta note: E-mails are not yet going out, but will be shortly.</span>';
-		} else {
-			$outcomeHtml = 'Apologies - there was a problem saving this monitor. Please try again later.';
-		}
-		$this->template['outcomeHtml'] = $outcomeHtml;
+		# Set the outcome
+		$this->template['result'] = (bool) $result;
 	}
 	
 	

@@ -6,8 +6,13 @@
 {else}
 
 
-{if isSet ($outcomeHtml)}
-	<p>{$outcomeHtml}</p>
+{if isSet ($result)}
+	{if ($result)}
+		<p>✓ - Your new monitor has been created. We will let you know when new planning applications appear in that area.</p>
+		<p><span class="warning">Beta note: E-mails are not yet going out, but will be shortly.</span></p>
+	{else}
+		<p>Apologies - there was a problem saving this monitor. Please try again later.</p>
+	{/if}
 {else}
 	
 
