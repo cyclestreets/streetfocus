@@ -193,20 +193,13 @@ class api
 		}
 		
 		# Get the data
-		$query = "SELECT
-				id,
-				ST_AsGeoJSON(location) AS location,
-				type,
-				size
-			FROM monitors
-			WHERE email = :email
-		;";
-		$preparedStatementValues = array ('email' => $this->user['email']);		// Will pick up the user's cookie
-		$data = $this->databaseConnection->getData ($query, false, true, $preparedStatementValues);
+		require_once ('app/models/monitors.php');
+		$monitorsModel = new monitorsModel ($this->settings, $this->databaseConnection);
+		$monitors = $monitorsModel->forUser ($this->user['email']);		// Will pick up the user's cookie
 		
 		# Convert each row to a GeoJSON feature
 		$features = array ();
-		foreach ($data as $monitor) {
+		foreach ($monitors as $monitor) {
 			$features[] = array (
 				'type' => 'Feature',
 				'geometry' => json_decode ($monitor['location']),

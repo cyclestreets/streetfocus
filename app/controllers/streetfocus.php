@@ -370,41 +370,17 @@ class streetfocus
 		# End if BBOX not posted; this field must be present but others are optional
 		$bboxRegexp = '^([-\.0-9]+),([-\.0-9]+),([-\.0-9]+),([-\.0-9]+)$';
 		if (!isSet ($_POST['bbox']) || !preg_match ("/{$bboxRegexp}/", $_POST['bbox'], $matches)) {return;}
+		$bbox = array ();
+		list ($ignore, $bbox['w'], $bbox['s'], $bbox['e'], $bbox['n']) = $matches;
 		
-		# Start an insert
-		$insert = array ();
+		# Obtain type and size
+		$type = (isSet ($_POST['type']) ? implode (',', $_POST['type']) : NULL);
+		$size = (isSet ($_POST['size']) ? implode (',', $_POST['size']) : NULL);
 		
-		# Handle BBOX
-		list ($ignore, $w, $s, $e, $n) = $matches;
-		$w = (float) $w;
-		$s = (float) $s;
-		$e = (float) $e;
-		$n = (float) $n;
-		$bbox = array (
-			'type' => 'Polygon',
-			'coordinates' => array (array (
-				array ($w, $s),
-				array ($e, $s),
-				array ($e, $n),
-				array ($w, $n),
-				array ($w, $s)
-			))
-		);
-		$insert['location'] = 'ST_GeomFromGeoJSON(:bbox)';
-		$functionValues = array ('bbox' => json_encode ($bbox));
-		
-		# Add form values, filling in optional values
-		$fields = array ('type', 'size');	// app_state (i.e. current/historical) is obviously not relevant for alerting of new applications
-		foreach ($fields as $field) {
-			$insert[$field] = (isSet ($_POST[$field]) ? implode (',', $_POST[$field]) : NULL);
-		}
-		
-		# Add fixed data
-		$insert['email'] = $this->user['email'];
-		$insert['createdAt'] = 'NOW()';
-		
-		# Add to the database
-		$result = $this->databaseConnection->insert ($this->settings['database'], 'monitors', $insert, false, true, false, false, 'INSERT', $functionValues);
+		# Load the monitors model
+		require_once ('app/models/monitors.php');
+		$monitorsModel = new monitorsModel ($this->settings, $this->databaseConnection);
+		$result = $monitorsModel->add ($bbox, $type, $size, $this->user['email']);
 		
 		# Confirm the outcome
 		if ($result) {
