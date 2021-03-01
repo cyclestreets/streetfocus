@@ -37,8 +37,31 @@ class planningapplicationsModel
 		}
 		$applications = streetfocus::getApiData ($url, $parameters);
 		
-		# Return the applications
-		return $applications;
+		# Map each record to a GeoJSON feature in the same format as the Geocoder response
+		#!# NB Location data is not always present
+		$features = array ();
+		foreach ($applications['features'] as $record) {
+			
+			# Convert geometry to BBOX and centrepoint
+			$centroid = streetfocus::getCentre ($record['geometry'], $bbox /* returned by reference */);
+			
+			# Register this feature
+			$features[] = array (
+				'type'			=> 'Feature',
+				'properties'	=> array (
+					'name'	=> streetfocus::truncate (streetfocus::reformatCapitalised ($record['properties']['description']), 80),
+					'near'	=> $record['properties']['authority_name'],
+					'bbox'	=> $bbox,
+				),
+				'geometry'	=> array (
+					'type'			=> 'Point',
+					'coordinates'	=> array ($centroid['lon'], $centroid['lat']),
+				),
+			);
+		}
+		
+		# Return the features
+		return $features;
 	}
 	
 	

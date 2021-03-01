@@ -297,7 +297,9 @@ class streetfocus
 		if ($this->id) {
 			if (preg_match ('|^(.+)/(.+)$|', $this->id)) {
 				list ($authority, $id) = explode ('/', $this->id, 2);
-				if ($planningApplication = $this->searchPlanIt ($id, $authority)) {
+				require_once ('app/models/planningapplications.php');
+				$planningapplicationsModel = new planningapplicationsModel ($this->settings);
+				if ($planningApplication = $planningapplicationsModel->searchById ($id, $authority)) {
 					$this->setLocationFromFeature ($planningApplication[0]);
 				}
 			}
@@ -523,7 +525,9 @@ class streetfocus
 		# If planning application is a specified datasource, search for an ID first
 		if (in_array ('planit', $sources)) {
 			if (preg_match ('|^(.+)/(.+)$|', $q)) {		// E.g. 19/1780/FUL
-				$data['features'] += $this->searchPlanIt ($q);
+				require_once ('app/models/planningapplications.php');
+				$planningapplicationsModel = new planningapplicationsModel ($this->settings);
+				$data['features'] += $planningapplicationsModel->searchById ($q);
 				return $this->asJson ($data);	// Do not search other data sources, so return at this point
 			}
 		}
@@ -544,42 +548,6 @@ class streetfocus
 		
 		# Return the response
 		return $this->asJson ($data);
-	}
-	
-	
-	# Helper function to do a PlanIt ID search
-	private function searchPlanIt ($id, $authority = false)
-	{
-		# Get matching planning applications
-		require_once ('app/models/planningapplications.php');
-		$planningapplicationsModel = new planningapplicationsModel ($this->settings);
-		$applications = $planningapplicationsModel->searchById ($id, $authority);
-		
-		# Map each record to a GeoJSON feature in the same format as the Geocoder response
-		#!# NB Location data is not always present
-		$features = array ();
-		foreach ($applications['features'] as $record) {
-			
-			# Convert geometry to BBOX and centrepoint
-			$centroid = self::getCentre ($record['geometry'], $bbox /* returned by reference */);
-			
-			# Register this feature
-			$features[] = array (
-				'type'			=> 'Feature',
-				'properties'	=> array (
-					'name'	=> self::truncate (self::reformatCapitalised ($record['properties']['description']), 80),
-					'near'	=> $record['properties']['authority_name'],
-					'bbox'	=> $bbox,
-				),
-				'geometry'	=> array (
-					'type'			=> 'Point',
-					'coordinates'	=> array ($centroid['lon'], $centroid['lat']),
-				),
-			);
-		}
-		
-		# Return the features
-		return $features;
 	}
 	
 	
@@ -691,7 +659,7 @@ class streetfocus
 	
 	
 	# Function to reformat capitalised text
-	private static function reformatCapitalised ($string)
+	public static function reformatCapitalised ($string)
 	{
 		# Convert to sentence case if no lower-case letters present and a group of two or more upper-case letters are present
 		if (!preg_match ('/[a-z]/', $string) && preg_match ('/[A-Z]{2,}/', $string)) {
