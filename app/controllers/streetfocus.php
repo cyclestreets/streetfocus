@@ -249,34 +249,6 @@ class streetfocus
 	}
 	
 	
-	# Login
-	private function login ()
-	{
-		# Delegate to the user account class and receive the template values
-		$this->userAccount->login ();
-		$this->template = $this->userAccount->getTemplate ($this->template);
-	}
-	
-	
-	# Logout
-	private function logout ()
-	{
-		# Delegate to the user account class and receive the template values
-		$this->userAccount->logout ();
-		$this->user = $this->userAccount->getUser ();	// Re-query, for menu status
-		$this->template = $this->userAccount->getTemplate ($this->template);
-	}
-	
-	
-	# Register
-	private function register ()
-	{
-		# Delegate to the user account class and receive the template values
-		$this->userAccount->register ();
-		$this->template = $this->userAccount->getTemplate ($this->template);
-	}
-	
-	
 	
 	# Home page
 	private function home ()
@@ -434,10 +406,31 @@ class streetfocus
 	}
 	
 	
-	# 404 page
-	private function page404 ()
+	# Login
+	private function login ()
 	{
-		// Static page
+		# Delegate to the user account class and receive the template values
+		$this->userAccount->login ();
+		$this->template = $this->userAccount->getTemplate ($this->template);
+	}
+	
+	
+	# Logout
+	private function logout ()
+	{
+		# Delegate to the user account class and receive the template values
+		$this->userAccount->logout ();
+		$this->user = $this->userAccount->getUser ();	// Re-query, for menu status
+		$this->template = $this->userAccount->getTemplate ($this->template);
+	}
+	
+	
+	# Register
+	private function register ()
+	{
+		# Delegate to the user account class and receive the template values
+		$this->userAccount->register ();
+		$this->template = $this->userAccount->getTemplate ($this->template);
 	}
 	
 	
@@ -448,6 +441,13 @@ class streetfocus
 		require_once ('app/controllers/api.php');
 		$api = new api ($this);
 		return $api->call ();
+	}
+	
+	
+	# 404 page
+	private function page404 ()
+	{
+		// Static page
 	}
 	
 	
