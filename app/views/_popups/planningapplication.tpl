@@ -40,12 +40,17 @@
 	</div>
 	
 	<div class="matches listing">
-		<h3>Proposal matches</h3>
-		<p>We think this development could potentially help fund these proposed community project(s) nearby:</p>
-		<ul>
-			<li><a href="/proposals/">Project 1 details</a></li>
-			<li><a href="/proposals/">Project 2 details</a></li>
-		</ul>
+		<h3>Community project ideas matches</h3>
+		<div class="hasmatches">
+			<p>We think this development could potentially help fund these proposed community project idea(s) nearby:</p>
+			<ul>
+				<li><a href="/proposals/">Project 1 details</a></li>
+				<li><a href="/proposals/">Project 2 details</a></li>
+			</ul>
+		</div>
+		<div class="nomatches">
+			<p>There are no nearby community project ideas matches for this location, but you can add one on the <a href="/ideas/">ideas page</a>.</p>
+		</div>
 	</div>
 	
 	<h3 class="address">Address</h3>

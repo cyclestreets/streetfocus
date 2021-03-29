@@ -552,6 +552,15 @@ var streetfocus = (function ($) {
 				$(element + ' div.matches').hide ();
 			}
 			
+			// If there are matching proposals, enable the internal div, otherwise confirm none
+			if (matchingProposalsHtml) {
+				$(element + ' div.matches div.hasmatches').show ();
+				$(element + ' div.matches div.nomatches').hide ();
+			} else {
+				$(element + ' div.matches div.hasmatches').hide ();
+				$(element + ' div.matches div.nomatches').show ();
+			}
+			
 			// Hide the call to action if already decided/withdrawn/etc.
 			if (feature.properties.state == 'Undecided') {
 				$(element + ' p.link').show ();
@@ -575,8 +584,8 @@ var streetfocus = (function ($) {
 			$(element + ' .title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 80)));
 			$(element + ' div.description p').html (streetfocus.htmlspecialchars (feature.properties.description));
 			$(element + ' div.documents ul').html (keyDocumentsHtml);
-			$(element + ' div.matches ul').html (matchingProposalsHtml);
 			$(element + ' p.alldocuments a').attr ('href', vendorLinks.documents);
+			$(element + ' div.matches div.hasmatches ul').html (matchingProposalsHtml);
 			$(element + ' p.address').html (streetfocus.htmlspecialchars (feature.properties.address));
 			$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
 			
