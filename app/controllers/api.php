@@ -118,14 +118,14 @@ class api
 		$planningapplicationsModel = new planningapplicationsModel ($this->settings);
 		$data = $planningapplicationsModel->getOne ($id);
 		
-		# Determine a BBOX around the planning application
+		# Determine a BBOX around the planning application, for use in determining nearby proposals
 		$distanceKm = 0.1;
-		$bbox = $this->pointToBbox ($data['geometry']['coordinates'][1], $data['geometry']['coordinates'][0], $distanceKm);
+		$bbox = $this->pointToBbox ($data['features'][0]['geometry']['coordinates'][1], $data['features'][0]['geometry']['coordinates'][0], $distanceKm);
 		
 		# Get the proposals, and these to the data
 		require_once ('app/models/proposals.php');
 		$proposalsModel = new proposalsModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
-		$data['properties']['_proposals'] = $proposalsModel->getProposals ($bbox);
+		$data['features'][0]['properties']['_proposals'] = $proposalsModel->getProposals ($bbox);
 		
 		# Return the data
 		return $this->asJson ($data);

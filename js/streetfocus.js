@@ -510,14 +510,9 @@ var streetfocus = (function ($) {
 		{
 			// Get the fuller data, syncronously
 			// #!# Need to restructure calling code to avoid syncronous request
-			var url = _settings.cyclestreetsApiBaseUrl + '/v2/planningapplications.location';
-			var parameters = {
-				key: _settings.cyclestreetsApiKey,
-				id: feature.properties[uniqueIdField]		// uniqueIdField will be 'id' when planning application from map, or 'moniker' when from geocoder direct match result
-			};
+			var url = '/api/planningapplication?id=' + feature.properties[uniqueIdField];		// Contains fuller data at the application level
 			$.ajax ({
 				url: url,
-				data: parameters,
 				dataType: 'json',
 				async: false,
 				success: function (data, textStatus, jqXHR) {

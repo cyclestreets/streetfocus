@@ -15,8 +15,8 @@ class planningapplicationsModel
 	# Function to get a single planning application by full ID (place+id)
 	public function getOne ($fullId)
 	{
-		# Get the data from the PlanIt API
-		$apiUrl = $this->settings['planitBaseUrl'] . '/planapplic/' . $fullId . '/geojson';
+		# Get the data from the CycleStreets API
+		$apiUrl = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/planningapplications.location' . "?key={$this->settings['cyclestreetsApiKey']}&id=" . $fullId;
 		$application = streetfocus::getApiData ($apiUrl);
 		
 		# Return the application
