@@ -15,8 +15,8 @@
 		<link href="/js/lib/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
 		<script src="/js/lib/jQuery-Touch-Events/src/jquery.mobile-events.min.js"></script>
 		
-		<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
-		<link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet" />
+		<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.js"></script>
+		<link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css" rel="stylesheet" />
 		
 		<script src="/js/lib/geocoder.js"></script>
 		
