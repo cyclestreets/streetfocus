@@ -1459,7 +1459,39 @@ var streetfocus = (function ($) {
 					_map.setLayoutProperty (layerId, 'visibility', 'visible');
 				}
 			});
+		},
+		
+		
+		// Function to add a static polygon layer
+		addStaticPolygonLayer: function (url, id, popupHtml)
+		{
+			// Register the data source
+			_map.addSource (id, {
+				type: 'geojson',
+				data: url,
+				tolerance: 3.5		// See: https://docs.mapbox.com/help/troubleshooting/working-with-large-geojson-data/
+			});
 			
+			// Add layer to visualise the data
+			_map.addLayer ({
+				id: id,
+				type: 'fill',
+				source: id,
+				layout: {},
+				paint: {
+					'fill-color': '#ffc5c5',
+					'fill-opacity': 0.5
+				}
+			});
+			
+			// Add popup
+			_map.on ('click', id, function (e) {
+				new mapboxgl.Popup ()
+					.setLngLat (e.lngLat)
+					.setHTML (popupHtml)
+					.addTo (_map);
+			});
+
 		},
 		
 		
