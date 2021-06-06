@@ -17,6 +17,11 @@
 	<li>enhancing public sector data, thereby increasing taxpayer value for money.</li>
 </ul>
 
+<h2 id="stale">Stale data areas</h2>
+<p>Unfortunately, some areas of the country have stale data, where we are unable to obtain updated data on planning applications daily. These are shown on the map.</p>
+<p>This happens because the council has taken the decision to block third-party organisations from 'scraping' the data from its public webpages. We are hoping to see this issue resolved, but at present do not have any timescale.</p>
+<p>The government is aiming to move towards a more digitally-enabled planning system, and it is exactly this kind of problem that needs to be resolved, in order to provide better and much more flexible public access to planning application data.</p>
+
 <h2>Acknowledgements</h2>
 <p>StreetFocus is a project created by <a href="https://www.cyclestreets.net/" target="_blank"><strong>CycleStreets</strong></a>, a social enterprise based in Cambridge, working in collaboration with <a href="https://www.planit.org.uk/" target="_blank">PlanIt</a>.</p>
 <p>StreetFocus has been made possible thanks to funding from:</p>
