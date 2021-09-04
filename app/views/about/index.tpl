@@ -28,4 +28,5 @@
 <p id="funders">
 	<a href="https://www.gov.uk/government/news/funding-awarded-to-innovative-data-projects" target="_blank"><img src="/images/innovateuk.png" alt="Innovate UK" /></a>
 	<a href="https://www.scambs.gov.uk/nature-and-climate-change/zero-carbon-communities/zero-carbon-communities-grant/" target="_blank"><img src="/images/southcambs.jpg" alt="South Cambridgeshire District Council Zero Carbon Communities Grant" /></a>
+	<a href="https://integratedtransport.co.uk/project/streetfocus" target="_blank"><img src="/images/fit.png" alt="Foundation for Integrated Transport" /></a>
 </p>
