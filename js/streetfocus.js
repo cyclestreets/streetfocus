@@ -19,7 +19,7 @@ var streetfocus = (function ($) {
 		
 		// PlanIt API
 		planitEarliestYear: 2000,
-		plantitStaleAreas: 'https://dev.planit.org.uk/api/areas/geojson?area_type=stale',
+		plantitStaleAreas: 'https://www.planit.org.uk/api/areas/geojson?area_type=stale',
 		
 		// Mapbox API key
 		mapboxApiKey: 'YOUR_MAPBOX_API_KEY',
