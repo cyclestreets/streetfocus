@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="/css/streetfocus.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<script src="/js/lib/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 		<link href="/js/lib/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
 		<script src="/js/lib/jQuery-Touch-Events/src/jquery.mobile-events.min.js"></script>
