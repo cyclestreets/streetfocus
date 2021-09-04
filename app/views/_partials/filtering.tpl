@@ -10,7 +10,7 @@
 		<ul id="type">
 			<li title="Applications complete with full design details"><label><input type="checkbox" name="type[]" value="Full"> Full</label></li>
 			<li title="Proposals prior to a full application"><label><input type="checkbox" name="type[]" value="Outline"> Outline</label></li>
-			<li title="An amendment to a proposal already approved"><label><input type="checkbox" name="type[]" value="Amendment"> Amendment</label></li>
+			<li title="An amendment to a planning application already approved"><label><input type="checkbox" name="type[]" value="Amendment"> Amendment</label></li>
 			<li title="Conservation issues and listed buildings"><label><input type="checkbox" name="type[]" value="Heritage"> Heritage</label></li>
 			<li title="Tree and hedge works"><label><input type="checkbox" name="type[]" value="Trees"> Trees</label></li>
 			<li title="Advertising and signs"><label><input type="checkbox" name="type[]" value="Advertising"> Advertising</label></li>

@@ -44,8 +44,8 @@
 		<div class="hasmatches">
 			<p>We think this development could potentially help fund these proposed community project idea(s) nearby:</p>
 			<ul>
-				<li><a href="/proposals/">Project 1 details</a></li>
-				<li><a href="/proposals/">Project 2 details</a></li>
+				<li><a href="/ideas/">Project 1 details</a></li>
+				<li><a href="/ideas/">Project 2 details</a></li>
 			</ul>
 		</div>
 		<div class="nomatches">

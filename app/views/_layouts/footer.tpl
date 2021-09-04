@@ -17,7 +17,7 @@
 			<div id="colophon">
 				<p>Created by <a href="https://www.cyclestreets.net/">CycleStreets</a></p>
 				<p>Planning data via <a href="https://www.planit.org.uk/">PlanIt</a></p>
-				<p>Proposals data from <a href="https://www.cyclescape.org/">Cyclescape</a></p>
+				<p>Ideas data from <a href="https://www.cyclescape.org/">Cyclescape</a></p>
 				<p>Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</p>
 				<p><a href="/privacy/">Privacy</a> | <a href="https://www.github.com/cyclestreets/streetfocus/">Code on Github</a></p>
 			</div>

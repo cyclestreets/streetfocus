@@ -98,7 +98,7 @@ var streetfocus = (function ($) {
 			
 	
 	// Actions creating a map
-	var _mapActions = ['planningapplications', 'proposals', 'my', 'add'];
+	var _mapActions = ['planningapplications', 'ideas', 'my', 'add'];
 	
 	
 	return {
@@ -547,18 +547,18 @@ var streetfocus = (function ($) {
 			// Determine the key documents list
 			var keyDocumentsHtml = streetfocus.keyDocuments (feature.properties.documents);
 			
-			// Determine the matching proposals list
-			var matchingProposalsHtml = streetfocus.matchingProposals (feature.properties._proposals);
+			// Determine the matching ideas list
+			var matchingIdeasHtml = streetfocus.matchingIdeas (feature.properties._ideas);
 			
-			// Only show proposal matches for medium/large applications
+			// Only show ideas matches for medium/large applications
 			if (feature.properties.size == 'Medium' || feature.properties.size == 'Large') {
 				$(element + ' div.matches').show ();
 			} else {
 				$(element + ' div.matches').hide ();
 			}
 			
-			// If there are matching proposals, enable the internal div, otherwise confirm none
-			if (matchingProposalsHtml) {
+			// If there are matching ideas, enable the internal div, otherwise confirm none
+			if (matchingIdeasHtml) {
 				$(element + ' div.matches div.hasmatches').show ();
 				$(element + ' div.matches div.nomatches').hide ();
 			} else {
@@ -590,7 +590,7 @@ var streetfocus = (function ($) {
 			$(element + ' div.description p').html (streetfocus.htmlspecialchars (feature.properties.description));
 			$(element + ' div.documents ul').html (keyDocumentsHtml);
 			$(element + ' p.alldocuments a').attr ('href', vendorLinks.documents);
-			$(element + ' div.matches div.hasmatches ul').html (matchingProposalsHtml);
+			$(element + ' div.matches div.hasmatches ul').html (matchingIdeasHtml);
 			$(element + ' p.address').html (streetfocus.htmlspecialchars (feature.properties.address));
 			$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
 			
@@ -733,21 +733,21 @@ var streetfocus = (function ($) {
 		},
 		
 		
-		// Helper function to list matching proposals
-		matchingProposals: function (proposals)
+		// Helper function to list matching ideas
+		matchingIdeas: function (ideas)
 		{
 			// Return empty array if none
-			if (!proposals) {return [];}
+			if (!ideas) {return [];}
 			
 			// Convert to HTML
 			var listItems = [];
 			var listItem;
 			var date;
-			$.each (proposals, function (index, proposal) {
+			$.each (ideas, function (index, idea) {
 				listItem  = '<li>';
-				listItem += '<a href="/proposals/' + proposal.properties.moniker + '/" target="_blank">';
-				listItem += streetfocus.htmlspecialchars (proposal.properties.title);
-				date = new Date (proposal.properties.when * 1000);
+				listItem += '<a href="/ideas/' + idea.properties.moniker + '/" target="_blank">';
+				listItem += streetfocus.htmlspecialchars (idea.properties.title);
+				date = new Date (idea.properties.when * 1000);
 				listItem += ' &nbsp; <span>(' + streetfocus.htmlspecialchars (date.getFullYear ()) + ')</span>';
 				listItem += '</a>';
 				listItem += '</li>';
@@ -760,13 +760,13 @@ var streetfocus = (function ($) {
 		},
 		
 		
-		// Proposals
-		proposals: function ()
+		// Ideas
+		ideas: function ()
 		{
 			// Add geocoder control
 			streetfocus.search ('geocoder');
 			
-			// Define a callback function to filter out proposals which appear to be an imported planning application
+			// Define a callback function to filter out ideas which appear to be an imported planning application
 			var callback = function (data) {
 				var i = data.features.length;
 				while (i--) {		// See: https://stackoverflow.com/a/9882349/180733
@@ -777,8 +777,8 @@ var streetfocus = (function ($) {
 				return data;
 			}
 			
-			// Add the proposals layer, e.g. /api/proposals?bbox=-0.127902%2C51.503486%2C-0.067091%2C51.512086
-			var apiBaseUrl = '/api/proposals';
+			// Add the ideas layer, e.g. /api/ideas?bbox=-0.127902%2C51.503486%2C-0.067091%2C51.512086
+			var apiBaseUrl = '/api/ideas';
 			var parameters = {};
 			streetfocus.addLayer (apiBaseUrl, parameters, null, callback, 'moniker', 'title');
 			
@@ -789,7 +789,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to populate the popup
-		populatePopupProposals: function (element, feature, uniqueIdField /* ignored */)
+		populatePopupIdeas: function (element, feature, uniqueIdField /* ignored */)
 		{
 			// Get the centre-point of the geometry
 			var centre = streetfocus.getCentre (feature.geometry);

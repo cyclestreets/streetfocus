@@ -1,7 +1,7 @@
 <h1>Planning applications</h1>
 
 <div id="introduction">
-	<p>This map shows proposals by developers to create new buildings, change existing sites, and other changes such as tree works.</p>
+	<p>This map shows submitted applications by developers to create new buildings, change existing sites, and other changes such as tree works.</p>
 </div>
 
 {include file='_partials/geocoder.tpl'}

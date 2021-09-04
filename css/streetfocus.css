@@ -85,7 +85,7 @@ body .mapboxgl-map .mapboxgl-popup-content {line-height: 1.4;}
 /* Popups */
 #details {display: none; position: relative; width: auto; background-color: white; padding: 30px; z-index: 10; box-shadow: 0px -10px 10px -5px gray;}
 body.planningapplications #details {margin-right: 280px; margin-top: -480px; min-height: 420px /* 480-30-30 */;}
-body.proposals #details {margin-top: -330px; min-height: 270px /* 330-30-30 */;}
+body.ideas #details {margin-top: -330px; min-height: 270px /* 330-30-30 */;}
 @media only screen and (max-width: 900px) {
 	body.planningapplications #details {margin-right: 0;}
 }
@@ -97,7 +97,7 @@ body.proposals #details {margin-top: -330px; min-height: 270px /* 330-30-30 */;}
 #geocoder input[type="image"] {width: 56px; height: 50px; border: 0; float: right;}
 
 /* Geolocation */
-body.planningapplications #map .mapboxgl-ctrl-geolocate, body.proposals #map .mapboxgl-ctrl-geolocate {display: none;}	/* Hide native */
+body.planningapplications #map .mapboxgl-ctrl-geolocate, body.ideas #map .mapboxgl-ctrl-geolocate {display: none;}	/* Hide native */
 #geocoder #geolocation {width: 50px; height: 50px; float: left;}
 body.home #geocoder #geolocation {animation: pulse 1s infinite;}
 @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
@@ -154,10 +154,10 @@ body.about p#funders img {height: 90px; border: 1px solid #ddd; padding: 15px 25
 /* 404 page */
 body.page404 img {margin-left: 20px; margin-bottom: 20px;}
 
-/* Planning applications and proposals map pages */
+/* Planning applications and ideas map pages */
 #introduction {padding: 0 30px 5px;}
 body.planningapplications #map {min-height: 600px;}
-body.proposals #map {min-height: 450px;}
+body.ideas #map {min-height: 450px;}
 
 /* Planning applications page filtering */
 body.planningapplications #filtering {position: absolute; z-index: 10; background-color: #f7f7f7; padding: 20px 30px;}
@@ -190,7 +190,7 @@ body.planningapplications #filtering {display: block; width: 220px; top: 0; righ
 #filtering p {margin: 6px 0;}
 #filtering p input {font-size: 16px;}
 
-/* Proposals page */
+/* Ideas page */
 p#addidea {float: right; margin-left: 20px;}
 
 /* Close button in map panels */
@@ -265,8 +265,8 @@ body.add span.warning {color: red;}
 #details div.documents ul li {background-image: url('/images/document.png');}
 #details div.matches ul li {background-image: url('/images/match.png');}
 #details p span.value {display: inline-block; border: 1px solid #707070; padding: 5px 8px; color: #707070; width: auto; margin: 0;}
-#map .proposals ul.tags {list-style: none; margin: 0; padding: 0;}
-#map .proposals ul.tags li {display: inline; background-color: #eee; margin: 0 3px 0; border-radius: 6px; padding: 3px 5px;}
+#map .ideas ul.tags {list-style: none; margin: 0; padding: 0;}
+#map .ideas ul.tags li {display: inline; background-color: #eee; margin: 0 3px 0; border-radius: 6px; padding: 3px 5px;}
 #map p.image img {max-width: 100%;}
 #details div.streetview {width: 100%; height: 180px;}
 #details div.streetview iframe {width: 100%; height: 100%;}

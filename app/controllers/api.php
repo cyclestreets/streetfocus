@@ -87,9 +87,9 @@ class api
 		
 		# Cyclescape issues search
 		if (in_array ('cyclescape', $sources)) {
-			require_once ('app/models/proposals.php');
-			$proposalsModel = new proposalsModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
-			$data['features'] += $proposalsModel->searchCyclescapeIssues ($q);
+			require_once ('app/models/ideas.php');
+			$ideasModel = new ideasModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
+			$data['features'] += $ideasModel->searchCyclescapeIssues ($q);
 		}
 		
 		# Geocoder search
@@ -118,14 +118,14 @@ class api
 		$planningapplicationsModel = new planningapplicationsModel ($this->settings);
 		$data = $planningapplicationsModel->getOne ($id);
 		
-		# Determine a BBOX around the planning application, for use in determining nearby proposals
+		# Determine a BBOX around the planning application, for use in determining nearby ideas
 		$distanceKm = 0.1;
 		$bbox = $this->pointToBbox ($data['features'][0]['geometry']['coordinates'][1], $data['features'][0]['geometry']['coordinates'][0], $distanceKm);
 		
-		# Get the proposals, and these to the data
-		require_once ('app/models/proposals.php');
-		$proposalsModel = new proposalsModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
-		$data['features'][0]['properties']['_proposals'] = $proposalsModel->getProposals ($bbox);
+		# Get the ideas, and these to the data
+		require_once ('app/models/ideas.php');
+		$ideasModel = new ideasModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
+		$data['features'][0]['properties']['_ideas'] = $ideasModel->getIdeas ($bbox);
 		
 		# Return the data
 		return $this->asJson ($data);
@@ -162,8 +162,8 @@ class api
 	}
 	
 	
-	# Function to serve proposals data
-	private function api_proposals ()
+	# Function to serve ideas data
+	private function api_ideas ()
 	{
 		# Ensure a BBOX is specified
 		if (!isSet ($_GET['bbox']) || !strlen ($_GET['bbox']) || !preg_match ('/^([-.0-9]+),([-.0-9]+),([-.0-9]+),([-.0-9]+)$/', $_GET['bbox'])) {
@@ -174,10 +174,10 @@ class api
 		# Start a GeoJSON result; the search drivers will return GeoJSON features rather than a full GeoJSON result
 		$data = array ('type' => 'FeatureCollection', 'features' => array ());
 		
-		# Get the proposals
-		require_once ('app/models/proposals.php');
-		$proposalsModel = new proposalsModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
-		$data['features'] = $proposalsModel->getProposals ($bbox);
+		# Get the ideas
+		require_once ('app/models/ideas.php');
+		$ideasModel = new ideasModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
+		$data['features'] = $ideasModel->getIdeas ($bbox);
 		
 		# Return the data
 		return $this->asJson ($data);

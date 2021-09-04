@@ -21,5 +21,5 @@
 </div>
 
 
-{include file='_popups/proposal.tpl'}
+{include file='_popups/idea.tpl'}
 

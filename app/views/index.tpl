@@ -18,8 +18,8 @@
 			<p>{$totalApplications|number_format}</p>
 		</div>
 		<div>
-			<h3>Matched proposals</h3>
-			<p>{$matchedProposals|number_format}</p>
+			<h3>Matched ideas</h3>
+			<p>{$matchedIdeas|number_format}</p>
 		</div>
 	</div>
 	

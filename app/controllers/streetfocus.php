@@ -46,9 +46,9 @@ class streetfocus
 				'description' => 'Planning applications',
 				'url' => '/map/',
 			),
-			'proposals' => array (
-				'description' => 'Proposals for street changes',
-				'url' => '/proposals/',
+			'ideas' => array (
+				'description' => 'Ideas for street changes',
+				'url' => '/ideas/',
 			),
 			'my' => array (
 				'description' => 'Monitor areas',
@@ -110,8 +110,8 @@ class streetfocus
 			  `createdAt` DATETIME NOT NULL COMMENT 'Created at'
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Monitors set by users';
 			
-			-- External proposals
-			CREATE TABLE `proposalsexternal` (
+			-- External ideas
+			CREATE TABLE `ideassexternal` (
 			  `id` varchar(255) PRIMARY KEY NOT NULL,
 			  `source` varchar(255) NOT NULL,
 			  `title` varchar(512) DEFAULT NULL,
@@ -125,7 +125,7 @@ class streetfocus
 			  `when` datetime NOT NULL,
 			  `longitude` decimal(9,6) NOT NULL,
 			  `latitude` decimal(8,6) NOT NULL
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Proposals data from external sources';
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Ideas data from external sources';
 		";
 	}
 	
@@ -258,9 +258,9 @@ class streetfocus
 		$planningapplicationsModel = new planningapplicationsModel ($this->settings);
 		$this->template['totalApplications'] = $planningapplicationsModel->getTotal ();
 		
-		# Get total matched proposals
+		# Get total matched ideas
 		// #!# Example data at present - needs API integration
-		$this->template['matchedProposals'] = '253';
+		$this->template['matchedIdeas'] = '253';
 	}
 	
 	
@@ -281,31 +281,31 @@ class streetfocus
 	}
 	
 	
-	# Proposals map page
-	private function proposals ()
+	# Ideas map page
+	private function ideas ()
 	{
 		# If an ID is specified, determine the map location, so that the item is present in the area data
 		if ($this->id) {
 			if (preg_match ('|^(.+)/(.+)$|', $this->id)) {
 				list ($source, $id) = explode ('/', $this->id, 2);
 				
-				# Load the proposals model
-				require_once ('app/models/proposals.php');
-				$proposalsModel = new proposalsModel ($this->settings, $this->databaseConnection);
+				# Load the ideas model
+				require_once ('app/models/ideas.php');
+				$ideasModel = new ideasModel ($this->settings, $this->databaseConnection);
 				
 				# Select source
 				switch ($source) {
 					
 					# Cyclescape
 					case 'cyclescape':
-						if ($issue = $proposalsModel->searchCyclescapeIssues (false, $id)) {
+						if ($issue = $ideasModel->searchCyclescapeIssues (false, $id)) {
 							$this->setLocationFromFeature ($issue[0]);
 						}
 						break;
 						
 					# External
 					case 'external':
-						if ($issue = $proposalsModel->getExternalIssues (false, $id)) {
+						if ($issue = $ideasModel->getExternalIssues (false, $id)) {
 							$this->setLocationFromFeature ($issue[0]);
 						}
 						break;

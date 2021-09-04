@@ -1,7 +1,7 @@
 <?php
 
-# Proposals model, providing an interface to the upstream APIs
-class proposalsModel
+# Ideas model, providing an interface to the upstream APIs
+class ideasModel
 {
 	# Constructor
 	public function __construct ($settings, $databaseConnection, $userIsAdministrator)
@@ -14,8 +14,8 @@ class proposalsModel
 	
 	
 	
-	# Main entry point function to get proposals
-	public function getProposals ($bbox)
+	# Main entry point function to get ideas
+	public function getIdeas ($bbox)
 	{
 		# Start a data array
 		$data = array ();
@@ -220,7 +220,7 @@ class proposalsModel
 		# Get the features from the database
 		$query = 'SELECT
 			*
-			FROM proposalsexternal
+			FROM ideasexternal
 			WHERE
 			' . implode (' AND ', $where) . '
 		;';
