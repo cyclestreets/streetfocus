@@ -291,7 +291,7 @@ class streetfocus
 				
 				# Load the ideas model
 				require_once ('app/models/ideas.php');
-				$ideasModel = new ideasModel ($this->settings, $this->databaseConnection);
+				$ideasModel = new ideasModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
 				
 				# Select source
 				switch ($source) {
