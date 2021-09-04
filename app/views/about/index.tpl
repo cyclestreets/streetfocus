@@ -27,5 +27,5 @@
 <p>StreetFocus has been made possible thanks to funding from:</p>
 <p id="funders">
 	<a href="https://www.gov.uk/government/news/funding-awarded-to-innovative-data-projects" target="_blank"><img src="/images/innovateuk.png" alt="Innovate UK" /></a>
-	<a href="https://www.scambs.gov.uk/community-development/grants/zero-carbon-communities-grant/" target="_blank"><img src="/images/southcambs.jpg" alt="South Cambridgeshire District Council Zero Carbon Communities Grant" /></a>
+	<a href="https://www.scambs.gov.uk/nature-and-climate-change/zero-carbon-communities/zero-carbon-communities-grant/" target="_blank"><img src="/images/southcambs.jpg" alt="South Cambridgeshire District Council Zero Carbon Communities Grant" /></a>
 </p>
