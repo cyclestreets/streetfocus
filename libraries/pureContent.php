@@ -1,8 +1,8 @@
 <?php
 
 /*
- * Coding copyright Martin Lucas-Smith, University of Cambridge, 2003-18
- * Version 1.10.0
+ * Coding copyright Martin Lucas-Smith, University of Cambridge, 2003-21
+ * Version 1.12.4
  * Distributed under the terms of the GNU Public Licence - www.gnu.org/copyleft/gpl.html
  * Requires PHP 5.3
  * Download latest from: https://download.geog.cam.ac.uk/projects/purecontent/
@@ -236,11 +236,6 @@ class pureContent {
 				if ($match == $location || $menufile == '*') {
 					#!# Hacked in 060222 - deals with non-top level sections like /foo/bar/ but hard-codes .menu.html ... ; arguably this is a more sensible system though, and avoids passing menu file along a chain
 					$menufileFilename = $_SERVER['DOCUMENT_ROOT'] . $location . '/.menu.html';
-if (isSet ($_SERVER['REMOTE_USER']) && in_array ($_SERVER['REMOTE_USER'], array ('mvl22', 'mb425', 'cec81', 'opl21', 'nab37', 'lem28'))) {
-					if (file_exists ($menufileFilename . '.beta')) {
-						$menufileFilename .= '.beta';
-					}
-}
 					if (file_exists ($menufileFilename)) {
 						if ($returnNotEcho) {
 							$menuFileHtml = file_get_contents ($menufileFilename);
@@ -364,14 +359,30 @@ if (isSet ($_SERVER['REMOTE_USER']) && in_array ($_SERVER['REMOTE_USER'], array 
 	
 	
 	# Function to provide an edit link if using pureContentEditor
-	public static function editLink ($internalHostRegexp, $port = 8080, $class = 'editlink', $tag = 'p')
+	public static function editLink ($internalHostRegexp /* regexp for host, or bool to show/hide */, $port = 8080, $class = 'editlink', $tag = 'p')
 	{
-		# If the host matches and the port is not the edit port, give a link
-		if (preg_match ('/' . addcslashes ($internalHostRegexp, '/') . '/', gethostbyaddr ($_SERVER['REMOTE_ADDR'])) || isSet ($_COOKIE['purecontenteditorlink'])) {
+		# End if web application area
+		if (isSet ($_SERVER['PURECONTENT_EDITING_DISABLED'])) {return false;}
+		
+		# Determine matching visibility
+		if (is_string ($internalHostRegexp)) {
+			$isVisible = preg_match ('/' . addcslashes ($internalHostRegexp, '/') . '/', gethostbyaddr ($_SERVER['REMOTE_ADDR'])) || isSet ($_COOKIE['purecontenteditorlink']);
+		} else /* i.e. is bool */ {
+			$isVisible = ($internalHostRegexp);
+		}
+		
+		# If the host/user matches and the port is not the edit port, give a link
+		if ($isVisible) {
 			if ($_SERVER['SERVER_PORT'] != $port) {
-				return "<{$tag} class=\"" . ($class ? "{$class} " : '') . "noprint\"><a href=\"https://{$_SERVER['SERVER_NAME']}:{$port}" . htmlspecialchars ($_SERVER['REQUEST_URI']) . '"><img src="/images/icons/page_edit.png" class="icon" /> Editing&nbsp;mode</a>' . "</{$tag}>";
+				$url = "https://{$_SERVER['SERVER_NAME']}:{$port}" . htmlspecialchars ($_SERVER['REQUEST_URI']) . '?edit';
+				$label = 'Edit page';
+				if (isSet ($_SERVER['PURECONTENT_EDITING_WORDPRESS'])) {
+					$url = $_SERVER['PURECONTENT_EDITING_WORDPRESS'] . 'login';
+					$label = 'Wordpress editor';
+				}
+				return "<{$tag} class=\"" . ($class ? "{$class} " : '') . "noprint\"><a href=\"" . $url . '" title="Switch to the editing side of the website"><img src="/images/icons/page_edit.png" class="icon" /> ' . $label . "</a></{$tag}>";
 			} else {
-				return "<{$tag} class=\"" . ($class ? "{$class} " : '') . "noprint\"><a href=\"https://{$_SERVER['SERVER_NAME']}" . htmlspecialchars ($_SERVER['REQUEST_URI']) . "\">[Return to live]</a></{$tag}>";
+				return "<{$tag} class=\"" . ($class ? "{$class} " : '') . "noprint\"><a href=\"https://{$_SERVER['SERVER_NAME']}" . htmlspecialchars ($_SERVER['SCRIPT_NAME']) /* i.e. without query string */ . "\" title=\"Switch back to the live, public side of the website\">[Return to live]</a></{$tag}>";
 			}
 		}
 		
@@ -383,15 +394,56 @@ if (isSet ($_SERVER['REMOTE_USER']) && in_array ($_SERVER['REMOTE_USER'], array 
 	# Function to provide an SSO link area
 	public static function ssoLinks ($ssoBrandName = false, $profileUrl = false, $profileName = 'My profile', $superusersSwitching = array (), $internalHostRegexp = false)
 	{
-		# End if not to be shown for the user's host
+		# End if SSO not enabled (defined and equal to 1, in the server environment)
+		if (!isSet ($_SERVER['SINGLE_SIGN_ON_ENABLED']) || !$_SERVER['SINGLE_SIGN_ON_ENABLED']) {return false;}
+		
+		# Set to show the links by default
+		$showLinks = true;
+		
+		# If limited by host, do not show by default but enable if matching
 		if ($internalHostRegexp) {
-			if (!preg_match ('/' . addcslashes ($internalHostRegexp, '/') . '/', gethostbyaddr ($_SERVER['REMOTE_ADDR']))) {
-				return false;
+			$showLinks = false;		// Disable by default
+			if (preg_match ('/' . addcslashes ($internalHostRegexp, '/') . '/', gethostbyaddr ($_SERVER['REMOTE_ADDR']))) {
+				$showLinks = true;	// Show if matched
 			}
 		}
 		
-		# End if SSO not installed
-		if (!isSet ($_SERVER['SINGLE_SIGN_ON_ENABLED'])) {return false;}
+		# Check for a cookie, representing an internal user who has previously authenticated; this takes precedence over internal host checks
+		$cookieName = 'showssolinks';
+		$hasCookieRenewAt = false;
+		if (isSet ($_COOKIE[$cookieName])) {
+			$showLinks = true;
+			$hasCookieRenewAt = $_COOKIE[$cookieName];
+		}
+		
+		# If there is an authenticated user, set a cookie for future showing away from internal host
+		if ($_SERVER['REMOTE_USER']) {
+			
+			# By default, assume setting a cookie for future visibility of the links
+			$setCookie = true;
+			
+			# Don't bother renewing the cookie if it hasn't reached renewal time
+			if ($hasCookieRenewAt) {
+				if (time () < $hasCookieRenewAt) {
+					$setCookie = false;
+				}
+			}
+			
+			# Set the cookie if required
+			if ($setCookie) {
+				$expireInMonths = 6;
+				$oneMonth = 60*60*24*30;
+				$expiresAt = time () + ($oneMonth * $expireInMonths);
+				$renewalAt = time () + ($oneMonth * ($expireInMonths / 2));		// Set renewal to be from half-way
+				setcookie ($cookieName, $renewalAt, $expiresAt, '/');
+			}
+			
+			# Show links
+			$showLinks = true;	// Show if matched
+		}
+		
+		# End if set not to show the links
+		if (!$showLinks) {return false;}
 		
 		# Start the HTML by opening a list
 		$html  = "\n\t<ul>";
@@ -448,35 +500,52 @@ if (isSet ($_SERVER['REMOTE_USER']) && in_array ($_SERVER['REMOTE_USER'], array 
 		# Assume disabled by default
 		$userSwitching = false;
 		
-		# If logged in, get the real username and ensure they have superuser rights
-		if ($userSwitchingEnabled) {
-			if (!session_id ()) {session_start ();}
-			
-			# Maintain an existing session
-			if (isSet ($_SESSION['switchuser']) && isSet ($_SESSION['switchuser']['username']) && preg_match ($usernameRegexp, $_SESSION['switchuser']['username'])) {
-				$userSwitching = $_SESSION['switchuser']['username'];
+		# Start the session
+		if (!session_id ()) {session_start ();}
+		
+		# Maintain an existing session
+		if (isSet ($_SESSION['switchuser']) && isSet ($_SESSION['switchuser']['username']) && preg_match ($usernameRegexp, $_SESSION['switchuser']['username'])) {
+			$userSwitching = $_SESSION['switchuser']['username'];
+		}
+		
+		# If the form is posted, select or clear the user
+		if (isSet ($_POST['switchuser']) && isSet ($_POST['switchuser']['username'])) {
+			if (strlen ($_POST['switchuser']['username']) && preg_match ($usernameRegexp, $_POST['switchuser']['username']) && ($_POST['switchuser']['username'] != $_SERVER['REMOTE_USER'])) {
+				$userSwitching = trim ($_POST['switchuser']['username']);
+				$_SESSION['switchuser']['username'] = $userSwitching;
+			} else {
+				unset ($_SESSION['switchuser']);
+				$userSwitching = false;
 			}
-			
-			# If the form is posted, select or clear the user
-			if (isSet ($_POST['switchuser']) && isSet ($_POST['switchuser']['username'])) {
-				if (strlen ($_POST['switchuser']['username']) && preg_match ($usernameRegexp, $_POST['switchuser']['username']) && ($_POST['switchuser']['username'] != $_SERVER['REMOTE_USER'])) {
-					$userSwitching = trim ($_POST['switchuser']['username']);
-					$_SESSION['switchuser']['username'] = $userSwitching;
-				} else {
-					unset ($_SESSION['switchuser']);
-					$userSwitching = false;
-				}
-				header ("Location: {$_SERVER['_PAGE_URL']}");	// 302 Redirect (temporary)
-			}
-			
-			# Switch the user, and refresh the page to avoid POST warnings
-			if ($userSwitching) {
-				$_SERVER['REMOTE_USER'] = $userSwitching;
-			}
+			header ("Location: {$_SERVER['_PAGE_URL']}");	// 302 Redirect (temporary)
+		}
+		
+		# Switch the user, and refresh the page to avoid POST warnings
+		if ($userSwitching) {
+			$_SERVER['REMOTE_USER'] = $userSwitching;
 		}
 		
 		# Return the user switching status (false or username)
 		return $userSwitching;
+	}
+	
+	
+	# Function to show page last updated date
+	public static function lastUpdated ()
+	{
+		# Determine the current file, based on the URL rather than file, which is more reliable when redirects used
+		$file = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['SCRIPT_NAME'];
+		
+		# If a directory, add on index file
+		$file .= (substr ($_SERVER['SCRIPT_NAME'], -1) == '/' ? 'index.html' : '');
+		
+		# If the computed file location doesn't exist, fall back to the script filename, which will likely indicate rewriting
+		if (!file_exists ($file)) {
+			$file = $_SERVER['SCRIPT_FILENAME'];
+		}
+		
+		# Return the date
+		return date ('jS F Y', filemtime ($file));
 	}
 	
 	
@@ -647,54 +716,6 @@ if (isSet ($_SERVER['REMOTE_USER']) && in_array ($_SERVER['REMOTE_USER'], array 
 	}
 	
 	
-	# Function to create a jumplist form
-	#!# Need to move this to the application library
-	#!# Needs support for nested lists
-	public static function htmlJumplist ($values /* will have htmlspecialchars applied to both keys and values */, $selected = '', $action = '', $name = 'jumplist', $parentTabLevel = 0, $class = 'jumplist', $introductoryText = 'Go to:', $valueSubstitution = false, $onchangeJavascript = true)
-	{
-		# Return an empty string if no items
-		if (empty ($values)) {return '';}
-		
-		# Prepare the tab string
-		$tabs = str_repeat ("\t", ($parentTabLevel));
-		
-		# Build the list; note that the visible value can never have tags within (e.g. <span>): https://stackoverflow.com/questions/5678760
-		foreach ($values as $value => $visible) {
-			$fragments[] = '<option value="' . ($valueSubstitution ? str_replace ('%value', htmlspecialchars ($value), $valueSubstitution) : htmlspecialchars ($value)) . '"' . ($value == $selected ? ' selected="selected"' : '') . '>' . htmlspecialchars ($visible) . '</option>';
-		}
-		
-		# Construct the HTML
-		$html  = "\n\n$tabs" . "<div class=\"$class\">";
-		$html .= "\n\n$tabs" . $introductoryText;
-		$html .= "\n$tabs\t" . "<form method=\"post\" action=\"" . htmlspecialchars ($action) . "\" name=\"$name\">";
-		$html .= "\n$tabs\t\t" . "<select name=\"$name\"" . ($onchangeJavascript ? ' onchange="window.location.href/*stopBots*/=this[selectedIndex].value"' : '') . '>';	// The inline 'stopBots' javascript comment is an attempt to stop rogue bots picking up the "href=" text
-		$html .= "\n$tabs\t\t\t" . implode ("\n$tabs\t\t\t", $fragments);
-		$html .= "\n$tabs\t\t" . '</select>';
-		$html .= "\n$tabs\t\t" . '<noscript><input type="submit" value="Go!" class="button" /></noscript>';
-		$html .= "\n$tabs\t" . '</form>';
-		$html .= "\n$tabs" . '</div>' . "\n";
-		
-		# Return the result
-		return $html;
-	}
-	
-	
-	# Function to process the jumplist
-	public static function jumplistProcessor ($name = 'jumplist')
-	{
-		# If posted, jump, adding the current site's URL if the target doesn't start with http(s);//
-		if (isSet ($_POST[$name])) {
-			$location = (preg_match ('~(http|https)://~i', $_POST[$name]) ? '' : $_SERVER['_SITE_URL']) . $_POST[$name];
-			require_once ('application.php');
-			application::sendHeader (302, $location);
-			return true;
-		}
-		
-		# Otherwise return an empty status
-		return NULL;
-	}
-	
-	
 	# Function to add social networking links
 	public static function socialNetworkingLinks ($twitterName = false, $prefixText = false)
 	{
@@ -714,7 +735,7 @@ if (isSet ($_SERVER['REMOTE_USER']) && in_array ($_SERVER['REMOTE_USER'], array 
 	
 	
 	# Social networking metadata
-	public static function socialNetworkingMetadata ($siteName, $twitterHandle = false, $imageLocation /* Starting / */, $description, $title = false, $imageWidth = false, $imageHeight = false, $pageUrl = false)
+	public static function socialNetworkingMetadata ($siteName, $twitterHandle /* handle or false */, $imageLocation /* Starting / */, $description, $title = false, $imageWidth = false, $imageHeight = false, $pageUrl = false)
 	{
 		# Start the HTML
 		$html = '';
@@ -850,6 +871,150 @@ if (isSet ($_SERVER['REMOTE_USER']) && in_array ($_SERVER['REMOTE_USER'], array 
 			}
 			header ("Location: {$newUrl}");
 		}
+	}
+	
+	
+	# Function to run Wordpress-style shortcode handling to enable application embedding, by scanning the page for supported shortcodes, and replacing the content
+	# E.g. [my_form foo="bar" size="5"] runs my_form.php and replaces any %attributes placeholder in that file with $foo = 'bar', $size = '5'
+	public static function shortcodeHandledContent ()
+	{
+		# Define supported shortcodes, which are listed as files in the shortcodes directory
+		$directory = $_SERVER['DOCUMENT_ROOT'] . '/sitetech/shortcodes/';
+		$files = array_values (preg_grep ('/(.+)\.php$/', scandir ($directory)));	// array_values just reindexes
+		$shortcodes = array ();
+		foreach ($files as $file) {
+			$shortcode = pathinfo ($file, PATHINFO_FILENAME);
+			$shortcodes[$shortcode] = $directory . $file;
+		}
+		
+		# Start a list of instances of shortcodes and their (optional) attributes on the page
+		$instances = array ();
+		
+		# If a shortcode is present, run the file
+		foreach ($shortcodes as $shortcode => $file_ignored) {
+			
+			# Load the current page
+			$currentPage = $_SERVER['SCRIPT_FILENAME'];
+			$currentFileContents = file_get_contents ($currentPage);
+			
+			# Scan for the current shortcode tag, in basic format (i.e. without attributes), e.g. [my_form], on the page, and register it once (however many times it appears, as each will result in the same replacement)
+			$tag = '[' . $shortcode . ']';
+			if (substr_count ($currentFileContents, $tag)) {
+				$instances[$tag] = array (
+					'shortcode' 	=> $shortcode,
+					'attributes'	=> array (),
+				);
+			}
+			
+			# Also scan for the current shortcode tag, but with attributes (double-quoted), e.g. [my_form foo="bar"], on the page
+			if (preg_match_all ("/\[{$shortcode} ([^\]]+)\]/", $currentFileContents, $matches, PREG_SET_ORDER)) {
+				
+				# Unique the list, as duplicates will result in the same replacements
+				$matches = array_unique ($matches, SORT_REGULAR);
+				
+				# Register each match
+				foreach ($matches as $match) {
+					$tag = $match[0];
+					$attributesString = trim ($match[1]);
+					
+					# Decode entities; i.e. assume the page was generated by a richtext editor (so & will have become &amp; when editing)
+					$attributesString = html_entity_decode ($attributesString);
+					
+					# Fix up encoded e-mail strings
+					$attributesString = str_replace ('<span>&#64;</span>', '@', $attributesString);
+					
+					# Parse out attributes
+					preg_match_all ('/\b([^=]+)=("|&quot;)(.*)("|&quot;)/U', $attributesString, $tokenMatches, PREG_SET_ORDER);
+					$attributes = array ();
+					foreach ($tokenMatches as $tokenMatch) {
+						$key = $tokenMatch[1];
+						$value = $tokenMatch[3];
+						$attributes[$key] = $value;
+					}
+					
+					# Register this instance
+					$instances[$tag] = array (
+						'shortcode' 	=> $shortcode,
+						'attributes'	=> $attributes,
+					);
+				}
+			}
+		}
+		
+		# End if no instances, as no special handling needed
+		if (!$instances) {return false;}
+		
+		# For each instance, load the plugin and set the attributes
+		$replacements = array ();
+		foreach ($instances as $tag => $instance) {
+			$shortcode = $instance['shortcode'];
+			$attributes = $instance['attributes'];
+			
+			# Load this shortcode's plugin, with the correct directory context
+			$plugin = $shortcodes[$shortcode];
+			$shortcodeContent = file_get_contents ($plugin);
+			
+			# If an attributes placeholder is specified, replace with values
+			if (substr_count ($shortcodeContent, '%attributes')) {
+				$attributesStrings = array ();
+				foreach ($attributes as $key => $value) {
+					$attributesStrings[] = "\${$key} = '" . str_replace ("'", "\\'", $value) . "'";
+				}
+				$attributesString = implode (', ', $attributesStrings);
+				$shortcodeContent = str_replace ('%attributes', $attributesString, $shortcodeContent);
+			}
+			
+			# If the tag has become surrounded with a paragraph tag by the WYSIWYG editor, include that surrounding tag in the replacement
+			if (preg_match ('/(<p[^>]*>' . preg_quote ($tag, '/') . '<\/p>)/', $currentFileContents, $matches)) {
+				$tag = $matches[0];
+			}
+			
+			# Replace the shortcode in the page content with the generated content
+			$replacements[$tag] = $shortcodeContent;
+		}
+		
+		//var_dump ($replacements);
+		
+		# Perform replacements, so that the page now has the shortcodes replaced with the real PHP
+		$content = strtr ($currentFileContents, $replacements);
+		
+		# Determine the shadow file; NB We cannot remove the DOCUMENT_ROOT from $currentPage as the page may be aliased, so instead we look at the local path
+		$scriptName = str_replace (array ('../', '..\\'), '', $_SERVER['SCRIPT_NAME']) . (substr ($_SERVER['SCRIPT_NAME'], -1) == '/' ? 'index.html' : '');
+		$shadowFile = $_SERVER['DOCUMENT_ROOT'] . '/sitetech/shortcodes-cache' . $scriptName;
+		
+		# Determine whether to write the shadow file, or use an existing file if present
+		$writeShadowFile = true;
+		if (file_exists ($shadowFile)) {
+			if (md5_file ($shadowFile) == md5 ($content)) {
+				$writeShadowFile = false;
+			}
+		}
+		
+		# Save the processed file as a shadow page, if required
+		if ($writeShadowFile) {
+			$dirname = pathinfo ($shadowFile, PATHINFO_DIRNAME);
+			$umaskBefore = umask (0);
+			if (!is_dir ($dirname)) {
+				mkdir ($dirname, 0775, true);	// rwx, rwx, rx
+			}
+			file_put_contents ($shadowFile, $content);
+			chmod ($shadowFile, 0664);	// rw, rw, r
+			umask ($umaskBefore);	// Reset
+		}
+		
+		# Import (maintain) variables in global scope, so that the environment is the same (e.g. appended.html receives variables defined in prepended.html)
+		foreach ($GLOBALS as $key => $value) {
+			if (preg_match ('/^_/', $key)) {continue;}	// Skip superglobals as they don't need to be recreated
+			if ($key == 'GLOBALS') {continue;}	// Skip self
+			${$key} = $value;
+		}
+		
+		# Run the page; the PHP enviroment, e.g. REQUEST_URI will remain unamended with the original filename
+		include ($shadowFile);
+		
+		# Include the footer then end, to avoid the main content running naturally
+		require_once ('sitetech/appended.html');
+		die;
 	}
 }
 

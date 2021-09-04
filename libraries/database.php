@@ -1,8 +1,8 @@
 <?php
 
 /*
- * Coding copyright Martin Lucas-Smith, University of Cambridge, 2003-19
- * Version 3.0.12
+ * Coding copyright Martin Lucas-Smith, University of Cambridge, 2003-21
+ * Version 3.0.16
  * Uses prepared statements (see https://stackoverflow.com/questions/60174/how-can-i-prevent-sql-injection-in-php ) where possible
  * Distributed under the terms of the GNU Public Licence - https://www.gnu.org/copyleft/gpl.html
  * Requires PHP 4.1+ with register_globals set to 'off'
@@ -648,7 +648,8 @@ class database
 	
 	
 	# Function to do getData via pagination
-	public function getDataViaPagination ($query, $associative = false /* or string as "{$database}.{$table}" */, $keyed = true, $preparedStatementValues = array (), $onlyFields = array (), $paginationRecordsPerPage, $page = 1, $searchResultsMaximumLimit = false, $knownTotalAvailable = false)
+	# The paginationRecordsPerPage value should be customised based on the UI requirements; a default is set in this method signature merely to avoid deprecation warnings about required parameter following optional parameter
+	public function getDataViaPagination ($query, $associative = false /* or string as "{$database}.{$table}" */, $keyed = true, $preparedStatementValues = array (), $onlyFields = array (), $paginationRecordsPerPage = 50, $page = 1, $searchResultsMaximumLimit = false, $knownTotalAvailable = false)
 	{
 		# Trim the query to ensure that placeholder matching works consistently
 		$query = trim ($query);
@@ -1104,6 +1105,16 @@ class database
 	}
 	
 	
+	# Function to get the projected ID for an auto-increment operation; note that this should not be relied upon as another thread may do an insert
+	public function getProjectedId ($database, $table)
+	{
+		# Get and return the result
+		$conditions = array ('TABLE_SCHEMA' => $database, 'TABLE_NAME' => $table);
+		$id = $this->selectOneField ('information_schema', 'TABLES', 'AUTO_INCREMENT', $conditions);
+		return $id;
+	}
+	
+	
 	# Function to clean data
 	public function escape ($uncleanData, $cleanKeys = true)
 	{
@@ -1130,11 +1141,6 @@ class database
 	# Function to deal with quotation, i.e. escaping AND adding quotation marks around the item
 	/* private */ public function quote ($string)
 	{
-		# Strip slashes if necessary
-		if (get_magic_quotes_gpc ()) {
-			$string = stripslashes ($string);
-		}
-		
 		# Special case a timestamp indication as unquoted SQL
 		if ($string == 'NOW()') {
 			return $string;
@@ -1193,12 +1199,14 @@ class database
 		}
 		
 		# Construct the columns part; if the key is numeric, assume it's not a key=>value pair, but that the value is the fieldname
+		#!# This section needs to quote all fieldnames - hotfix added for 'rank'
 		$what = '*';
 		if ($columns) {
 			$what = array ();
 			if (is_array ($columns)) {
 				foreach ($columns as $key => $value) {
 					if (is_numeric ($key)) {
+						if ($value == 'rank') {$value = "`{$value}`";}	// Hotfix - see above, added for MySQL 8 compatibility
 						$what[] = $value;
 					} else {
 						$what[] = "{$key} AS {$value}";
@@ -1447,7 +1455,7 @@ class database
 			
 			#!# Needs to report failure if one execution in a chunk failed; detect using $this->error () perhaps
 if (!$rows) {
-			application::dumpData ($this->error ());
+//			application::dumpData ($this->error ());
 }
 			
 			# Determine the result
@@ -2104,7 +2112,7 @@ if (!$rows) {
 	public function logChange ($result, $insertId = false)
 	{
 		# End if logging disabled
-		if (!$this->logFile) {return false;}
+#		if (!$this->logFile) {return false;}
 		
 		# Get the query
 		$query = $this->getQuery ();
@@ -2127,7 +2135,7 @@ if (!$rows) {
 		if ($insertId) {
 			$insertId = $this->getLatestId ();
 			if ($insertId != 0) {	// Non- auto-increment will have 0 returned; considered unlikely that a real application would start at 0
-				$logEntry .= "\t// RETURNING {$insertId}";
+				$logEntry .= "\t-- // RETURNING {$insertId}";
 			}
 		}
 		
@@ -2135,7 +2143,11 @@ if (!$rows) {
 		$logEntry .= "\n";
 		
 		# Log the change
+if ($this->logFile) {
 		file_put_contents ($this->logFile, $logEntry, FILE_APPEND);
+}
+$logEntry = "/* {$this->hostname} */ {$logEntry}";
+file_put_contents ('/websites/configuration/mysql/log-210318.txt', $logEntry, FILE_APPEND);
 	}
 	
 	
@@ -2160,7 +2172,7 @@ if (!$rows) {
 				file_put_contents ($filename, date ('r'));
 				$errorMessage .= "\n\nWhen the error has been corrected, you must delete the error notification flag file at\n{$filename}";
 			} else {
-				$errorMessage .= "\n\nAdditionally, an errornotifiedflagfile could not be written, so further e-mails like this will continue.";
+				$errorMessage .= "\n\nAdditionally, an errornotifiedflagfile could not be written to {$filename}, so further e-mails like this will continue.";
 			}
 			
 			# Add the URL

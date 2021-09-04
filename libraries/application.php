@@ -1,11 +1,11 @@
 <?php
 
 /*
- * Coding copyright Martin Lucas-Smith, University of Cambridge, 2003-19
- * Version 1.5.39
- * Distributed under the terms of the GNU Public Licence - www.gnu.org/copyleft/gpl.html
+ * Coding copyright Martin Lucas-Smith, University of Cambridge, 2003-21
+ * Version 1.6.0
+ * Distributed under the terms of the GNU Public Licence - https://www.gnu.org/licenses/gpl-3.0.html
  * Requires PHP 4.1+ with register_globals set to 'off'
- * Download latest from: http://download.geog.cam.ac.uk/projects/application/
+ * Download latest from: https://download.geog.cam.ac.uk/projects/application/
  */
 
 
@@ -16,16 +16,6 @@ require_once ('pureContent.php');
 # Class containing general application support static methods
 class application
 {
-	# Constructor
-	public function __construct ($applicationName, $errors, $administratorEmail)
-	{
-		# Make inputs global
-		$this->applicationName = $applicationName;
-		$this->errors = $errors;
-		$this->administratorEmail = $administratorEmail;
-	}
-	
-	
 	# Function to merge the arguments; note that $errors returns the errors by reference and not as a result from the method
 	public static function assignArguments (&$errors, $suppliedArguments, $argumentDefaults, $functionName, $subargument = NULL, $handleErrors = false)
 	{
@@ -71,27 +61,6 @@ class application
 		
 		# Return the arguments
 		return $arguments;
-	}
-	
-	
-	# Function to deal with errors
-	#!# To be deleted after frontControllerApplication 1.10.0 release
-	public function throwError ($number, $diagnosisDetails = '')
-	{
-		# Define the default error message if the specified error number does not exist
-		$errorMessage = (isSet ($this->errors[$number]) ? $this->errors[$number] : "A strange yet unknown error (#$number) has occurred.");
-		
-		# Show the error message
-		$userErrors[] = 'Error: ' . $errorMessage . ' The administrator has been notified of this problem.';
-		echo self::showUserErrors ($userErrors);
-		
-		# Assemble the administrator's error message
-		if ($diagnosisDetails != '') {$errorMessage .= "\n\nFurther information available: " . $diagnosisDetails;}
-		
-		# Mail the admininistrator
-		$subject = '[' . ucfirst ($this->applicationName) . '] error';
-		$message = 'The ' . $this->applicationName . " has an application error: please investigate. Diagnostic details are given below.\n\nApplication error $number:\n" . $errorMessage;
-		self::sendAdministrativeAlert ($this->administratorEmail, $this->applicationName, $subject, $message);
 	}
 	
 	
@@ -196,7 +165,7 @@ class application
 	
 	
 	# Function to serve cache headers (304 Not modified header) instead of a resource; based on: http://www.php.net/header#61903
-	public function preferClientCache ($path)
+	public static function preferClientCache ($path)
 	{
 		# The server file path must exist and be readable
 		if (!is_readable ($path)) {return;}
@@ -470,7 +439,7 @@ class application
 	
 	
 	# Trucation algorithm; this is multibyte safe and uses mb_
-	public static function str_truncate ($string, $characters, $moreUrl, $override = '<!--more-->', $respectWordBoundaries = true)
+	public static function str_truncate ($string, $characters, $moreUrl, $override = '<!--more-->', $respectWordBoundaries = true, $htmlMode = true)
 	{
 		# End false if $characters is non-numeric or zero
 		if (!$characters || !is_numeric ($characters)) {return false;}
@@ -507,7 +476,11 @@ class application
 		
 		# Add the more link (except if the word chunking is just over the boundary resulting in the string being the same)
 		if (mb_strlen ($newString) != mb_strlen ($string)) {
-			$moreHtml = " <span class=\"comment\">...&nbsp;<a href=\"{$moreUrl}\">[more]</a></span>";
+			if ($htmlMode) {
+				$moreHtml = " <span class=\"comment\">...&nbsp;<a href=\"{$moreUrl}\">[more]</a></span>";
+			} else {
+				$moreHtml = '...';
+			}
 			$newString .= $moreHtml;
 		}
 		
@@ -806,6 +779,10 @@ class application
 	# Function to create an array of all combinations in a set of associative arrays, acting on their keys (not their value labels); adapted from https://gist.github.com/cecilemuller/4688876
 	public static function array_key_combinations ($arrays, $keyConcatCharacter = '_', $valueConcatCharacter = ' - ')
 	{
+		# End if none
+		if (!$arrays) {return array ();}
+		
+		# Create combinations
 		$result = array (array ());
 		foreach ($arrays as $property => $property_values) {
 			$tmp = array ();
@@ -835,6 +812,52 @@ class application
 		
 		# Return the result
 		return $resultKeyed;
+	}
+	
+	
+	# Function to decode HTML entity values recursively through an associative array of any structure; NB this only changes values, not keys
+	public static function array_html_entity_decode ($array)
+	{
+		# Loop through the array, and recurse where a value is associative, otherwise decode
+		foreach ($array as $key => $value) {
+			if (!is_array ($value)) {
+				$array[$key] = html_entity_decode ($value);
+			} else {
+				$array[$key] = self::array_html_entity_decode ($value);
+			}
+		}
+		
+		# Return the modified array
+		return $array;
+	}
+	
+	
+	# Function to convert booleans to ticks in a data table
+	public static function booleansToTicks ($data, $fields)
+	{
+		# Determine the boolean fields
+		$booleanFields = array ();
+		foreach ($fields as $field => $attributes) {
+			if (($attributes['Type'] == 'int(1)') || ($attributes['Type'] == 'tinyint')) {	// TINYINT for MySQL >=8
+				$booleanFields[] = $field;
+			}
+		}
+		
+		# Convert 1 to tick
+		if ($booleanFields) {
+			foreach ($data as $index => $record) {
+				foreach ($record as $field => $value) {
+					if (in_array ($field, $booleanFields)) {
+						if ($value == '1') {
+							$data[$index][$field] = "\u{2714}";	// tick
+						}
+					}
+				}
+			}
+		}
+		
+		# Return the data
+		return $data;
 	}
 	
 	
@@ -1200,7 +1223,7 @@ class application
 			
 			# Create the mail object using the Mail::factory method 
 			require_once ('Mail.php');
-			$mailObject =& Mail::factory ('smtp', $smtpAuthCredentials);
+			$mailObject = Mail::factory ('smtp', $smtpAuthCredentials);
 			
 			# Send the mail
 			$mailObject->send ($to, $headersArray, $message);
@@ -1446,6 +1469,7 @@ class application
 	
 	
 	# Function to extract the title of the page in question by opening the first $startingCharacters characters of the file and extracting what's between the <$tag> tags
+	#!# $startingCharacters is ignored
 	public static function getTitleFromFileContents ($html, $startingCharacters = 100, $tag = 'h1')
 	{
 		# Define the starting and closing tags
@@ -1760,7 +1784,7 @@ class application
 	
 	
 	# Function to insert a value before another in order; either afterField or beforeField must be specified
-	public function array_insert_value ($array, $newFieldKey, $newFieldValue, $afterField = false, $beforeField = false)
+	public static function array_insert_value ($array, $newFieldKey, $newFieldValue, $afterField = false, $beforeField = false)
 	{
 		# Throw error if neither or both of after/before supplied
 		if (!$afterField && !$beforeField) {return false;}
@@ -1794,7 +1818,7 @@ class application
 	
 	
 	# Function to add a value to the array if not already present, returning the new number of elements in the array
-	public function array_push_new (&$array, $value, $strict = false)
+	public static function array_push_new (&$array, $value, $strict = false)
 	{
 		# Add if not already present
 		if (!in_array ($value, $array, $strict)) {
@@ -2013,6 +2037,21 @@ class application
 			default:
 				return $size;
 		}
+	}
+	
+	
+	# Function to format bytes
+	public static function formatBytes ($bytes)
+	{
+		# Select either MB or KB
+		if ($bytes > (1024*1024)) {
+			$result = max (1, round ($bytes / (1024*1024), 1)) . 'MB';
+		} else {
+			$result = max (1, round ($bytes / 1024)) . 'KB';
+		}
+		
+		# Return the result
+		return $result;
 	}
 	
 	
@@ -3389,7 +3428,7 @@ class application
 			if (file_exists ($outputFile)) {
 				unlink ($outputFile);
 			}
-			echo "\n<p class=\"warning\">Sorry, an error occured creating the PDF file.</p>";
+			echo "\n<p class=\"warning\">Sorry, an error occurred creating the PDF file.</p>";
 			return false;
 		}
 		
@@ -3639,6 +3678,42 @@ class application
 	}
 	
 	
+	# Function to create a jumplist form
+	#!# Needs support for nested lists
+	public static function htmlJumplist ($values /* will have htmlspecialchars applied to both keys and values */, $selected = '', $action = '', $name = 'jumplist', $parentTabLevel = 0, $class = 'jumplist', $introductoryText = 'Go to:', $valueSubstitution = false, $onchangeJavascript = true)
+	{
+		# Return an empty string if no items
+		if (empty ($values)) {return '';}
+		
+		# Prepare the tab string
+		$tabs = str_repeat ("\t", ($parentTabLevel));
+		
+		# Build the list; note that the visible value can never have tags within (e.g. <span>): https://stackoverflow.com/questions/5678760
+		foreach ($values as $value => $visible) {
+			$fragments[] = '<option value="' . ($valueSubstitution ? str_replace ('%value', htmlspecialchars ($value), $valueSubstitution) : htmlspecialchars ($value)) . '"' . ($value == $selected ? ' selected="selected"' : '') . '>' . htmlspecialchars ($visible) . '</option>';
+		}
+		
+		# Construct the HTML
+		$html  = "\n\n$tabs" . "<div class=\"$class\">";
+		$html .= "\n\n$tabs" . $introductoryText;
+		$html .= "\n$tabs\t" . '<form method="post" action="' . htmlspecialchars ($action) . "\" name=\"$name\">";
+		$html .= "\n$tabs\t\t" . "<select name=\"$name\"" . ($onchangeJavascript ? ' onchange="window.location.href/*stopBots*/=this[selectedIndex].value"' : '') . '>';	// The inline 'stopBots' javascript comment is an attempt to stop rogue bots picking up the "href=" text
+		$html .= "\n$tabs\t\t\t" . implode ("\n$tabs\t\t\t", $fragments);
+		$html .= "\n$tabs\t\t" . '</select>';
+		$html .= "\n$tabs\t\t" . '<noscript><input type="submit" value="Go!" class="button" /></noscript>';
+		$html .= "\n$tabs\t" . '</form>';
+		$html .= "\n$tabs" . '</div>' . "\n";
+		
+		# If posted, jump, adding the current site's URL if the target doesn't start with http(s)://
+		if (isSet ($_POST[$name])) {
+			$location = (preg_match ('~(http|https)://~i', $_POST[$name]) ? '' : $_SERVER['_SITE_URL']) . $_POST[$name];
+			$html = self::sendHeader (302, $location, $redirectMessage = true);
+		}
+		
+		# Return the result
+		return $html;
+	}
+	
 	
 	# Function to convert ereg to preg
 	public static function pereg ($pattern, $string)
@@ -3666,28 +3741,6 @@ class application
 	}
 }
 
-
-
-# Ensure that the file_put_contents function exists - taken from http://cvs.php.net/viewvc.cgi/pear/PHP_Compat/Compat/Function/file_put_contents.php?revision=1.9&view=markup
-if (!function_exists('file_put_contents'))
-{
-	function file_put_contents ($filename, $content)
-	{
-	    $bytes = 0;
-	
-	    if (($file = fopen($filename, 'w+')) === false) {
-	        return false;
-	    }
-	
-	    if (($bytes = fwrite($file, $content)) === false) {
-	        return false;
-	    }
-	
-	    fclose($file);
-	
-	    return $bytes;
-	}
-}
 
 
 # Define an emulated mime_content_type function (if not using Windows) - taken from http://cvs.php.net/viewvc.cgi/pear/PHP_Compat/Compat/Function/mime_content_type.php?revision=1.6&view=markup
@@ -3720,17 +3773,15 @@ if (!function_exists ('mime_content_type') && (!strstr (PHP_OS, 'WIN')))
 }
 
 
-# Emulation of htmlspecialchars_decode; from http://uk.php.net/manual/en/function.htmlspecialchars-decode.php#68962
-if ( !function_exists('htmlspecialchars_decode') )
-{
-	function htmlspecialchars_decode($text)
+# Polyfill for str_contains (natively available from PHP 8.0); see: https://php.watch/versions/8.0/str_contains
+if (!function_exists ('str_contains')) {
+    function str_contains (string $haystack, string $needle)
 	{
-		return strtr($text, array_flip(get_html_translation_table(HTML_SPECIALCHARS)));
-	}
+        return (('' === $needle) || (false !== strpos ($haystack, $needle)));
+    }
 }
 
-
-# Emulation of mb_strtolower for UTF-8 compliance; based on http://www.php.net/strtolower#90871
+# Emulation of mb_strtolower for UTF-8 compliance (natively available if Multibyte String extension installed); based on http://www.php.net/strtolower#90871
 if (!function_exists ('mb_strtolower'))
 {
 	function mb_strtolower ($string, $encoding)
@@ -3749,7 +3800,7 @@ if (!function_exists ('mb_ucfirst')) {
 	}
 }
 
-# Missing mb_str_split function; based on http://php.net/str-split#117112
+# Missing mb_str_split function (natively available from PHP 7.4 if Multibyte String extension installed); based on http://php.net/str-split#117112
 if (!function_exists ('mb_str_split')) {
     if (function_exists ('mb_substr')) {
 		function mb_str_split ($string, $split_length = 1)
@@ -3769,6 +3820,5 @@ if (!function_exists ('mb_str_split')) {
 	    }
 	}
 }
-
 
 ?>
