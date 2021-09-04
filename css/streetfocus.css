@@ -282,8 +282,8 @@ body.about main {padding-right: 430px; height: 500px; overflow: scroll; backgrou
 body.login p {text-align: center;}
 div.user p {text-align: left;}
 div.user form {margin: 35px 0;}
-div.user form input[type='email'], div.user form input[type='password'], div.user form input[type='submit'] {width: 100%; padding: 10px; font-size: 16px; border-radius: 3px; border: 1px solid #152139; margin-bottom: 5px;}
+div.user form input[type='email'], div.user form input[type='password'], div.user form input[type='submit'] {width: calc(100% - 20px); padding: 10px; font-size: 16px; border-radius: 3px; border: 1px solid #152139; margin-bottom: 5px;}
 div.user form input[type='checkbox'] {zoom: 1.01; width: 20px; height: 20px;}
-div.user form input[type='submit'] {-webkit-appearance: none; background-color: #e73455; color: #fff; border: 0;}
+div.user form input[type='submit'] {width: 100%; -webkit-appearance: none; background-color: #e73455; color: #fff; border: 0;}
 div.message, div.user div.error {width: auto; background-color: #ddd; padding: 5px 15px; margin: 30px 0;}
 
