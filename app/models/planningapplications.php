@@ -50,7 +50,7 @@ class planningapplicationsModel
 				'type'			=> 'Feature',
 				'properties'	=> array (
 					'name'	=> streetfocus::truncate (streetfocus::reformatCapitalised ($record['properties']['description']), 80),
-					'near'	=> $record['properties']['authority_name'],
+					'near'	=> $record['properties']['area_name'],
 					'bbox'	=> $bbox,
 				),
 				'geometry'	=> array (
