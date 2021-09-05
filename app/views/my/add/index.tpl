@@ -9,6 +9,7 @@
 {if isSet ($result)}
 	{if ($result)}
 		<p>✓ - Your new monitor has been created. We will let you know when new planning applications appear in that area.</p>
+		<p>Your new monitor is now shown on your <a href="/my/">My monitors</a> page.</p>
 		<p><span class="warning">Beta note: E-mails are not yet going out, but will be shortly.</span></p>
 	{else}
 		<p>Apologies - there was a problem saving this monitor. Please try again later.</p>
