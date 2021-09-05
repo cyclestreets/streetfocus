@@ -50,6 +50,11 @@ class streetfocus
 				'description' => 'Ideas for street changes',
 				'url' => '/ideas/',
 			),
+			'addidea' => array (
+				'description' => 'Add an idea',
+				'url' => '/ideas/add/',
+				'authentication' => true,
+			),
 			'my' => array (
 				'description' => 'Monitor areas',
 				'url' => '/my/',
@@ -321,6 +326,17 @@ class streetfocus
 				}
 			}
 		}
+	}
+	
+	
+	# Function to add an idea
+	private function addidea ()
+	{
+		# Load the ideas model
+		require_once ('app/models/ideas.php');
+		$ideasModel = new ideasModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
+		
+		//
 	}
 	
 	

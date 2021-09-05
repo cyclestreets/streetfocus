@@ -3,6 +3,8 @@ RewriteEngine On
 RewriteRule ^$ /index.html?action=home [L]
 RewriteRule ^(about|map|ideas|my|privacy|contacts|login|logout|register)/$ /index.html?action=$1 [L]
 RedirectMatch Permanent ^/(about|map|ideas|my|privacy|contacts|login|logout|register)$ /$1/
+RewriteRule ^ideas/add/$ /index.html?action=addidea [L]
+RedirectMatch Permanent ^/ideas/add$ /ideas/add/
 RewriteRule ^(map|ideas)/(.+)/$ /index.html?action=$1&id=$2 [L]
 RedirectMatch Permanent ^/(map|ideas)/(.+[^/])$ /$1/$2/
 RewriteRule ^my/(add)/$ /index.html?action=addmonitor [L]

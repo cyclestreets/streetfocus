@@ -98,7 +98,7 @@ var streetfocus = (function ($) {
 			
 	
 	// Actions creating a map
-	var _mapActions = ['planningapplications', 'ideas', 'my', 'addmonitor'];
+	var _mapActions = ['planningapplications', 'ideas', 'addidea', 'my', 'addmonitor'];
 	
 	
 	return {
@@ -809,6 +809,13 @@ var streetfocus = (function ($) {
 			}
 			//$(element + ' ul.categories').html ('<ul class="tags"><li>' + JSON.parse(feature.properties.categories).join('</li><li>') + '</li></ul>');
 			//$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
+		},
+		
+		
+		// Add idea
+		addidea: function ()
+		{
+			//
 		},
 		
 		
