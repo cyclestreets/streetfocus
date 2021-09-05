@@ -206,6 +206,13 @@ class streetfocus
 			}
 		}
 		
+		# Ensure administrator rights if required
+		if (isSet ($this->actions[$this->action]['administrator']) && $this->actions[$this->action]['administrator']) {
+			if (!$this->userIsAdministrator) {
+				$this->action = 'page404';
+			}
+		}
+		
 		# Assign the ID, if any
 		$this->id = (isSet ($_GET['id']) ? $_GET['id'] : false);
 		
