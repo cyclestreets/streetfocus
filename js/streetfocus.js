@@ -819,6 +819,46 @@ var streetfocus = (function ($) {
 		},
 		
 		
+		// Function to create a draggable marker which writes to form values
+		formMarkerSetting: function (longitudeField, latitudeField)
+		{
+			// Function to set the form map location
+			var setFormLocation = function (lngLat)
+			{
+				// Set the form value; NB Using attr rather than .val() ensures the console representation is also correct
+				$(longitudeField).attr ('value', lngLat.lng.toFixed(5) );
+				$(latitudeField).attr ('value', lngLat.lat.toFixed(5) );
+			}
+			
+			// Set the initial location, either from the form (e.g. due to posting incomplete form) or by the map's natural centre
+			var initialLocation;
+			if ($(longitudeField).val () && $(latitudeField).val ()) {
+				initialLocation = {
+					lng: parseFloat ($(longitudeField).val ()),
+					lat: parseFloat ($(latitudeField).val ())
+				};
+			} else {
+				initialLocation = _map.getCenter ();
+			}
+			setFormLocation (initialLocation);
+			
+			// Add the marker to the map, setting it as draggable
+			var marker = new mapboxgl.Marker ({draggable: true, color: '#603'})
+				.setLngLat (initialLocation)
+				.addTo (_map);
+			
+			// If the marker is dragged or set to a different location, update the input value
+			marker.on ('dragend', function (e) {
+				var lngLat = marker.getLngLat ();
+				setFormLocation (lngLat);
+			});
+			_map.on ('click', function (e) {
+				marker.setLngLat (e.lngLat);	// Move the marker
+				setFormLocation (e.lngLat);
+			});
+		},
+		
+		
 		// Monitors (main page)
 		my: function ()
 		{
