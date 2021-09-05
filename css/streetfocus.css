@@ -279,8 +279,7 @@ body.about main {padding-right: 430px; height: 500px; overflow: scroll; backgrou
 }
 
 /* Login, logout, register */
-body.login p, body.register p, body.logout p {text-align: center;}
-div.user p {text-align: left;}
+div.account p {text-align: center;}
 div.user form {margin: 35px auto; max-width: 500px;}
 div.user form input[type='email'], div.user form input[type='password'], div.user form input[type='submit'] {width: calc(100% - 20px); padding: 10px; font-size: 16px; border-radius: 3px; border: 1px solid #152139; margin-bottom: 5px;}
 div.user form input[type='checkbox'] {zoom: 1.01; width: 20px; height: 20px;}
