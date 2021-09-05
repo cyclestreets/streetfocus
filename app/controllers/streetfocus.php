@@ -188,6 +188,7 @@ class streetfocus
 		# Ensure authentication if required
 		if (isSet ($this->actions[$this->action]['authentication']) && $this->actions[$this->action]['authentication']) {
 			if (!$this->user) {
+				$this->template['reason'] = lcfirst ($this->actions[$this->action]['description']);
 				$this->action = 'login';
 			}
 		}

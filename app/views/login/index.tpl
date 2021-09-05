@@ -4,7 +4,7 @@
 <div class="account">
 	
 	{if (!$_user)}
-	<p>Please sign in to monitor areas and configure settings for notifications.</p>
+	<p>Please sign in to {(isSet($reason)) ? $reason : 'access your account'}.</p>
 	{/if}
 	
 	
