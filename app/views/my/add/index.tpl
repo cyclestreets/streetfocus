@@ -24,7 +24,7 @@
 	<h2>1. Set map location</h2>
 	<p>Move the map to the area that you want to get notifications for:</p>
 	<div id="map"></div>
-	<input type="hidden" name="bbox" id="bbox" value="{$bbox}" />
+	<input type="hidden" name="bbox" id="bbox" />
 	
 	<h2>2. Add optional filters</h2>
 	<p>If you wish, you can also limit notifications to planning applications in this to match particular criteria:</p>
