@@ -14,8 +14,8 @@ main p, main li {line-height: 1.3em;}
 main ul li {margin-bottom: 6px;}
 
 /* Forms */
-input, textarea, option, select {padding: 10px; border: 1px solid #152139; border-radius: 3px; color: #603;}
-select {padding: 6px;}
+form input, form textarea, form option, form select {padding: 10px; border: 1px solid #152139; border-radius: 3px; color: #603;}
+form select {padding: 6px;}
 
 /* Links */
 a, main #mappanel p a {color: #111; text-decoration: none;}
