@@ -197,6 +197,14 @@ class ideasModel
 	# Helper function to get external issues
 	public function getExternalIssues ($bbox = false, $id = false)
 	{
+		# Get and return the data
+		return $this->getIdeasTableData ('ideasexternal', 'external', $bbox, $id);
+	}
+	
+	
+	# Helper function to get data from ideas database tables
+	public function getIdeasTableData ($table, $moniker, $bbox = false, $id = false)
+	{
 		# Start a list of features
 		$features = array ();
 		
@@ -220,7 +228,7 @@ class ideasModel
 		# Get the features from the database
 		$query = 'SELECT
 			*
-			FROM ideasexternal
+			FROM ' . $table . '
 			WHERE
 			' . implode (' AND ', $where) . '
 		;';
@@ -247,13 +255,13 @@ class ideasModel
 			$record['when'] = strtotime ($record['when']);
 			
 			# Add a unique moniker
-			$record['moniker'] = 'external/' . $record['id'];
+			$record['moniker'] = $moniker . '/' . $record['id'];
 			
 			# Register the feature
 			$features[] = array (
 				'type'			=> 'Feature',
 				'properties'	=> $record,
-				'geometry'	=> array (
+				'geometry'		=> array (
 					'type'			=> 'Point',
 					'coordinates'	=> $coordinates,
 				),
