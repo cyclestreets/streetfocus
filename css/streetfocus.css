@@ -125,7 +125,6 @@ body .ui-tooltip {padding: 2px 6px; position: absolute; z-index: 9999; max-width
 /* Home page */
 body.home main {position: relative;}
 body.home .staticmap {display: block; height: 500px; overflow: hidden;}
-body.home .staticmap img {Xheight: 500px; Xwidth: 100%;}
 body.home #pane .staticmap {display: none;}
 body.home #pane {position: absolute; top: calc(50% - 150px - 20px); left: calc(50% - 240px - 20px); width: 480px; height: 300px; margin: 0 auto; background-color: white; border-radius: 3px; box-shadow: 0px 0px 20px 10px rgba(125,125,125,0.5); padding: 20px 20px; z-index: 10;}
 body.home #pane p {font-size: 0.9em;}
