@@ -98,7 +98,7 @@ var streetfocus = (function ($) {
 			
 	
 	// Actions creating a map
-	var _mapActions = ['planningapplications', 'ideas', 'my', 'add'];
+	var _mapActions = ['planningapplications', 'ideas', 'my', 'addmonitor'];
 	
 	
 	return {
@@ -900,7 +900,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Add monitor
-		add: function ()
+		addmonitor: function ()
 		{
 			// Reset the pitch and bearing
 			_map.setPitch (0);

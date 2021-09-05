@@ -54,7 +54,7 @@ class streetfocus
 				'description' => 'Monitor areas',
 				'url' => '/my/',
 			),
-			'add' => array (
+			'addmonitor' => array (
 				'description' => 'Monitor an area',
 				'url' => '/my/add/',
 				'useTab' => 'my',
@@ -335,7 +335,7 @@ class streetfocus
 	
 	
 	# Add a monitor page
-	private function add ()
+	private function addmonitor ()
 	{
 		# Set user e-mail for the template
 		$this->template['email'] = $this->user['email'];
