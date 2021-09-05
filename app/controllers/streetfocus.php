@@ -343,7 +343,86 @@ class streetfocus
 		require_once ('app/models/ideas.php');
 		$ideasModel = new ideasModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
 		
-		//
+		# Create the form
+		$this->template['form'] = '';
+		if (!$idea = $this->ideaForm ($this->template['form'])) {
+			return false;
+		}
+		
+		# Add fixed data
+		$idea['user'] = $this->user['email'];
+		
+		# Add the idea
+		if (!$id = $ideasModel->addInternal ($idea)) {
+			$this->template['error'] = 'Unfortunately, there was a problem adding your idea - please try again later.';
+			return false;
+		}
+		
+		# Show the result
+		$this->template['resultId'] = $id;
+	}
+	
+	
+	# Function to create an idea form
+	private function ideaForm (&$html)
+	{
+		# Start the HTML
+		$html = '';
+		
+		# Create the form
+		require_once ('ultimateForm.php');
+		$form = new form (array (
+			'display' => 'paragraphs',
+			'unsavedDataProtection' => true,
+			'formCompleteText' => false,
+		));
+		$form->heading (2, '1. Set map location');
+		$form->heading ('p', 'Where is the improvement needed? Click on the map to set the location:');
+		$form->heading ('', '<div id="map"></div>');
+		$form->input (array (
+			'name'			=> 'longitude',
+			'title'			=> 'Location (longitude)',
+			'required'		=> true,
+			'regexp'		=> '^([-.0-9]+)$',
+		));
+		$form->input (array (
+			'name'			=> 'latitude',
+			'title'			=> 'Location (latitude)',
+			'required'		=> true,
+			'regexp'		=> '^([-.0-9]+)$',
+		));
+		$form->heading (2, '2. Tell us your idea to improve this area');
+		$form->input (array (
+			'name'			=> 'title',
+			'title'			=> 'Give your idea a short title',
+			'required'		=> true,
+			'maxlength'		=> 255,
+		));
+		$form->textarea (array (
+			'name'			=> 'description',
+			'title'			=> 'Describe your idea',
+			'required'		=> true,
+			'rows'			=> 3,
+			'cols'			=> 40,
+			'description'	=> 'Keep it brief, so that it is easy for others to understand.',
+		));
+		$form->select (array (
+			'name'			=> 'categories',
+			'title'			=> 'Type of improvement',
+			'required'		=> true,
+			'values'		=> array (
+				'Pavement/footway',
+				'Cycleway',
+				'Cycle parking',
+				'Parking',
+				'Park',
+				'Other',
+			),
+		));
+		$idea = $form->process ($html);
+		
+		# Return the result
+		return $idea;
 	}
 	
 	

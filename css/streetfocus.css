@@ -16,6 +16,8 @@ main ul li {margin-bottom: 6px;}
 /* Forms */
 form input, form textarea, form option, form select {padding: 10px; border: 1px solid #152139; border-radius: 3px; color: #603;}
 form select {padding: 6px;}
+div.ultimateform div.error {color: red;}
+p.error {color: red;}
 
 /* Links */
 a, main #mappanel p a {color: #111; text-decoration: none;}
@@ -161,6 +163,13 @@ body.page404 img {margin-left: 20px; margin-bottom: 20px;}
 #introduction {padding: 0 30px 5px;}
 body.planningapplications #map {min-height: 600px;}
 body.ideas #map {min-height: 450px;}
+
+/* Add idea */
+body.addidea form {border: 1px solid #ddd; padding: 5px 15px 20px;}
+body.addidea form span.description {font-size: 0.83em; color: gray; font-style: italic;}
+body.addidea form .longitude, body.addidea form .latitude {display: none;}
+body.addidea #map {height: 300px;}
+body.addidea div.success {margin-top: 2.4em; color: green; font-weight: bold;}
 
 /* Planning applications page filtering */
 body.planningapplications #filtering {position: absolute; z-index: 10; background-color: #f7f7f7; padding: 20px 30px;}

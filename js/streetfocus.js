@@ -815,7 +815,12 @@ var streetfocus = (function ($) {
 		// Add idea
 		addidea: function ()
 		{
-			//
+			// Reset the pitch and bearing
+			_map.setPitch (0);
+			_map.setBearing (0);
+			
+			// Add draggable marker which writes to the form values
+			streetfocus.formMarkerSetting ('#form_longitude', '#form_latitude');
 		},
 		
 		
