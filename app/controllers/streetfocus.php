@@ -126,6 +126,14 @@ class streetfocus
 			  `longitude` decimal(9,6) NOT NULL,
 			  `latitude` decimal(8,6) NOT NULL
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Ideas data from external sources';
+			
+			-- Internal ideas (directly added)
+			CREATE TABLE ideasinternal LIKE ideasexternal;
+			ALTER TABLE ideasinternal COMMENT 'Ideas data (directly added)';
+			ALTER TABLE ideasinternal CHANGE id id INT(11) NOT NULL AUTO_INCREMENT;
+			ALTER TABLE ideasinternal CHANGE source source VARCHAR(255) NOT NULL DEFAULT 'Internal';
+			ALTER TABLE ideasinternal CHANGE link link VARCHAR(255) NULL DEFAULT NULL;
+			ALTER TABLE ideasinternal CHANGE `when` `when` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 		";
 	}
 	

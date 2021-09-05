@@ -194,6 +194,14 @@ class ideasModel
 	}
 	
 	
+	# Helper function to get internal issues
+	public function getInternalIssues ($bbox = false, $id = false)
+	{
+		# Get and return the data
+		return $this->getIdeasTableData ('ideasinternal', 'internal', $bbox, $id);
+	}
+	
+	
 	# Helper function to get external issues
 	public function getExternalIssues ($bbox = false, $id = false)
 	{
@@ -203,7 +211,7 @@ class ideasModel
 	
 	
 	# Helper function to get data from ideas database tables
-	public function getIdeasTableData ($table, $moniker, $bbox = false, $id = false)
+	private function getIdeasTableData ($table, $moniker, $bbox, $id)
 	{
 		# Start a list of features
 		$features = array ();
@@ -270,6 +278,19 @@ class ideasModel
 		
 		# Return the features
 		return $features;
+	}
+	
+	
+	# Function to add an idea (directly)
+	public function addInternal ($idea)
+	{
+		# Insert the idea, or end
+		if (!$this->databaseConnection->insert ($this->settings['database'], 'ideasinternal', $idea)) {
+			return false;
+		}
+		
+		# Return the inserted ID
+		return $this->databaseConnection->getLatestId ();
 	}
 }
 
