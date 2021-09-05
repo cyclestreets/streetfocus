@@ -317,6 +317,13 @@ class streetfocus
 						}
 						break;
 						
+					# Internal
+					case 'internal':
+						if ($issue = $ideasModel->getInternalIssues (false, $id)) {
+							$this->setLocationFromFeature ($issue[0]);
+						}
+						break;
+						
 					# External
 					case 'external':
 						if ($issue = $ideasModel->getExternalIssues (false, $id)) {

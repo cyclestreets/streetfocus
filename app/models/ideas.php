@@ -23,6 +23,9 @@ class ideasModel
 		# Get the Cyclescape issues within the specified BBOX
 		$data += $this->getCyclescapeIssues ($bbox);
 		
+		# Get the internal issues within the specified BBOX
+		$data = array_merge ($data, $this->getInternalIssues ($bbox));
+		
 		# Get the CycleStreets Photomap issues within the specified BBOX
 		if ($this->userIsAdministrator) {
 			$data = array_merge ($data, $this->getCyclestreetsIssues ($bbox));
