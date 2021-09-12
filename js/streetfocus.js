@@ -545,7 +545,7 @@ var streetfocus = (function ($) {
 			});
 			
 			// Determine the key documents list
-			var keyDocumentsHtml = streetfocus.keyDocuments (feature.properties.documents);
+			var keyDocumentsHtml = streetfocus.keyDocuments (feature.properties.documents, vendorLinks.documents);
 			
 			// Determine the matching ideas list
 			var matchingIdeasHtml = streetfocus.matchingIdeas (feature.properties._ideas);
@@ -698,10 +698,12 @@ var streetfocus = (function ($) {
 		
 		
 		// Helper function to pick out key documents
-		keyDocuments: function (documents)
+		keyDocuments: function (documents, allLink)
 		{
 			// Return empty array if none
-			if (!documents) {return [];}
+			if (!documents) {
+				return '<p><em>Sorry, we don\'t have a record of the documents available for the application.</em></p>';
+			}
 			
 			// Start an list of documents to return, ordered by key type
 			var keyDocuments = [];
@@ -712,6 +714,11 @@ var streetfocus = (function ($) {
 					}
 				});
 			});
+			
+			// Return empty array if no key documents matched
+			if ($.isEmptyObject (keyDocuments)) {
+				return '<p><em>Sorry, we were unable to work out which are the key documents from the <a href="' + streetfocus.htmlspecialchars (allLink) + '" target="_blank">full list</a>.</em></p>';
+			}
 			
 			// Convert to HTML
 			var listItems = [];
