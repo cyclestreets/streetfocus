@@ -92,7 +92,7 @@ var streetfocus = (function ($) {
 			}
 		}
 	};
-	var _keyTypes = [
+	var _keyTypes = [		// These are categories defined at the PlanIt end, not name matches locally
 		'Design and Access Statement',
 	];
 			
@@ -707,12 +707,10 @@ var streetfocus = (function ($) {
 			
 			// Start an list of documents to return, ordered by key type
 			var keyDocuments = [];
-			$.each (_keyTypes, function (typeIndex, type) {
-				$.each (documents, function (index, document) {
-					if (document.type == type) {
-						keyDocuments.push (documents[index]);
-					}
-				});
+			$.each (documents, function (documentIndex, document) {
+				if ($.inArray (document.type, _keyTypes) != -1) {
+					keyDocuments.push (documents[documentIndex]);
+				}
 			});
 			
 			// Return empty array if no key documents matched
