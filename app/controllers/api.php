@@ -117,6 +117,9 @@ class api
 		require_once ('app/models/planningapplications.php');
 		$planningapplicationsModel = new planningapplicationsModel ($this->settings);
 		$data = $planningapplicationsModel->getOne ($id);
+		if (isSet ($data['error'])) {
+			return $this->errorJson ($data['error']);
+		}
 		
 		# Determine a BBOX around the planning application, for use in determining nearby ideas
 		$distanceKm = 0.1;
