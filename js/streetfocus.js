@@ -701,8 +701,8 @@ var streetfocus = (function ($) {
 		keyDocuments: function (documents, allLink)
 		{
 			// Return empty array if none
-			if (!documents) {
-				return '<p><em>Sorry, we don\'t have a record of the documents available for the application.</em></p>';
+			if ($.isEmptyObject (documents)) {
+				return '<p><em>Sorry, we don\'t have a record of the documents available for the application. Please check the <a href="' + streetfocus.htmlspecialchars (allLink) + '" target="_blank">page on the council\'s website</a>.</em></p>';
 			}
 			
 			// Start an list of documents to return, ordered by key type
@@ -717,7 +717,7 @@ var streetfocus = (function ($) {
 			
 			// Return empty array if no key documents matched
 			if ($.isEmptyObject (keyDocuments)) {
-				return '<p><em>Sorry, we were unable to work out which are the key documents from the <a href="' + streetfocus.htmlspecialchars (allLink) + '" target="_blank">full list</a>.</em></p>';
+				return '<p><em>Sorry, we were unable to work out which are the key documents from the <a href="' + streetfocus.htmlspecialchars (allLink) + '" target="_blank">full list on the council\'s website</a>.</em></p>';
 			}
 			
 			// Convert to HTML
