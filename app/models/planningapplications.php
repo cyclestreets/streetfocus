@@ -66,16 +66,19 @@ class planningapplicationsModel
 	
 	
 	# Function to get the total number of planning applications
+	#!# Is a bit slow - ideally add caching, or get the upstream API to have bbox optional, as is a pointless constraint
 	public function getTotal ()
 	{
-		# Get the data from the PlanIt API
-		$url = $this->settings['planitBaseUrl'] . '/api/applics/json';
+		# Construct the API request URL and parameters
+		$url = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/planningapplications.statistics';
 		$parameters = array (
-			'limit'		=> 1,
-			'pg_sz'		=> 1,
-			'recent'	=> 100,		// 100 days, just over 14 weeks
-			'app_state'	=> 'Undecided',
+			'key'		=> $this->settings['cyclestreetsApiKey'],
+			'bbox'		=> $this->settings['autocompleteBbox'],
+			'since'		=> date ('Y-m-d', strtotime ('-100 days')),		// 100 days, just over 14 weeks
+			'state'		=> 'Undecided',
 		);
+		
+		# Get the data
 		$data = streetfocus::getApiData ($url, $parameters);
 		
 		# Extract the value
