@@ -25,16 +25,17 @@ class planningapplicationsModel
 	
 	
 	# Function to get planning applications matching an ID
-	public function searchById ($id, $authority = false)
+	public function searchById ($uid)
 	{
-		# Get the data from the PlanIt API
-		$url = $this->settings['planitBaseUrl'] . '/api/applics/geojson';
+		# Construct the API request URL and parameters
+		$url = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/planningapplications.locations';
 		$parameters = array (
-			'id_match'	=> $id,
+			'key'		=> $this->settings['cyclestreetsApiKey'],
+			'bbox'		=> $this->settings['autocompleteBbox'],
+			'uid'		=> $uid,
 		);
-		if ($authority) {
-			$parameters['auth'] = $authority;
-		}
+		
+		# Get the data
 		$applications = streetfocus::getApiData ($url, $parameters);
 		
 		# Map each record to a GeoJSON feature in the same format as the Geocoder response
@@ -50,7 +51,7 @@ class planningapplicationsModel
 				'type'			=> 'Feature',
 				'properties'	=> array (
 					'name'	=> streetfocus::truncate (streetfocus::reformatCapitalised ($record['properties']['description']), 80),
-					'near'	=> $record['properties']['area_name'],
+					'near'	=> $record['properties']['area'],
 					'bbox'	=> $bbox,
 				),
 				'geometry'	=> array (
