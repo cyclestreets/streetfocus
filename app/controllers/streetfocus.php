@@ -9,7 +9,6 @@ class streetfocus
 		# Specify available arguments as defaults or as NULL (to represent a required argument)
 		$defaults = array (
 			'defaultLocation'			=> '17/52.2053/0.1218/0/0',		// Zoom, lat, lon, pitch, bearing
-			'planitBaseUrl'				=> 'https://www.planit.org.uk',
 			'cyclescapeApiBaseUrl'		=> 'https://www.cyclescape.org/api',
 			'cyclescapeBaseUrl'			=> 'https://www.cyclescape.org',
 			'cyclestreetsApiBaseUrl'	=> 'https://api.cyclestreets.net',
