@@ -294,8 +294,9 @@ class streetfocus
 				list ($authority, $id) = explode ('/', $this->id, 2);
 				require_once ('app/models/planningapplications.php');
 				$planningapplicationsModel = new planningapplicationsModel ($this->settings);
-				if ($planningApplication = $planningapplicationsModel->searchById ($id, $authority)) {
-					$this->setLocationFromFeature ($planningApplication[0]);
+				$data = $planningapplicationsModel->getOne ($this->id);
+				if (isSet ($data['features']) && isSet ($data['features'][0])) {
+					$this->setLocationFromFeature ($data['features'][0]);
 				}
 			}
 		}
