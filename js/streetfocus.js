@@ -20,6 +20,9 @@ var streetfocus = (function ($) {
 		// PlanIt API
 		planitEarliestYear: 2000,
 		planitStaleAreas: 'https://www.planit.org.uk/api/areas/geojson?area_type=stale',
+		planitStaleAreasExclude: {
+			'area_type': 'Other Planning Entity'
+		},
 		
 		// Mapbox API key
 		mapboxApiKey: 'YOUR_MAPBOX_API_KEY',
@@ -282,7 +285,7 @@ var streetfocus = (function ($) {
 			
 			// Add stale areas layer
 			var staleAreasMessageHtml = "<p>Warning: data in this area is currently not being updated because the local council's website is preventing updates. Please see our <a href=\"/about/#stale\">FAQ</a> for details.</p>";
-			streetfocus.addStaticPolygonLayer (_settings.planitStaleAreas, 'stale', staleAreasMessageHtml);
+			streetfocus.addStaticPolygonLayer (_settings.planitStaleAreas, 'stale', staleAreasMessageHtml, _settings.planitStaleAreasExclude);
 		},
 		
 		
@@ -1525,7 +1528,7 @@ var streetfocus = (function ($) {
 		
 		
 		// Function to add a static polygon layer
-		addStaticPolygonLayer: function (url, id, popupHtml)
+		addStaticPolygonLayer: function (url, id, popupHtml, exclude)
 		{
 			// Register the data source
 			_map.addSource (id, {
@@ -1545,6 +1548,13 @@ var streetfocus = (function ($) {
 					'fill-opacity': 0.5
 				}
 			});
+			
+			// Filter if required
+			if (!$.isEmptyObject (exclude)) {
+				$.each (exclude, function (key, value) {
+					_map.setFilter (id, ['!=', ['get', key], value]);
+				});
+			}
 			
 			// Add popup
 			_map.on ('click', id, function (e) {
