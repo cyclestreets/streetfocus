@@ -2,7 +2,7 @@
 <h1>Monitor an area</h1>
 
 {if isSet ($error)}
-	<p>{$error|htmlspecialchars}</p>
+	<p>{$error|escape}</p>
 {else}
 
 

@@ -6,7 +6,7 @@
 
 
 {if (isSet ($error))}
-	<p class="error">{$error|htmlspecialchars}</p>
+	<p class="error">{$error|escape}</p>
 {/if}
 
 {$form}
