@@ -55,7 +55,7 @@ class streetfocus
 				'authentication' => true,
 			),
 			'my' => array (
-				'description' => 'Monitor areas',
+				'description' => 'Planning alerts',
 				'url' => '/my/',
 			),
 			'addmonitor' => array (

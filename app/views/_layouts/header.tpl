@@ -39,7 +39,7 @@
 					<li class="{($_action == 'home') ? 'selected ' : ''}mobile"><a href="/">Home</a></li>
 					<li{($_action == 'planningapplications') ? ' class="selected"' : ''}><a href="/map/">Planning applications</a></li>
 					<li{($_action == 'ideas' || $_action == 'addidea') ? ' class="selected"' : ''}><a href="/ideas/">Ideas</a></li>
-					<li{($_action == 'my' || $_action == 'addmonitor') ? ' class="selected"' : ''}><a href="/my/">Monitor areas</a></li>
+					<li{($_action == 'my' || $_action == 'addmonitor') ? ' class="selected"' : ''}><a href="/my/">Planning alerts</a></li>
 					<li{($_action == 'blog') ? ' class="selected"' : ''}><a href="/blog/">Blog</a></li>
 					<li{($_action == 'about') ? ' class="selected"' : ''}><a href="/about/">About</a></li>
 					<li class="{($_action == 'contacts') ? 'selected ' : ''}mobile"><a href="/contacts/">Contact us</a></li>
