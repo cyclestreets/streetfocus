@@ -19,7 +19,7 @@ var streetfocus = (function ($) {
 		
 		// PlanIt API
 		planitEarliestYear: 2000,
-		plantitStaleAreas: 'https://www.planit.org.uk/api/areas/geojson?area_type=stale',
+		planitStaleAreas: 'https://www.planit.org.uk/api/areas/geojson?area_type=stale',
 		
 		// Mapbox API key
 		mapboxApiKey: 'YOUR_MAPBOX_API_KEY',
@@ -282,7 +282,7 @@ var streetfocus = (function ($) {
 			
 			// Add stale areas layer
 			var staleAreasMessageHtml = "<p>Warning: data in this area is currently not being updated because the local council's website is preventing updates. Please see our <a href=\"/about/#stale\">FAQ</a> for details.</p>";
-			streetfocus.addStaticPolygonLayer (_settings.plantitStaleAreas, 'stale', staleAreasMessageHtml);
+			streetfocus.addStaticPolygonLayer (_settings.planitStaleAreas, 'stale', staleAreasMessageHtml);
 		},
 		
 		
