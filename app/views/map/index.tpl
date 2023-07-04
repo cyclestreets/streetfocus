@@ -22,16 +22,16 @@
 		<p class="reset"><a href="#" title="Reset all filters below, to show everything">Reset</a></p>
 		<h2>Refine search</h2>
 		
-		{include file='_partials/filtering.tpl'}
-		
-		<h3>Date range</h3>
-		<p><input type="number" name="start_date" min="1970" max="2038" step="1" /> - <input type="number" name="end_date" min="1970" max="2038" step="1" /></p>
-		
 		<h3>Application activity</h3>
 		<ul id="state">
 			<li title="Applications currently being consulted on or undecided"><label><input type="checkbox" name="state[]" value="Undecided" /> Current</label></li>
 			<li title="Approved applications"><label><input type="checkbox" name="state[]" value="Conditions,Permitted,Referred,Rejected,Unresolved,Withdrawn" /> Decided</label></li>
 		</ul>
+		
+		{include file='_partials/filtering.tpl'}
+		
+		<h3>Date range</h3>
+		<p><input type="number" name="start_date" min="1970" max="2038" step="1" /> - <input type="number" name="end_date" min="1970" max="2038" step="1" /></p>
 	</div>
 	
 	<div id="monitor" class="control">
