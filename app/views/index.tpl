@@ -14,7 +14,7 @@
 	
 	<div id="statistics">
 		<div>
-			<h3>Applications</h3>
+			<h3>Applications recently</h3>
 			<p>{$totalApplications|number_format}</p>
 		</div>
 		<div>

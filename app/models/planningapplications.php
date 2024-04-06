@@ -79,7 +79,7 @@ class planningapplicationsModel
 		$parameters = array (
 			'key'		=> $this->settings['cyclestreetsApiKey'],
 			'bbox'		=> $this->settings['autocompleteBbox'],
-			'since'		=> date ('Y-m-d', strtotime ('-100 days')),		// 100 days, just over 14 weeks
+			'since'		=> date ('Y-m-d', strtotime ("-{$this->settings['daysRecent']} days")),
 			'state'		=> 'Undecided',
 		);
 		

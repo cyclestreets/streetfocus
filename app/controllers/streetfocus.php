@@ -24,6 +24,7 @@ class streetfocus
 			'database'					=> 'streetfocus',
 			'username'					=> NULL,
 			'password'					=> NULL,
+			'daysRecent'				=> 98,		// Number of days used to determine front page count; legal period is 14 weeks (98 days), but in practice many applications, especially larger ones, exceed this
 		);
 		
 		# Return the defaults
