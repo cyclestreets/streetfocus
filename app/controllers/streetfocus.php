@@ -146,6 +146,10 @@ class streetfocus
 	public $settings;
 	public $databaseConnection;
 	private $baseUrl;
+	private $action;
+	private $actions;
+	private $userAccount;
+	private $id;
 	private $template = array ();
 	private $templateFile;
 	public $user;

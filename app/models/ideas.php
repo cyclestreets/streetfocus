@@ -3,6 +3,12 @@
 # Ideas model, providing an interface to the upstream APIs
 class ideasModel
 {
+	# Class properties
+	private $settings;
+	private $databaseConnection;
+	private $userIsAdministrator;
+	
+	
 	# Constructor
 	public function __construct ($settings, $databaseConnection, $userIsAdministrator)
 	{

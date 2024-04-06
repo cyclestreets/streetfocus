@@ -3,6 +3,10 @@
 # Geocoder model, providing an interface to the upstream API
 class geocoderModel
 {
+	# Class properties
+	private $settings;
+	
+	
 	# Constructor
 	public function __construct ($settings)
 	{

@@ -3,6 +3,14 @@
 # API
 class api
 {
+	# Class proprties
+	private $streetfocus;
+	private $settings;
+	private $databaseConnection;
+	private $user;
+	private $userIsAdministrator;
+	
+	
 	# Constructor
 	public function __construct ($streetfocus)
 	{

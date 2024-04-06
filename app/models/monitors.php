@@ -3,6 +3,11 @@
 # Monitors model
 class monitorsModel
 {
+	# Class properties
+	private $settings;
+	private $databaseConnection;
+	
+	
 	# Constructor
 	public function __construct ($settings, $databaseConnection)
 	{
