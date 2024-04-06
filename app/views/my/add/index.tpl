@@ -1,12 +1,12 @@
 
 <h1>Monitor an area</h1>
 
-{if isSet ($error)}
+{if isset ($error)}
 	<p>{$error|escape}</p>
 {else}
 
 
-{if isSet ($result)}
+{if isset ($result)}
 	{if ($result)}
 		<p>✓ - Your new monitor has been created. We will let you know when new planning applications appear in that area.</p>
 		<p>Your new monitor is now shown on your <a href="/my/">My monitors</a> page.</p>

@@ -7,13 +7,13 @@
 	<p>Your <a href="/privacy/">privacy</a> is very important to us.</p>
 	
 	
-	{if isSet($message)}
+	{if isset($message)}
 	<div class="message">
 		{$message}
 	</div>
 	{/if}
 	
-	{if isSet($form)}
+	{if isset($form)}
 		{$form}
 	{/if}
 	

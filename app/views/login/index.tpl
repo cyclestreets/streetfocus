@@ -4,17 +4,17 @@
 <div class="account">
 	
 	{if (!$_user)}
-	<p>Please sign in to {(isSet($reason)) ? $reason : 'access your account'}.</p>
+	<p>Please sign in to {(isset($reason)) ? $reason : 'access your account'}.</p>
 	{/if}
 	
 	
-	{if isSet($message)}
+	{if isset($message)}
 	<div class="message">
 		{$message}
 	</div>
 	{/if}
 	
-	{if isSet($form)}
+	{if isset($form)}
 		{$form}
 	{/if}
 	
