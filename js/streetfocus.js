@@ -50,8 +50,8 @@ var streetfocus = (function ($) {
 	var _filteringDefaults = {
 		//size:
 		//type:
-		//start_date:
-		//end_date:
+		//since:
+		//until:
 		state: ['Undecided']
 	};
 	
@@ -295,10 +295,10 @@ var streetfocus = (function ($) {
 			// Set min and max dates
 			var yearRange = {
 				min: _settings.planitEarliestYear,
-				max: new Date().getFullYear()
+				max: new Date ().getFullYear ()
 			};
-			$('input[name="start_date"], input[name="end_date"]').attr ('min', yearRange.min);
-			$('input[name="start_date"], input[name="end_date"]').attr ('max', yearRange.max);
+			$('input[name="since"], input[name="until"]').attr ('min', yearRange.min);
+			$('input[name="since"], input[name="until"]').attr ('max', yearRange.max);
 			
 			// Set checkbox colours
 			var value;
@@ -501,11 +501,11 @@ var streetfocus = (function ($) {
 			});
 			
 			// Deal with date fields, which need to be converted from year to date
-			if (parameters.hasOwnProperty ('start_date')) {
-				parameters.start_date += '-01-01';
+			if (parameters.hasOwnProperty ('since')) {
+				parameters.since += '-01-01';
 			}
-			if (parameters.hasOwnProperty ('end_date')) {
-				parameters.end_date += '-12-31';
+			if (parameters.hasOwnProperty ('until')) {
+				parameters.until += '-12-31';
 			}
 			
 			// Return the values
@@ -1404,8 +1404,8 @@ var streetfocus = (function ($) {
 			}
 			
 			// If there is a start date and end date, take no action if in wrong date order
-			if (parameters.start_date && parameters.end_date) {
-				if (parameters.start_date > parameters.end_date) {
+			if (parameters.since && parameters.until) {
+				if (parameters.since > parameters.until) {
 					return;
 				}
 			}
