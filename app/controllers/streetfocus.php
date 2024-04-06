@@ -157,12 +157,8 @@ class streetfocus
 	# Constructor
 	public function __construct ($settings)
 	{
-		# Set the include path to include libraries
-		set_include_path ($_SERVER['DOCUMENT_ROOT'] . '/libraries/' . PATH_SEPARATOR . get_include_path ());
-		
-		# Load required libraries
-		require_once ('application.php');
-		require_once ('database.php');
+		# Clean server globals
+		application::cleanServerGlobals ();
 		
 		# Define the location of the stub launching file
 		$this->baseUrl = application::getBaseUrl ();
@@ -185,7 +181,6 @@ class streetfocus
 		$this->template['_action'] = $this->action;
 		
 		# Get the user's details, if authenticated
-		require_once ('app/controllers/userAccount.php');
 		$this->userAccount = new userAccount ($this->settings, $this->baseUrl);
 		$this->user = $this->userAccount->getUser ();
 		$this->userIsAdministrator = $this->userAccount->getUserIsAdministrator ();
@@ -248,7 +243,6 @@ class streetfocus
 	private function renderTemplate ($templatePath)
 	{
 		# Load Smarty
-		require_once ('libraries/smarty/libs/Smarty.class.php');
 		$smarty = new Smarty;
 		$smarty->template_dir = 'app/views/';
 		$smarty->setCompileDir ('./tmp/templates_c');
@@ -274,7 +268,6 @@ class streetfocus
 	private function home ()
 	{
 		# Get the total number of planning applications
-		require_once ('app/models/planningapplications.php');
 		$planningapplicationsModel = new planningapplicationsModel ($this->settings);
 		$this->template['totalApplications'] = $planningapplicationsModel->getTotal ();
 		
@@ -291,7 +284,6 @@ class streetfocus
 		if ($this->id) {
 			if (preg_match ('|^(.+)/(.+)$|', $this->id)) {
 				list ($authority, $id) = explode ('/', $this->id, 2);
-				require_once ('app/models/planningapplications.php');
 				$planningapplicationsModel = new planningapplicationsModel ($this->settings);
 				$data = $planningapplicationsModel->getOne ($this->id);
 				if (isSet ($data['features']) && isSet ($data['features'][0])) {
@@ -311,7 +303,6 @@ class streetfocus
 				list ($source, $id) = explode ('/', $this->id, 2);
 				
 				# Load the ideas model
-				require_once ('app/models/ideas.php');
 				$ideasModel = new ideasModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
 				
 				# Select source
@@ -347,7 +338,6 @@ class streetfocus
 	private function addidea ()
 	{
 		# Load the ideas model
-		require_once ('app/models/ideas.php');
 		$ideasModel = new ideasModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
 		
 		# Create the form
@@ -377,7 +367,6 @@ class streetfocus
 		$html = '';
 		
 		# Create the form
-		require_once ('ultimateForm.php');
 		$form = new form (array (
 			'display' => 'paragraphs',
 			'unsavedDataProtection' => true,
@@ -468,7 +457,6 @@ class streetfocus
 		$size = (isSet ($_POST['size']) ? implode (',', $_POST['size']) : NULL);
 		
 		# Load the monitors model
-		require_once ('app/models/monitors.php');
 		$monitorsModel = new monitorsModel ($this->settings, $this->databaseConnection);
 		$result = $monitorsModel->add ($bbox, $type, $size, $this->user['email']);
 		
@@ -550,7 +538,6 @@ class streetfocus
 	private function api ()
 	{
 		# Subclass
-		require_once ('app/controllers/api.php');
 		$api = new api ($this);
 		return $api->call ();
 	}

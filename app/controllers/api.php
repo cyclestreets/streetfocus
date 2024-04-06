@@ -78,7 +78,6 @@ class api
 		# If planning application is a specified datasource, search for an ID first
 		if (in_array ('planit', $sources)) {
 			if (preg_match ('|^(.+)/(.+)$|', $q)) {		// E.g. 19/1780/FUL
-				require_once ('app/models/planningapplications.php');
 				$planningapplicationsModel = new planningapplicationsModel ($this->settings);
 				$data['features'] += $planningapplicationsModel->searchById ($q);
 				return $this->asJson ($data);	// Do not search other data sources, so return at this point
@@ -87,14 +86,12 @@ class api
 		
 		# Cyclescape issues search
 		if (in_array ('cyclescape', $sources)) {
-			require_once ('app/models/ideas.php');
 			$ideasModel = new ideasModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
 			$data['features'] += $ideasModel->searchCyclescapeIssues ($q);
 		}
 		
 		# Geocoder search
 		if (in_array ('geocoder', $sources)) {
-			require_once ('app/models/geocoder.php');
 			$geocoderModel = new geocoderModel ($this->settings);
 			$data['features'] += $geocoderModel->search ($q);
 		}
@@ -114,7 +111,6 @@ class api
 		$id = $_GET['id'];
 		
 		# Get the planning application
-		require_once ('app/models/planningapplications.php');
 		$planningapplicationsModel = new planningapplicationsModel ($this->settings);
 		$data = $planningapplicationsModel->getOne ($id);
 		if (isSet ($data['error'])) {
@@ -126,7 +122,6 @@ class api
 		$bbox = $this->pointToBbox ($data['features'][0]['geometry']['coordinates'][1], $data['features'][0]['geometry']['coordinates'][0], $distanceKm);
 		
 		# Get the ideas, and these to the data
-		require_once ('app/models/ideas.php');
 		$ideasModel = new ideasModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
 		$data['features'][0]['properties']['_ideas'] = $ideasModel->getIdeas ($bbox);
 		
@@ -178,7 +173,6 @@ class api
 		$data = array ('type' => 'FeatureCollection', 'features' => array ());
 		
 		# Get the ideas
-		require_once ('app/models/ideas.php');
 		$ideasModel = new ideasModel ($this->settings, $this->databaseConnection, $this->userIsAdministrator);
 		$data['features'] = $ideasModel->getIdeas ($bbox);
 		
@@ -196,7 +190,6 @@ class api
 		}
 		
 		# Get the data
-		require_once ('app/models/monitors.php');
 		$monitorsModel = new monitorsModel ($this->settings, $this->databaseConnection);
 		$monitors = $monitorsModel->forUser ($this->user['email']);		// Will pick up the user's cookie
 		

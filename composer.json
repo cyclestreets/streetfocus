@@ -1,0 +1,24 @@
+{
+    "name": "cyclestreets/streetfocus",
+    "description": "Helping local communities benefit from new development",
+    "type": "project",
+    "license": "GPL-3.0-only",
+    "minimum-stability": "stable",
+    "require": {
+        "libpurecontent/database": "^4.2",
+        "libpurecontent/application": "^1.9",
+        "libpurecontent/ultimateform": "^1.29",
+        "smarty/smarty": "^4"
+    },
+    "autoload": {
+        "files": [
+            "app/controllers/streetfocus.php",
+            "app/controllers/userAccount.php",
+            "app/models/planningapplications.php",
+            "app/models/ideas.php",
+            "app/models/monitors.php",
+            "app/controllers/api.php",
+            "app/models/geocoder.php"
+        ]
+    }
+}

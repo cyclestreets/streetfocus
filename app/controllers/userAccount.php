@@ -75,7 +75,6 @@ class userAccount
 		$html = '';
 		
 		# Create a new form
-		require_once ('ultimateForm.php');
 		$form = new form (array (
 			'div'						=> 'user',
 			'display'					=> 'paragraphs',
@@ -396,7 +395,6 @@ class userAccount
 		$html = '';
 		
 		# Create a new form
-		require_once ('ultimateForm.php');
 		$form = new form (array (
 			'div'						=> 'user',
 			'display'					=> 'paragraphs',
