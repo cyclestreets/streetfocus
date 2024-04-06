@@ -18,7 +18,6 @@ var streetfocus = (function ($) {
 		cyclestreetsApiKey: null,
 		
 		// PlanIt API
-		planitEarliestYear: 2000,
 		planitStaleAreas: 'https://www.planit.org.uk/api/areas/geojson?area_type=stale',
 		planitStaleAreasExclude: {
 			'area_type': 'Other Planning Entity'
@@ -292,13 +291,6 @@ var streetfocus = (function ($) {
 		// Function to initialise the filtering form
 		initialiseFilteringForm: function ()
 		{
-			// Set min and max dates
-			var yearRange = {
-				min: _settings.planitEarliestYear,
-				max: new Date ().getFullYear ()
-			};
-			$('input[name="since"], input[name="until"]').attr ('min', yearRange.min);
-			$('input[name="since"], input[name="until"]').attr ('max', yearRange.max);
 			
 			// Set checkbox colours
 			var value;

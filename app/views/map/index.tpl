@@ -31,10 +31,11 @@
 		{include file='_partials/filtering.tpl'}
 		
 		<h3>Date range</h3>
+		<p id="dateslider"></p>
 		<p id="daterange">
-			<input type="number" name="since" min="1970" max="2038" step="1" />
+			<input type="number" value="{$dateRange.since}" name="since" min="{$dateRange.min}" max="{$dateRange.max}" step="1" />
 			<span> - </span>
-			<input type="number" name="until" min="1970" max="2038" step="1" />
+			<input type="number" value="{$dateRange.until}" name="until" min="{$dateRange.min}" max="{$dateRange.max}" step="1" />
 		</p>
 	</div>
 	
