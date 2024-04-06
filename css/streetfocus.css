@@ -177,7 +177,12 @@ body.planningapplications #filtering h2 {margin-top: 0;}
 body.planningapplications #filtering h3 {margin-top: 1.2em; margin-bottom: 0.2em;}
 body.planningapplications #filtering input[type="reset"] {float: right; padding: 0 6px; margin: 0; font-size: 0.83em; color: #999; background-color: transparent; border: 1px solid #999; border-radius: 6px; font-weight: normal;}
 body.planningapplications #filtering input[type="reset"]:hover {border-color: #666; color: #666;}
+body.planningapplications #filtering #dateslider, body.planningapplications #filtering #daterange {width: 80%;}
 body.planningapplications #filtering #daterange input {padding: 2px;}
+body.planningapplications #filtering #daterange input[readonly="readonly"] {border: 0; font-size: 0.8em; outline: 0; background-color: transparent; color: black;}
+body.planningapplications #filtering #daterange input[name="since"] {margin-left: 20px;}
+body.planningapplications #filtering #daterange input[name="until"] {float: right;}
+body.planningapplications #filtering #daterange span {display: inline-block; width: 15px; text-align: center;}
 
 /* Planning applications page filtering - desktop */
 body.planningapplications div#filter {display: none;}

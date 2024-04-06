@@ -301,6 +301,36 @@ var streetfocus = (function ($) {
 				$(this).parent().parent().css ('background-color', _colours['planningapplications'].values[value]);		// Two parents, as label surrounds
 			});
 			
+			// Convert year range to slider UI
+			streetfocus.yearRangeSlider ();
+		},
+		
+		
+		// Function to convert year range to slider UI
+		yearRangeSlider: function ()
+		{
+			// Get handles to since/until fields
+			const sinceField = $('input[name="since"]');
+			const untilField = $('input[name="until"]');
+			
+			// Add slider; see: https://jqueryui.com/slider/#range
+			$('#dateslider').slider ({
+				range: true,
+				min: parseInt (sinceField.attr ('min')),
+				max: parseInt (untilField.attr ('max')),
+				values: [parseInt (sinceField.val ()), parseInt (untilField.val ())],
+				slide: function (event, ui) {	// Triggered on every mouse move during slide
+					sinceField.val (ui.values[0]);
+					untilField.val (ui.values[1]);
+				},
+				stop: function (event, ui) {	// Triggered after the user slides a handle
+					sinceField.trigger ('change');	// Trigger change event; see: https://stackoverflow.com/a/3179392/
+				}
+			});
+			
+			// Prevent direct changes to the input value; this also changes the style to make these appear as text
+			$(sinceField).attr ('readonly', 'readonly');
+			$(untilField).attr ('readonly', 'readonly');
 		},
 		
 		
