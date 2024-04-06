@@ -289,7 +289,7 @@ class streetfocus
 	# Planning applications map page
 	private function planningapplications ()
 	{
-		# Set the date parameters
+		# Set the date parameters for the form rendering
 		$this->template['dateRange'] = array (
 			'min'	=> $this->settings['planitEarliestYear'],
 			'max'	=> date ('Y'),

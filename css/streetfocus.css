@@ -175,8 +175,8 @@ body.addidea div.success {margin-top: 2.4em; color: green; font-weight: bold;}
 body.planningapplications #filtering {position: absolute; z-index: 10; background-color: #f7f7f7; padding: 20px 30px;}
 body.planningapplications #filtering h2 {margin-top: 0;}
 body.planningapplications #filtering h3 {margin-top: 1.2em; margin-bottom: 0.2em;}
-body.planningapplications #filtering p.reset {float: right; padding: 0; margin: 4px 0 0; font-size: 0.83em;}
-body.planningapplications #filtering p.reset a {color: #999; border: 1px solid #999; padding: 2px 6px; border-radius: 6px;}
+body.planningapplications #filtering input[type="reset"] {float: right; padding: 0 6px; margin: 0; font-size: 0.83em; color: #999; background-color: transparent; border: 1px solid #999; border-radius: 6px; font-weight: normal;}
+body.planningapplications #filtering input[type="reset"]:hover {border-color: #666; color: #666;}
 body.planningapplications #filtering #daterange input {padding: 2px;}
 
 /* Planning applications page filtering - desktop */

@@ -291,6 +291,8 @@ var streetfocus = (function ($) {
 		// Function to initialise the filtering form
 		initialiseFilteringForm: function ()
 		{
+			// If a filter state cookie is set, set the filtering form values on initial load
+			streetfocus.filteringCookieInitialValues ();
 			
 			// Set checkbox colours
 			var value;
@@ -299,8 +301,6 @@ var streetfocus = (function ($) {
 				$(this).parent().parent().css ('background-color', _colours['planningapplications'].values[value]);		// Two parents, as label surrounds
 			});
 			
-			// If a filter state cookie is set, set the filtering form values on initial load
-			streetfocus.filteringInitialValues ();
 		},
 		
 		
@@ -333,27 +333,16 @@ var streetfocus = (function ($) {
 		},
 		
 		
-		// Function to set the filtering UI initial values
+		// Function to set the filtering UI initial values; this has to be done after load (rather than server side), so that the reset button will properly reset
 		// #!# This is a bit slow because the whole function is running inside map load
-		filteringInitialValues: function ()
+		filteringCookieInitialValues: function ()
 		{
-			// Use default filters
-			var filteringDefaults = _filteringDefaults;
-			
 			// Detect cookie, or end
-			var filteringCookie = streetfocus.getCookie ('filtering');
+			const filteringCookie = streetfocus.getCookie ('filtering');
 			if (filteringCookie) {
-				filteringDefaults = JSON.parse (filteringCookie);
+				const filteringDefaults = JSON.parse (filteringCookie);
+				streetfocus.setFilteringUiValues (filteringDefaults);
 			}
-			
-			// Set the values
-			streetfocus.setFilteringUiValues (filteringDefaults);
-			
-			// Add a handler for resetting the defaults
-			$('#filtering p.reset a').click (function (e) {
-				streetfocus.setFilteringUiValues (_filteringDefaults);
-				e.preventDefault ();
-			});
 		},
 		
 		
@@ -364,8 +353,8 @@ var streetfocus = (function ($) {
 			var filteringOptions = streetfocus.getFilteringOptions ();
 			
 			// Reset all
-			$('#filtering input[type="number"]').val ('');
 			$('#filtering input:checkbox').prop ('checked', false);
+			$('#filtering input[type="number"]').val ('');
 			
 			// Loop through each checkbox set / input
 			var inputType;
@@ -454,7 +443,7 @@ var streetfocus = (function ($) {
 			
 			// Scan form widgets
 			var name, value, type;
-			$(path + ' :input').each (function() {
+			$(path + ' :input').not ('[type="reset"]').each (function() {
 				name = $(this).attr('name').replace('[]', '');
 				value = $(this).val();
 				
@@ -1326,9 +1315,16 @@ var streetfocus = (function ($) {
 				streetfocus.addData (apiBaseUrl, parameters, filteringFormPath, callback);
 			});
 			
+			// If the form is reset, update; this has to intercept the reset as the change event would be fired before the form reset; see: https://stackoverflow.com/a/10319580/180733
+			$(filteringFormPath + ' :reset').click (function (e) {
+				e.preventDefault ();
+				$(filteringFormPath)[0].reset ();
+				streetfocus.addData (apiBaseUrl, parameters, filteringFormPath, callback);
+			});
+			
 			// If a form is set to be scanned, update on change
 			if (filteringFormPath) {
-				$(filteringFormPath + ' :input').click (function (e) {
+				$(filteringFormPath + ' :input').change (function (e) {
 					streetfocus.addData (apiBaseUrl, parameters, filteringFormPath, callback);
 				});
 			}
