@@ -16,7 +16,7 @@
 		<p><a href="#"><img src="/images/filter.png" alt="Filter" /> Refine search</a></p>
 	</div>
 	
-	<div id="filtering" tabindex="2">
+	<form id="filtering" tabindex="2">
 		<p class="close"><a href="#">×</a></p>
 		
 		<p class="reset"><a href="#" title="Reset all filters below, to show everything">Reset</a></p>
@@ -37,7 +37,7 @@
 			<span> - </span>
 			<input type="number" value="{$dateRange.until}" name="until" min="{$dateRange.min}" max="{$dateRange.max}" step="1" />
 		</p>
-	</div>
+	</form>
 	
 	<div id="monitor" class="control">
 		<a href="/my/add/">
