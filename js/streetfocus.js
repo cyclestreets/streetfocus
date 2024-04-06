@@ -1229,7 +1229,7 @@ var streetfocus = (function ($) {
 						
 					// Otherwise, pan the map
 					} else {
-						_map.fitBounds(bbox);
+						_map.fitBounds (bbox, {duration: 1500});
 						event.preventDefault();
 					}
 				}
