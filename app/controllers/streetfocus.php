@@ -1,5 +1,8 @@
 <?php
 
+# Namespaces
+use Smarty\Smarty;
+
 # Controller for StreetFocus
 class streetfocus
 {
@@ -247,8 +250,8 @@ class streetfocus
 	private function renderTemplate ($templatePath)
 	{
 		# Load Smarty
-		$smarty = new Smarty;
-		$smarty->template_dir = 'app/views/';
+		$smarty = new Smarty ();
+		$smarty->setTemplateDir ('app/views/');
 		$smarty->setCompileDir ('./tmp/templates_c');
 		
 		# Set the template path
