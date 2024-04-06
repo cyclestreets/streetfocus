@@ -1,4 +1,7 @@
-.config.php
 /vendor/
+/js/lib/
+/yarn-error.log
+
+.config.php
 /blog/
 

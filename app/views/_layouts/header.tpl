@@ -6,17 +6,18 @@
 		
 		<title>{$_title}</title>
 
-		<link href="https://fonts.googleapis.com/css?family=Fjalla+One%7CPT+Sans&amp;display=swap" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="/css/streetfocus.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-		<script src="/js/lib/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-		<link href="/js/lib/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
-		<script src="/js/lib/jQuery-Touch-Events/src/jquery.mobile-events.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Fjalla+One%7CPT+Sans&amp;display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="/css/streetfocus.css">
 		
-		<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
-		<link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet" />
+		<script src="/js/lib/jquery/dist/jquery.min.js"></script>
+		<script src="/js/lib/jquery-ui-dist/jquery-ui.min.js"></script>
+		<link href="/js/lib/jquery-ui-dist/jquery-ui.min.css" rel="stylesheet" />
+		<script src="/js/lib/@benmajor/jquery-touch-events/src/jquery.mobile-events.min.js"></script>
+		
+		<script src="/js/lib/mapbox-gl/dist/mapbox-gl.js"></script>
+		<link href="/js/lib/mapbox-gl/dist/mapbox-gl.css" rel="stylesheet" />
 		
 		<script src="/js/geocoder.js"></script>
 		

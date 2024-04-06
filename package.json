@@ -1,0 +1,14 @@
+{
+  "name": "streetfocus",
+  "version": "1.0.0",
+  "description": "StreetFocus",
+  "repository": "https://github.com/cyclestreets/streetfocus/",
+  "author": "CycleStreets Ltd",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@benmajor/jquery-touch-events": "^2.0.3",
+    "jquery": "^3.7.1",
+    "jquery-ui-dist": "^1.13.2",
+    "mapbox-gl": "^3.2.0"
+  }
+}
