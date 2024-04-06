@@ -22,12 +22,13 @@ class geocoderModel
 		# Assemble the request
 		$url = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/geocoder';
 		$parameters = array (
-			'key'			=> $this->settings['cyclestreetsApiKey'],
-			'bounded'		=> 1,
-			'bbox'			=> $this->settings['autocompleteBbox'],
-			'limit'			=> 12,
+			'key'		=> $this->settings['cyclestreetsApiKey'],
+			'bounded'	=> 1,
+			'bbox'		=> $this->settings['autocompleteBbox'],
+			'limit'		=> 12,
 			'countrycodes'	=> 'gb,ie',
-			'q'				=> $q,
+			'q'		=> $q,
+			'fields'	=> 'name,near,type,bbox',
 		);
 		
 		# Obtain the data

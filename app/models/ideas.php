@@ -80,6 +80,7 @@ class ideasModel
 				'properties'	=> array (
 					'name'	=> $issue['properties']['title'],
 					'near'	=> streetfocus::truncate (strip_tags ($issue['properties']['description']), 80),
+					'type'	=> 'Idea',
 					'when'	=> $issue['properties']['created_at'],
 					'bbox'	=> $bbox,
 				),
