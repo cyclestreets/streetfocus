@@ -26,6 +26,7 @@ class streetfocus
 			'password'					=> NULL,
 			'daysRecent'				=> 98,		// Number of days used to determine front page count; legal period is 14 weeks (98 days), but in practice many applications, especially larger ones, exceed this
 			'planitEarliestYear'		=> 2000,
+			'sinceYearsDefault'		=> 5,
 		);
 		
 		# Return the defaults
@@ -289,12 +290,16 @@ class streetfocus
 	# Planning applications map page
 	private function planningapplications ()
 	{
+		# Set the default since/until
+		$since = date ('Y') - $this->settings['sinceYearsDefault'];	// Exclude very old applications by default, as 'Current' old applications are just likely to be data errors - unclosed cases
+		$until = date ('Y');
+		
 		# Set the date parameters for the form rendering
 		$this->template['dateRange'] = array (
 			'min'	=> $this->settings['planitEarliestYear'],
 			'max'	=> date ('Y'),
-			'since'	=> $this->settings['planitEarliestYear'],
-			'until'	=> date ('Y'),
+			'since'	=> $since,
+			'until'	=> $until,
 		);
 		
 		# If an ID is specified, determine the map location, so that the item is present in the area data
