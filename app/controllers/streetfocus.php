@@ -294,6 +294,17 @@ class streetfocus
 		$since = date ('Y') - $this->settings['sinceYearsDefault'];	// Exclude very old applications by default, as 'Current' old applications are just likely to be data errors - unclosed cases
 		$until = date ('Y');
 		
+		# Override date range defaults if cookie (set within Javascript) present
+		if (isSet ($_COOKIE['filtering'])) {
+			$filtering = json_decode ($_COOKIE['filtering'], true);
+			if (isSet ($filtering['since']) && ctype_digit ($filtering['since'])) {
+				$since = $filtering['since'];
+			}
+			if (isSet ($filtering['until']) && ctype_digit ($filtering['until'])) {
+				$until = $filtering['until'];
+			}
+		}
+		
 		# Set the date parameters for the form rendering
 		$this->template['dateRange'] = array (
 			'min'	=> $this->settings['planitEarliestYear'],
