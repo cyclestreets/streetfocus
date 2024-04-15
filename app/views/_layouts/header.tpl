@@ -19,9 +19,9 @@
 		<script src="/js/lib/mapbox-gl/dist/mapbox-gl.js"></script>
 		<link href="/js/lib/mapbox-gl/dist/mapbox-gl.css" rel="stylesheet" />
 		
-		<script src="/js/geocoder.js"></script>
+		<script src="/src/geocoder.js"></script>
 		
-		<script src="/js/streetfocus.js"></script>
+		<script src="/src/streetfocus.js"></script>
 		<script>
 			{$_applicationJs}
 		</script>
