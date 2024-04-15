@@ -40,6 +40,10 @@
 		</p>
 	</form>
 	
+	<div id="zoomstate" class="control">
+		<p>Zoom in more <br />to see locations</p>
+	</div>
+	
 	<div id="monitor" class="control">
 		<a href="/my/add/">
 			<img src="/images/monitor.png" alt="Monitor" />

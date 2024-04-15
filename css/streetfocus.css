@@ -219,6 +219,11 @@ p#addidea {float: right; margin-left: 20px;}
 #mappanel #collisions {bottom: 7px; left: 120px;}
 #mappanel #collisions p {margin: 0; padding: 0; font-size: 14px;}
 
+/* Zoom state */
+body.planningapplications #zoomstate {top: 80px; left: calc(50% - 140px - 100px); right: calc(50% - 140px + 100px); width: 200px; display: none; background-color: #e37e0b; text-align: center; color: white; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; font-weight: bold;}
+body.planningapplications #mappanel.zoomedout #zoomstate {display: block;}
+body.planningapplications #mappanel.zoomedout .mapboxgl-canvas-container {cursor: zoom-in;}
+
 /* Monitor */
 body.planningapplications #monitor {bottom: 45px; left: 20px; right: 300px;}
 @media only screen and (max-width: 900px) {

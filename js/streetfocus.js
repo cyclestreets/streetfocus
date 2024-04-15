@@ -29,6 +29,9 @@ var streetfocus = (function ($) {
 		// Google Maps API key
 		gmapApiKey: 'YOUR_GOOGLEMAPS_API_KEY',
 		
+		// Minimum zoom to show planning applications; this can be reduced as API performance is improved
+		minZoom: 12,
+		
 		// Forced location
 		setLocation: false,
 		
@@ -44,6 +47,7 @@ var streetfocus = (function ($) {
 	var _id;
 	var _documentTitle;
 	var _isTouchDevice;
+	var _mapZoomEnough = false;
 	
 	// Default filters
 	var _filteringDefaults = {
@@ -257,7 +261,7 @@ var streetfocus = (function ($) {
 			// Add geocoder control
 			streetfocus.search ('geocoder,planit');
 			
-			// Add the planning applications layer, e.g. /v2/planningapplications.locations?type=Full,Trees&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076
+			// Set parameters for the planning applications layer, e.g. /v2/planningapplications.locations?type=Full,Trees&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076
 			var apiUrl = _settings.cyclestreetsApiBaseUrl + '/v2/planningapplications.locations';
 			var parameters = {
 				key: _settings.cyclestreetsApiKey
@@ -274,6 +278,9 @@ var streetfocus = (function ($) {
 			
 			// Add close methods (X button, click on map, escape key)
 			streetfocus.panelClosing ('#filtering', '#filter');
+			
+			// Add minZoom state handler
+			streetfocus.zoomState ();
 			
 			// Add the data layer
 			streetfocus.addLayer (apiUrl, parameters, '#filtering', null, 'id', 'description');
@@ -462,6 +469,31 @@ var streetfocus = (function ($) {
 			var path = _actionUrl;
 			var title = _documentTitle;
 			streetfocus.updateUrl (path, title);
+		},
+		
+		
+		// Function to handle minZoom requirement
+		zoomState: function ()
+		{
+			// Handler function to set state
+			const setZoomState = function () {
+				_mapZoomEnough = (_map.getZoom () >= _settings.minZoom);
+				$('#mappanel').toggleClass ('zoomedout', !_mapZoomEnough);
+			};
+			
+			// Set state on start and upon map move
+			setZoomState ();
+			_map.on ('moveend', function () {
+				setZoomState ();
+			});
+			
+			// If zoomed out, make a click on the map be an implied zoom in
+			_map.on ('click', function (e) {
+				if (!_mapZoomEnough) {
+					const newZoom = Math.min (_map.getZoom () + 2, _settings.minZoom);
+					_map.flyTo ({zoom: newZoom, center: e.lngLat});		// #!# Centring issue
+				}
+			});
 		},
 		
 				
@@ -1409,6 +1441,13 @@ var streetfocus = (function ($) {
 		// Function to load the data for a layer
 		addData: function (apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField)
 		{
+			// End if not zoomed in enough
+			if (!_mapZoomEnough) {
+				const data = {type: 'FeatureCollection', features: []};		// Empty dataset, to ensure map is cleared
+				streetfocus.showCurrentData (data, callback, uniqueIdField, titleField);
+				return;
+			}
+			
 			// Start with a fresh set of parameters, to avoid the form scanning setting a reference to the next form iteration
 			parameters = Object.assign({}, parameters);
 
