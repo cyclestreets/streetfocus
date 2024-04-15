@@ -1038,7 +1038,8 @@ var streetfocus = (function ($) {
 				pitch: initialLocation.pitch,
 				bearing: initialLocation.bearing,
 				maxZoom: 18.5,
-				hash: true
+				hash: true,
+				fitBoundsOptions: {padding: (_isTouchDevice ? {} : {right: 280})}
 			});
 			
 			// If a location is set, move the map, thus ignoring the hash
@@ -1272,7 +1273,11 @@ var streetfocus = (function ($) {
 						
 					// Otherwise, pan the map
 					} else {
-						_map.fitBounds (bbox, {maxZoom: 16.5, duration: 1500});
+						_map.fitBounds (bbox, {
+							maxZoom: 16.5,
+							duration: 1500,
+							padding: (_isTouchDevice ? {} : {right: 280})
+						});
 						event.preventDefault();
 					}
 				}
