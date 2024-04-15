@@ -3,12 +3,12 @@
 /*jslint browser: true, white: true, single: true, for: true */
 /*global $, alert, console, window */
 
-var streetfocus = (function ($) {
+const streetfocus = (function ($) {
 	
 	'use strict';
 	
 	// Settings defaults
-	var _settings = {
+	const _settings = {
 		
 		// Initial lat/lon/zoom of map and tile layer
 		defaultLocation: '17/52.2053/0.1218/0/0',	// Zoom, lat, lon, pitch, bearing
@@ -41,25 +41,16 @@ var streetfocus = (function ($) {
 	
 	
 	// Internal class properties
-	var _map = null;
-	var _action;
-	var _actionUrl;
-	var _id;
-	var _documentTitle;
-	var _isTouchDevice;
-	var _mapZoomEnough = false;
-	
-	// Default filters
-	var _filteringDefaults = {
-		//size:
-		//type:
-		//since:
-		//until:
-		state: ['Undecided']
-	};
+	let _map = null;
+	let _action;
+	let _actionUrl;
+	let _id;
+	let _documentTitle;
+	let _isTouchDevice;
+	let _mapZoomEnough = false;
 	
 	// Definitions
-	var _colours = {
+	const _colours = {
 		planningapplications: {
 			field: 'type',
 			values: {
@@ -75,7 +66,7 @@ var streetfocus = (function ($) {
 			}
 		}
 	};
-	var _sizes = {
+	const _sizes = {
 		planningapplications: {
 			field: 'size',
 			values: {
@@ -85,7 +76,7 @@ var streetfocus = (function ($) {
 			}
 		}
 	};
-	var _states = {
+	const _states = {
 		planningapplications: {
 			field: 'state',
 			values: {
@@ -98,13 +89,13 @@ var streetfocus = (function ($) {
 			}
 		}
 	};
-	var _keyTypes = [		// These are categories defined at the PlanIt end, not name matches locally
+	const _keyTypes = [		// These are categories defined at the PlanIt end, not name matches locally
 		'Design and Access Statement',
 	];
 			
 	
 	// Actions creating a map
-	var _mapActions = ['planningapplications', 'ideas', 'addidea', 'my', 'addmonitor'];
+	const _mapActions = ['planningapplications', 'ideas', 'addidea', 'my', 'addmonitor'];
 	
 	
 	return {
@@ -262,8 +253,8 @@ var streetfocus = (function ($) {
 			streetfocus.search ('geocoder,planit');
 			
 			// Set parameters for the planning applications layer, e.g. /v2/planningapplications.locations?type=Full,Trees&bbox=0.132162%2C52.189131%2C0.147603%2C52.196076
-			var apiUrl = _settings.cyclestreetsApiBaseUrl + '/v2/planningapplications.locations';
-			var parameters = {
+			const apiUrl = _settings.cyclestreetsApiBaseUrl + '/v2/planningapplications.locations';
+			const parameters = {
 				key: _settings.cyclestreetsApiKey
 			};
 			
@@ -290,7 +281,7 @@ var streetfocus = (function ($) {
 			streetfocus.addHeatmapLayer ('collisions', 'https://www.cyclestreets.net/data/allCambridgeCollisions.json', 16);
 			
 			// Add stale areas layer
-			var staleAreasMessageHtml = "<p>Warning: data in this area is currently not being updated because the local council's website is preventing updates. Please see our <a href=\"/about/#stale\">FAQ</a> for details.</p>";
+			const staleAreasMessageHtml = "<p>Warning: data in this area is currently not being updated because the local council's website is preventing updates. Please see our <a href=\"/about/#stale\">FAQ</a> for details.</p>";
 			streetfocus.addStaticPolygonLayer (_settings.planitStaleAreas, 'stale', staleAreasMessageHtml, _settings.planitStaleAreasExclude);
 		},
 		
@@ -302,9 +293,8 @@ var streetfocus = (function ($) {
 			streetfocus.filteringCookieInitialValues ();
 			
 			// Set checkbox colours
-			var value;
 			$.each ($("input[name='type[]']"), function () {
-				value = $(this).val ();
+				const value = $(this).val ();
 				$(this).parent().parent().css ('background-color', _colours['planningapplications'].values[value]);		// Two parents, as label surrounds
 			});
 			
@@ -345,14 +335,13 @@ var streetfocus = (function ($) {
 		getFilteringOptions: function ()
 		{
 			// Loop through each input
-			var filteringOptions = {};
-			var name, value, type;
+			const filteringOptions = {};
 			$('#filtering :input').each (function () {
-				name = $(this).attr('name');
-				value = $(this).val();
+				let name = $(this).attr('name');
+				const value = $(this).val();
 				
 				// Extract the name and value, and create a key for the name if not already present
-				type = $(this).attr('type');
+				const type = $(this).attr('type');
 				switch (type) {
 					case 'checkbox':
 						name = name.replace('[]', '');
@@ -387,23 +376,21 @@ var streetfocus = (function ($) {
 		setFilteringUiValues: function (filteringDefaults)
 		{
 			// Determine all available values in the checkbox sets
-			var filteringOptions = streetfocus.getFilteringOptions ();
+			const filteringOptions = streetfocus.getFilteringOptions ();
 			
 			// Reset all
 			$('#filtering input:checkbox').prop ('checked', false);
 			$('#filtering input[type="number"]').val ('');
 			
 			// Loop through each checkbox set / input
-			var inputType;
-			var isScalarInputType;
-			var parameterValue;
 			$.each (filteringOptions, function (parameter, allOptions) {
 				
 				// Detect whether the parameter is for a scalar type, rather than, e.g. checkboxes
-				inputType = $('input[name="' + parameter + '"').attr ('type');			// Checkboxes like name="foo[]", or <select> element will therefore not match
-				isScalarInputType = (inputType == 'text' || inputType == 'number');
+				const inputType = $('input[name="' + parameter + '"').attr ('type');			// Checkboxes like name="foo[]", or <select> element will therefore not match
+				const isScalarInputType = (inputType == 'text' || inputType == 'number');
 				
 				// Scalar input types
+				let parameterValue;
 				if (isScalarInputType) {
 					
 					// If this parameter (e.g. type) is present in the defaults, use that; else set empty
@@ -466,8 +453,8 @@ var streetfocus = (function ($) {
 		// Function to reset the URL and title using HTML5 History pushState
 		resetUrl: function ()
 		{
-			var path = _actionUrl;
-			var title = _documentTitle;
+			const path = _actionUrl;
+			const title = _documentTitle;
 			streetfocus.updateUrl (path, title);
 		},
 		
@@ -501,15 +488,14 @@ var streetfocus = (function ($) {
 		scanForm: function (path)
 		{
 			// Start a set of parameters
-			var parameters = {};
+			const parameters = {};
 			
 			// Scan form widgets
-			var name, value, type;
 			$(path + ' :input').not ('[type="reset"]').each (function() {
-				name = $(this).attr('name').replace('[]', '');
-				value = $(this).val();
+				const name = $(this).attr('name').replace('[]', '');
+				const value = $(this).val();
 				
-				type = $(this).attr('type');
+				const type = $(this).attr('type');
 				switch (type) {
 					case 'checkbox':
 						if (this.checked) {
@@ -533,7 +519,7 @@ var streetfocus = (function ($) {
 			}
 			
 			// Set a cookie containing the parameters, to provide state
-			var parametersString = JSON.stringify (parameters);
+			const parametersString = JSON.stringify (parameters);
 			streetfocus.setCookie ('filtering', parametersString, 7);
 			
 			// Join each parameter value by comma delimeter
@@ -561,7 +547,7 @@ var streetfocus = (function ($) {
 		{
 			// Get the fuller data, syncronously
 			// #!# Need to restructure calling code to avoid syncronous request
-			var url = '/api/planningapplication?id=' + feature.properties[uniqueIdField];		// Contains fuller data at the application level
+			const url = '/api/planningapplication?id=' + feature.properties[uniqueIdField];		// Contains fuller data at the application level
 			$.ajax ({
 				url: url,
 				dataType: 'json',
@@ -572,18 +558,18 @@ var streetfocus = (function ($) {
 			});
 			
 			// Get the centre-point of the geometry
-			var centre = streetfocus.getCentre (feature.geometry);
+			const centre = streetfocus.getCentre (feature.geometry);
 			
 			// Create the all documents link
 			// #!# Other vendors needed
-			var vendorUiReplacements = {
+			const vendorUiReplacements = {
 				'activeTab=summary': {
 					'documents': 'activeTab=documents',
 					'comments': 'activeTab=makeComment'
 				}
 			}
-			var vendorUiLinkBase = feature.properties.url;
-			var vendorLinks = {};
+			const vendorUiLinkBase = feature.properties.url;
+			const vendorLinks = {};
 			$.each (vendorUiReplacements, function (key, values) {
 				$.each (values, function (type, value) {
 					vendorLinks[type] = vendorUiLinkBase.replace (key, value);
@@ -591,10 +577,10 @@ var streetfocus = (function ($) {
 			});
 			
 			// Determine the key documents list
-			var keyDocumentsHtml = streetfocus.keyDocuments (feature.properties.documents, vendorLinks.documents);
+			const keyDocumentsHtml = streetfocus.keyDocuments (feature.properties.documents, vendorLinks.documents);
 			
 			// Determine the matching ideas list
-			var matchingIdeasHtml = streetfocus.matchingIdeas (feature.properties._ideas);
+			const matchingIdeasHtml = streetfocus.matchingIdeas (feature.properties._ideas);
 			
 			// Only show ideas matches for medium/large applications
 			if (feature.properties.size == 'Medium' || feature.properties.size == 'Large') {
@@ -620,7 +606,7 @@ var streetfocus = (function ($) {
 			}
 			
 			// Determine state image
-			var stateImage = '';
+			let stateImage = '';
 			if (feature.properties.state == 'Permitted') {stateImage = '<img src="/images/permitted.png" /> ';}
 			if (feature.properties.state == 'Rejected') {stateImage = '<img src="/images/rejected.png" /> ';}
 			
@@ -649,7 +635,7 @@ var streetfocus = (function ($) {
 		consultationDate: function (feature)
 		{
 			// Define available fields in the data, and their labels
-			var consultationDateFields = {
+			const consultationDateFields = {
 				'consultation_end_date'				: 'Consultation end date',
 				'neighbour_consultation_end_date'	: 'Neighbour consultation end date',
 				'site_notice_end_date'				: 'Site notice end date',
@@ -657,8 +643,8 @@ var streetfocus = (function ($) {
 			};
 			
 			// Determine the latest of the fields, allocating the date and the label
-			var latestConsultationDate = '';	// String comparison will be done for each date field value
-			var latestConsultationDateFieldLabel = 'Deadline';
+			let latestConsultationDate = '';	// String comparison will be done for each date field value
+			let latestConsultationDateFieldLabel = 'Deadline';
 			$.each (consultationDateFields, function (consultationDateField, consultationDateFieldLabel) {
 				if (feature.properties.otherfields.hasOwnProperty (consultationDateField)) {
 					if (feature.properties.otherfields[consultationDateField] > latestConsultationDate) {
@@ -669,7 +655,7 @@ var streetfocus = (function ($) {
 			});
 			
 			// Convert the date to a human-readable string
-			var latestConsultationDateFormatted = (latestConsultationDate ? new Date (latestConsultationDate).toDateString () : '?');
+			const latestConsultationDateFormatted = (latestConsultationDate ? new Date (latestConsultationDate).toDateString () : '?');
 			
 			// If the application is past, set the label to be closed
 			if (feature.properties.state != 'Undecided') {
@@ -677,12 +663,12 @@ var streetfocus = (function ($) {
 			}
 			
 			// Determine number of days before the consultation closes
-			var daysRemaining = '';
+			let daysRemaining = '';
 			if (latestConsultationDate) {
-				var today = new Date();
-				var closeDate = new Date(latestConsultationDate);
-				var timeDifference = closeDate.setHours(0,0,0,0) - today.setHours(0,0,0,0);		// setHours forces each to midday and casts to Unix timestamp
-				var daysDifference = timeDifference / (1000 * 3600 * 24);
+				const today = new Date ();
+				const closeDate = new Date(latestConsultationDate);
+				const timeDifference = closeDate.setHours(0,0,0,0) - today.setHours(0,0,0,0);		// setHours forces each to midday and casts to Unix timestamp
+				const daysDifference = timeDifference / (1000 * 3600 * 24);
 				if (daysDifference >= 0) {
 					switch (daysDifference) {
 						case 0:  daysRemaining = ' (today)'; break;
@@ -693,7 +679,7 @@ var streetfocus = (function ($) {
 			}
 			
 			// Construct the string, as the label with the date
-			var consultationDateString = latestConsultationDateFieldLabel + ':&nbsp; ' + latestConsultationDateFormatted + daysRemaining;
+			const consultationDateString = latestConsultationDateFieldLabel + ':&nbsp; ' + latestConsultationDateFormatted + daysRemaining;
 			
 			// Return the result
 			return consultationDateString;
@@ -710,21 +696,21 @@ var streetfocus = (function ($) {
 			$('body').on ('click', 'div.documents ul li a', function (e) {
 				
 				// Do not run if the workaround has already been applied
-				var cookieName = 'idoxWorkaround';
-				var cookieValue;
-				if (cookieValue = streetfocus.getCookie (cookieName)) {
+				const cookieName = 'idoxWorkaround';
+				const cookieValue = streetfocus.getCookie (cookieName);
+				if (cookieValue) {
 					if (cookieValue == applicationId) {
 						return;
 					}
 				}
 				
 				// Obtain the clicked document URL
-				var documentUrl = e.target.href;
+				const documentUrl = e.target.href;
 				
 				// Open both windows
-				var newWindow = window.open (allDocumentsUrl, '_blank');
-				var count = 0;
-				var interval = setInterval (function () {
+				const newWindow = window.open (allDocumentsUrl, '_blank');
+				let count = 0;
+				let interval = setInterval (function () {
 					count += 1;
 					if (newWindow.document.readyState === 'complete') {
 						
@@ -752,7 +738,7 @@ var streetfocus = (function ($) {
 			}
 			
 			// Start an list of documents to return, ordered by key type
-			var keyDocuments = [];
+			const keyDocuments = [];
 			$.each (documents, function (documentIndex, document) {
 				if ($.inArray (document.type, _keyTypes) != -1) {
 					keyDocuments.push (documents[documentIndex]);
@@ -765,10 +751,9 @@ var streetfocus = (function ($) {
 			}
 			
 			// Convert to HTML
-			var listItems = [];
-			var listItem;
+			const listItems = [];
 			$.each (keyDocuments, function (index, document) {
-				listItem  = '<li>';
+				let listItem  = '<li>';
 				listItem += '<a href="' + document.url + '" target="_blank">';
 				listItem += streetfocus.htmlspecialchars (document.type);
 				listItem += ' - ' + streetfocus.htmlspecialchars (document.title);
@@ -777,7 +762,7 @@ var streetfocus = (function ($) {
 				listItem += '</li>';
 				listItems.push (listItem);
 			});
-			var listItemsHtml = listItems.join ("\n");
+			const listItemsHtml = listItems.join ("\n");
 			
 			// Return the list
 			return listItemsHtml;
@@ -791,20 +776,18 @@ var streetfocus = (function ($) {
 			if (!ideas) {return [];}
 			
 			// Convert to HTML
-			var listItems = [];
-			var listItem;
-			var date;
+			const listItems = [];
 			$.each (ideas, function (index, idea) {
-				listItem  = '<li>';
+				let listItem  = '<li>';
 				listItem += '<a href="/ideas/' + idea.properties.moniker + '/" target="_blank">';
 				listItem += streetfocus.htmlspecialchars (idea.properties.title);
-				date = new Date (idea.properties.when * 1000);
+				const date = new Date (idea.properties.when * 1000);
 				listItem += ' &nbsp; <span>(' + streetfocus.htmlspecialchars (date.getFullYear ()) + ')</span>';
 				listItem += '</a>';
 				listItem += '</li>';
 				listItems.push (listItem);
 			});
-			var listItemsHtml = listItems.join ("\n");
+			const listItemsHtml = listItems.join ("\n");
 			
 			// Return the list
 			return listItemsHtml;
@@ -818,8 +801,8 @@ var streetfocus = (function ($) {
 			streetfocus.search ('geocoder');
 			
 			// Define a callback function to filter out ideas which appear to be an imported planning application
-			var callback = function (data) {
-				var i = data.features.length;
+			const callback = function (data) {
+				let i = data.features.length;
 				while (i--) {		// See: https://stackoverflow.com/a/9882349/180733
 					if (data.features[i].properties.title.match(/^Planning application/)) {
 						data.features.splice (i, 1);
@@ -829,8 +812,8 @@ var streetfocus = (function ($) {
 			}
 			
 			// Add the ideas layer, e.g. /api/ideas?bbox=-0.127902%2C51.503486%2C-0.067091%2C51.512086
-			var apiBaseUrl = '/api/ideas';
-			var parameters = {};
+			const apiBaseUrl = '/api/ideas';
+			const parameters = {};
 			streetfocus.addLayer (apiBaseUrl, parameters, null, callback, 'moniker', 'title');
 			
 			// Add collisions heatmap layer support
@@ -843,7 +826,7 @@ var streetfocus = (function ($) {
 		populatePopupIdeas: function (element, feature, uniqueIdField /* ignored */)
 		{
 			// Get the centre-point of the geometry
-			var centre = streetfocus.getCentre (feature.geometry);
+			const centre = streetfocus.getCentre (feature.geometry);
 			
 			// Populate the static HTML
 			$(element + ' p.applicationid span.source').text (feature.properties.source);
@@ -879,7 +862,7 @@ var streetfocus = (function ($) {
 		formMarkerSetting: function (longitudeField, latitudeField)
 		{
 			// Function to set the form map location
-			var setFormLocation = function (lngLat)
+			const setFormLocation = function (lngLat)
 			{
 				// Set the form value; NB Using attr rather than .val() ensures the console representation is also correct
 				$(longitudeField).attr ('value', lngLat.lng.toFixed(5) );
@@ -887,7 +870,7 @@ var streetfocus = (function ($) {
 			}
 			
 			// Set the initial location, either from the form (e.g. due to posting incomplete form) or by the map's natural centre
-			var initialLocation;
+			let initialLocation;
 			if ($(longitudeField).val () && $(latitudeField).val ()) {
 				initialLocation = {
 					lng: parseFloat ($(longitudeField).val ()),
@@ -899,13 +882,13 @@ var streetfocus = (function ($) {
 			setFormLocation (initialLocation);
 			
 			// Add the marker to the map, setting it as draggable
-			var marker = new mapboxgl.Marker ({draggable: true, color: '#603'})
+			const marker = new mapboxgl.Marker ({draggable: true, color: '#603'})
 				.setLngLat (initialLocation)
 				.addTo (_map);
 			
 			// If the marker is dragged or set to a different location, update the input value
 			marker.on ('dragend', function (e) {
-				var lngLat = marker.getLngLat ();
+				const lngLat = marker.getLngLat ();
 				setFormLocation (lngLat);
 			});
 			_map.on ('click', function (e) {
@@ -924,14 +907,14 @@ var streetfocus = (function ($) {
 				dataType: 'json',
 				error: function (jqXHR, error, exception) {
 					if (jqXHR.statusText != 'abort') {
-						var data = $.parseJSON(jqXHR.responseText);
+						const data = $.parseJSON(jqXHR.responseText);
 						alert ('Error: ' + data.error);
 					}
 				},
 				success: function (data, textStatus, jqXHR) {
 					
 					// Add the map data
-					var layerId = 'monitors';
+					const layerId = 'monitors';
 					_map.addLayer ({
 						id: layerId,
 						type: 'fill',
@@ -959,26 +942,26 @@ var streetfocus = (function ($) {
 
 					// Add popups
 					_map.on ('click', layerId, function(e) {
-						var feature = e.features[0];
+						const feature = e.features[0];
 						
 						// Determine the coordinates
-						var centre = streetfocus.getCentre (feature.geometry);
-						var coordinates = [centre.lon, centre.lat];
-
+						const centre = streetfocus.getCentre (feature.geometry);
+						const coordinates = [centre.lon, centre.lat];
+						
 						// Ensure that if the map is zoomed out such that multiple copies of the feature are visible, the popup appears over the copy being pointed to.
 						while (Math.abs (e.lngLat.lng - coordinates[0]) > 180) {
 							coordinates[0] += (e.lngLat.lng > coordinates[0] ? 360 : -360);
 						}
 						
 						// Set the HTML content of the popup
-						var filters = [];
+						const filters = [];
 						if (feature.properties.type !== 'null') {
 							filters.push ('Type: ' + feature.properties.type.replace (', ', ' / ') + ' applications');
 						}
 						if (feature.properties.size != 'null') {
 							filters.push ('Size: ' + feature.properties.size.replace (', ', ' / ') + ' applications');
 						}
-						var popupHtml = '<p>' + ($.isEmptyObject (filters) ? 'All planning applications in this area.' : 'Planning applications in this area, limited to:') + '</p>';
+						let popupHtml = '<p>' + ($.isEmptyObject (filters) ? 'All planning applications in this area.' : 'Planning applications in this area, limited to:') + '</p>';
 						$.each (filters, function (index, filter) {
 							popupHtml += '<p>' + filter + '</p>';
 						});
@@ -1013,10 +996,10 @@ var streetfocus = (function ($) {
 			streetfocus.initialiseFilteringForm ();
 			
 			// Capture map location changes, saving these to the hidden input field
-			var bbox = streetfocus.getBbox ();
+			const bbox = streetfocus.getBbox ();
 			$('#bbox').val (bbox);
 			_map.on ('moveend', function () {
-				bbox = streetfocus.getBbox ();
+				const bbox = streetfocus.getBbox ();
 				$('#bbox').val (bbox);
 			});
 		},
@@ -1026,7 +1009,7 @@ var streetfocus = (function ($) {
 		createMap: function ()
 		{
 			// Determine default location
-			var initialLocation = streetfocus.getInitialLocation ();
+			const initialLocation = streetfocus.getInitialLocation ();
 			
 			// Create the map
 			mapboxgl.accessToken = _settings.mapboxApiKey;
@@ -1044,7 +1027,7 @@ var streetfocus = (function ($) {
 			
 			// If a location is set, move the map, thus ignoring the hash
 			if (_settings.setLocation) {
-				var setLocation = streetfocus.parseLocation (_settings.setLocation);
+				const setLocation = streetfocus.parseLocation (_settings.setLocation);
 				_map.setZoom (setLocation.zoom);
 				_map.setCenter ([setLocation.longitude, setLocation.latitude]);
 			}
@@ -1070,7 +1053,7 @@ var streetfocus = (function ($) {
 		getInitialLocation: function ()
 		{
 			// Get the map location cookie, if set
-			var mapLocation = streetfocus.getCookie ('maplocation');
+			let mapLocation = streetfocus.getCookie ('maplocation');
 			
 			// Use the default if no cookie
 			if (!mapLocation) {
@@ -1108,9 +1091,9 @@ var streetfocus = (function ($) {
 		{
 			// On move end, get the location (5-value format, including bearing and pitch)
 			_map.on ('moveend', function (e) {
-				var centre = _map.getCenter ();
+				let centre = _map.getCenter ();
 				centre = streetfocus.reduceCoordinateAccuracy (centre);
-				var mapLocation = [_map.getZoom (), centre.lat, centre.lng, _map.getBearing (), _map.getPitch ()].join ('/')		// E.g. '18.25/52.204729/0.116882/-59.7/60' as per URL hash format;
+				const mapLocation = [_map.getZoom (), centre.lat, centre.lng, _map.getBearing (), _map.getPitch ()].join ('/')		// E.g. '18.25/52.204729/0.116882/-59.7/60' as per URL hash format;
 				streetfocus.setCookie ('maplocation', mapLocation, 7);
 			});
 		},
@@ -1120,7 +1103,7 @@ var streetfocus = (function ($) {
 		geolocation: function ()
 		{
 			// Initialise the control
-			var geolocate = new mapboxgl.GeolocateControl ({
+			const geolocate = new mapboxgl.GeolocateControl ({
 				positionOptions: {
 					enableHighAccuracy: true
 				}
@@ -1141,21 +1124,21 @@ var streetfocus = (function ($) {
 			_map.on('style.load', function() {
 
 				// Get the layers in the source style
-				var layers = _map.getStyle().layers;
-
+				const layers = _map.getStyle().layers;
+				
 				// Ensure the layer has buildings, or end
 				if (!streetfocus.styleHasLayer (layers, 'building')) {return;}
 
 				// Insert the layer beneath any symbol layer.
-				var labelLayerId;
-				var i;
+				let labelLayerId;
+				let i;
 				for (i = 0; i < layers.length; i++) {
 					if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
 						labelLayerId = layers[i].id;
 						break;
 					}
 				}
-
+				
 				// Add the layer
 				_map.addLayer ({
 					'id': '3d-buildings',
@@ -1189,7 +1172,7 @@ var streetfocus = (function ($) {
 		styleHasLayer: function (layers, layerName)
 		{
 			// Ensure the layer has buildings, or end
-			var i;
+			let i;
 			for (i = 0; i < layers.length; i++) {
 				if (layers[i].id == layerName) {
 					return true;
@@ -1211,7 +1194,7 @@ var streetfocus = (function ($) {
 			// Two-finger gesture on mobile for pitch; see: https://github.com/mapbox/mapbox-gl-js/issues/3405#issuecomment-449059564
 			_map.on ('touchstart', function (data) {
 				if (data.points.length == 2) {
-					var diff = Math.abs(data.points[0].y - data.points[1].y);
+					const diff = Math.abs(data.points[0].y - data.points[1].y);
 					if (diff <= 50) {
 						data.originalEvent.preventDefault();	//prevent browser refresh on pull down
 						_map.touchZoomRotate.disable();	 //disable native touch controls
@@ -1226,7 +1209,7 @@ var streetfocus = (function ($) {
 				if (self.dpPoint) {
 					data.preventDefault();
 					data.originalEvent.preventDefault();
-					var diff = (self.dpPoint.y - data.point.y) * 0.5;
+					const diff = (self.dpPoint.y - data.point.y) * 0.5;
 					_map.setPitch(self.dpPitch + diff);
 				}
 			});
@@ -1253,21 +1236,21 @@ var streetfocus = (function ($) {
 		search: function (sources, targetUrl)
 		{
 			// Geocoder URL
-			var geocoderApiUrl = '/api/search?sources=' + sources;
+			const geocoderApiUrl = '/api/search?sources=' + sources;
 			
 			// Attach the autocomplete library behaviour to the location control
 			autocomplete.addTo ('#geocoder input', {
 				sourceUrl: geocoderApiUrl,
 				select: function (event, ui) {
-					var feature = ui.item.feature;
+					const feature = ui.item.feature;
 					
 					// Parse the BBOX
-					var bbox = feature.properties.bbox.split(',');	// W,S,E,N
+					const bbox = feature.properties.bbox.split(',');	// W,S,E,N
 					
 					// If there is a target URL, go to that
 					if (targetUrl) {
-						var longitude = (parseFloat(bbox[0]) + parseFloat(bbox[2])) / 2;
-						var latitude  = (parseFloat(bbox[1]) + parseFloat(bbox[3])) / 2;
+						const longitude = (parseFloat(bbox[0]) + parseFloat(bbox[2])) / 2;
+						const latitude  = (parseFloat(bbox[1]) + parseFloat(bbox[3])) / 2;
 						streetfocus.mapPageLink (longitude, latitude);
 						return;
 						
@@ -1288,8 +1271,8 @@ var streetfocus = (function ($) {
 		// Function to go the map page
 		mapPageLink: function (longitude, latitude)
 		{
-			var zoom = 13;		// #!# Currently fixed - need to compute dynamically, e.g. https://github.com/mapbox/mapbox-unity-sdk/issues/1125
-			var targetUrl = '/map/' + '#' + zoom + '/' + latitude.toFixed(6) + '/' + longitude.toFixed(6);
+			const zoom = 13;		// #!# Currently fixed - need to compute dynamically, e.g. https://github.com/mapbox/mapbox-unity-sdk/issues/1125
+			const targetUrl = '/map/' + '#' + zoom + '/' + latitude.toFixed(6) + '/' + longitude.toFixed(6);
 			window.location.href = targetUrl;
 		},
 		
@@ -1298,9 +1281,9 @@ var streetfocus = (function ($) {
 		addLayer: function (apiBaseUrl, parameters, filteringFormPath, callback, uniqueIdField, titleField)
 		{
 			// Compile colour lists and size lists
-			var colourPairs = streetfocus.compilePairs (_colours);
-			var sizePairs = streetfocus.compilePairs (_sizes);
-			var statesPairs = streetfocus.compilePairs (_states);
+			const colourPairs = streetfocus.compilePairs (_colours);
+			const sizePairs = streetfocus.compilePairs (_sizes);
+			const statesPairs = streetfocus.compilePairs (_states);
 			
 			// Add the source and layer
 			_map.addLayer ({
@@ -1350,7 +1333,7 @@ var streetfocus = (function ($) {
 			
 			// Register popup handler
 			_map.on ('click', _action, function (e) {
-				var feature = e.features[0];
+				const feature = e.features[0];
 				
 				// Create the popup
 				streetfocus.createPopup (feature, uniqueIdField, titleField);
@@ -1402,7 +1385,7 @@ var streetfocus = (function ($) {
 		compilePairs (property)
 		{
 			// Add each key and value to a list
-			var pairs = [];
+			const pairs = [];
 			if (property[_action]) {
 				$.each (property[_action].values, function (key, value) {
 					pairs.push (key);
@@ -1419,11 +1402,11 @@ var streetfocus = (function ($) {
 		createPopup: function (feature, uniqueIdField, titleField)
 		{
 			// Substitute the content
-			var popupFunction = 'populatePopup' + streetfocus.ucfirst (_action);
+			const popupFunction = 'populatePopup' + streetfocus.ucfirst (_action);
 			streetfocus[popupFunction] ('#popupcontent', feature, uniqueIdField);
 			
 			// Get the HTML
-			var popupHtml = $('#popupcontent').html();
+			const popupHtml = $('#popupcontent').html();
 			
 			// Show the popup (details) pane
 			$('#details').show ();
@@ -1432,13 +1415,14 @@ var streetfocus = (function ($) {
 			$('#details').html (popupHtml);
 			
 			// Put the focus on the popup, to ensure keyboard navigation is on the panel, not the map
-			var x = window.scrollX, y = window.scrollY;
+			const x = window.scrollX;
+			const y = window.scrollY;
 			$('#details').attr ('tabindex', 2).focus ();
 			window.scrollTo (x, y);
 			
 			// Update the URL using HTML5 History pushState
-			var path = _actionUrl + feature.properties[uniqueIdField] + '/';
-			var title = _documentTitle + ': ' + streetfocus.truncateString (feature.properties[titleField], 40);
+			const path = _actionUrl + feature.properties[uniqueIdField] + '/';
+			const title = _documentTitle + ': ' + streetfocus.truncateString (feature.properties[titleField], 40);
 			streetfocus.updateUrl (path, title);
 		},
 		
@@ -1461,7 +1445,7 @@ var streetfocus = (function ($) {
 			
 			// Obtain the form values
 			if (filteringFormPath) {
-				var formParameters = streetfocus.scanForm (filteringFormPath);
+				const formParameters = streetfocus.scanForm (filteringFormPath);
 				$.extend (parameters, formParameters);
 			}
 			
@@ -1482,7 +1466,7 @@ var streetfocus = (function ($) {
 				data: parameters,
 				error: function (jqXHR, error, exception) {
 					if (jqXHR.statusText != 'abort') {
-						var data = $.parseJSON(jqXHR.responseText);
+						const data = $.parseJSON(jqXHR.responseText);
 						alert ('Error: ' + data.error);		// #!# Need to check how PlanIt API gives human-readable errors
 					}
 				},
@@ -1497,7 +1481,7 @@ var streetfocus = (function ($) {
 		// Helper funtion to get the map bounds as a string
 		getBbox: function ()
 		{
-			var bbox = _map.getBounds();
+			let bbox = _map.getBounds();
 			bbox = bbox.getWest() + ',' + bbox.getSouth() + ',' + bbox.getEast() + ',' + bbox.getNorth();
 			bbox = streetfocus.reduceBboxAccuracy (bbox);
 			return bbox;
@@ -1576,7 +1560,7 @@ var streetfocus = (function ($) {
 			
 			// Handle visibility
 			$('#' + layerId).click (function (e) {
-				var visibility = _map.getLayoutProperty (layerId, 'visibility');
+				const visibility = _map.getLayoutProperty (layerId, 'visibility');
 				if (visibility === 'visible') {
 					_map.setLayoutProperty (layerId, 'visibility', 'none');
 				} else {
@@ -1633,7 +1617,7 @@ var streetfocus = (function ($) {
 		reduceBboxAccuracy: function (bbox)
 		{
 			// Split by comma
-			var coordinates = bbox.split(',');
+			let coordinates = bbox.split(',');
 			
 			// Reduce accuracy of each coordinate
 			coordinates = streetfocus.reduceCoordinateAccuracy (coordinates);
@@ -1650,7 +1634,7 @@ var streetfocus = (function ($) {
 		reduceCoordinateAccuracy: function (coordinates)
 		{
 			// Set 0.1m accuracy; see: https://en.wikipedia.org/wiki/Decimal_degrees
-			var accuracy = 6;
+			const accuracy = 6;
 			
 			// Support lng/lat named key format
 			if (coordinates.hasOwnProperty ('lng') && coordinates.hasOwnProperty ('lat')) {
@@ -1659,7 +1643,7 @@ var streetfocus = (function ($) {
 			
 			// For indexed list format, reduce each value
 			} else {
-				var i;
+				let i;
 				for (i = 0; i < coordinates.length; i++) {
 					coordinates[i] = parseFloat(coordinates[i]).toFixed(accuracy);
 				}
@@ -1674,7 +1658,9 @@ var streetfocus = (function ($) {
 		getCentre: function (geometry)
 		{
 			// Determine the centre point
-			var centre = {};
+			let centre = {};
+			const longitudes = [];
+			const latitudes = [];
 			switch (geometry.type) {
 				
 				case 'Point':
@@ -1685,8 +1671,6 @@ var streetfocus = (function ($) {
 					break;
 					
 				case 'LineString':
-					var longitudes = [];
-					var latitudes = [];
 					$.each (geometry.coordinates, function (index, lonLat) {
 						longitudes.push (lonLat[0]);
 						latitudes.push (lonLat[1]);
@@ -1699,8 +1683,6 @@ var streetfocus = (function ($) {
 					
 				case 'MultiLineString':
 				case 'Polygon':
-					var longitudes = [];
-					var latitudes = [];
 					$.each (geometry.coordinates, function (index, line) {
 						$.each (line, function (index, lonLat) {
 							longitudes.push (lonLat[0]);
@@ -1714,8 +1696,6 @@ var streetfocus = (function ($) {
 					break;
 					
 				case 'MultiPolygon':
-					var longitudes = [];
-					var latitudes = [];
 					$.each (geometry.coordinates, function (index, polygon) {
 						$.each (polygon, function (index, line) {
 							$.each (line, function (index, lonLat) {
@@ -1731,9 +1711,6 @@ var streetfocus = (function ($) {
 					break;
 					
 				case 'GeometryCollection':
-					var longitudes = [];
-					var latitudes = [];
-					var centre;
 					$.each (geometry.geometries, function (index, geometryItem) {
 						centre = streetfocus.getCentre (geometryItem);		// Iterate
 						longitudes.push (centre.lon);
@@ -1758,9 +1735,8 @@ var streetfocus = (function ($) {
 		showCurrentData: function (data, callback, uniqueIdField, titleField)
 		{
 			// If the layer has lines or polygons, reduce to point
-			var centre;
 			$.each (data.features, function (index, feature) {
-				centre = streetfocus.getCentre (feature.geometry);
+				const centre = streetfocus.getCentre (feature.geometry);
 				data.features[index].geometry = {
 					type: 'Point',
 					coordinates: [centre.lon, centre.lat]
@@ -1843,7 +1819,7 @@ var streetfocus = (function ($) {
     	
 		// Function to set a cookie
 		setCookie: function (key, value, expiryDays) {
-			var expires = new Date();
+			const expires = new Date();
 			expires.setTime (expires.getTime() + (expiryDays * 24 * 60 * 60 * 1000));
 			document.cookie = key + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
 		},
@@ -1851,7 +1827,7 @@ var streetfocus = (function ($) {
 		
 		// Function to get a cookie value
 		getCookie: function (key) {
-			var keyValue = document.cookie.match ('(^|;) ?' + key + '=([^;]*)(;|$)');
+			const keyValue = document.cookie.match ('(^|;) ?' + key + '=([^;]*)(;|$)');
 			return keyValue ? keyValue[2] : null;
 		},
 		
@@ -1863,7 +1839,7 @@ var streetfocus = (function ($) {
 			if (!history.pushState) {return;}
 			
 			// Construct the URL
-			var url = path + window.location.hash;
+			const url = path + window.location.hash;
 			
 			// Push the URL state
 			history.pushState (url, title, url);

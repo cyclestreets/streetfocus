@@ -503,8 +503,8 @@ class streetfocus
 	{
 		# Create the application JS
 		return trim ("
-			$(function() {
-				config = {
+			$(function () {
+				const config = {
 					defaultLocation: '{$this->settings['defaultLocation']}',
 					cyclestreetsApiBaseUrl: '{$this->settings['cyclestreetsApiBaseUrl']}',
 					cyclestreetsApiKey: '{$this->settings['cyclestreetsApiKey']}',
