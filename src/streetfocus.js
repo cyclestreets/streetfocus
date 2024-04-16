@@ -624,7 +624,7 @@ const streetfocus = (function ($) {
 			$(element + ' p.alldocuments a').attr ('href', vendorLinks.documents);
 			$(element + ' div.matches div.hasmatches ul').html (matchingIdeasHtml);
 			$(element + ' p.address').html (streetfocus.htmlspecialchars (feature.properties.address));
-			$(element + ' div.streetview').html ('<iframe id="streetview" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
+			$(element + ' div.streetview').html ('<iframe id="streetview" loading="lazy" src="/streetview.html?latitude=' + centre.lat + '&amp;longitude=' + centre.lon + '">Street View loading &hellip;</iframe>');
 			
 			// For IDOX-based areas, work around the cookie bug
 			streetfocus.idoxWorkaroundCookie (vendorLinks.documents, feature.properties.name);
