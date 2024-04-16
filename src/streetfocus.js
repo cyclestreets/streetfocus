@@ -1404,7 +1404,9 @@ const streetfocus = (function ($) {
 			streetfocus.panelClosing ('#details');
 			
 			// Add hover popups to enable quick previewing
-			streetfocus.hoverPopup ();
+			if (!_isTouchDevice) {		// Desktop only, as touch would just have the popup immediately covered with the main card popup
+				streetfocus.hoverPopup ();
+			}
 			
 			// Add a loading control
 			streetfocus.createControl ('loading', 'top-left');
