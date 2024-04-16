@@ -1508,10 +1508,13 @@ const streetfocus = (function ($) {
 				}
 				
 				// Assemble the popup content
-				let html = '<p class="floatleft">' + feature.properties.uid + '</p>';
-				html += '<p class="alignright">' + new Date (Date.parse (feature.properties.startdate)).toLocaleDateString ('en-GB') + '</p>';
+				const ref = feature.properties.uid || feature.properties.source + ' #' + feature.properties.id;		// Planning applications / Ideas
+				const date = Date.parse (feature.properties.startdate) || (feature.properties.when * 1000);		// Planning applications / Ideas
+				let html = '';
+				html += '<p class="floatleft">' + ref + '</p>';
+				html += '<p class="alignright">' + new Date (date).toLocaleDateString ('en-GB') + '</p>';
 				html += '<p><strong>' + streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 80)) + '</strong></p>';
-				html += '<p>Click icon to view details</p>';
+				html += '<p>Click marker to view details</p>';
 				
 				// Set the popup
 				popup.setLngLat (coordinates).setHTML (html).addTo (_map);
