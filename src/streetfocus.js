@@ -476,6 +476,12 @@ const streetfocus = (function ($) {
 				e.preventDefault ();
 			});
 			
+			// Close on swipe down
+			$('body').on ('swipedown', path, function () {
+				$(path).fadeToggle ();
+				streetfocus.resetUrl ();
+			});
+			
 			// Add implied close by clicking on remaining map slither
 			_map.on ('click', function (e) {
 				if (e.defaultPrevented) {return;}	// See: https://stackoverflow.com/a/61366984
