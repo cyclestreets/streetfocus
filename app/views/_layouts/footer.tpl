@@ -19,6 +19,7 @@
 				<p>Planning data via <a href="https://www.planit.org.uk/">PlanIt</a></p>
 				<p>Ideas data from <a href="https://www.cyclescape.org/">Cyclescape</a></p>
 				<p>Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</p>
+				<p>This is not an official site of any Local Authority.</p>
 				<p><a href="/privacy/">Privacy</a> | <a href="https://www.github.com/cyclestreets/streetfocus/">Code on Github</a></p>
 			</div>
 			
