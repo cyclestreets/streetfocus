@@ -225,6 +225,9 @@ p#addidea {float: right; margin-left: 20px;}
 
 /* Zoom state */
 body.planningapplications #zoomstate {top: 80px; left: calc(50% - 140px - 100px); right: calc(50% - 140px + 100px); width: 200px; display: none; background-color: #e37e0b; text-align: center; color: white; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; font-weight: bold;}
+@media only screen and (max-width: 900px) {
+	body.planningapplications #zoomstate {left: calc(50% - 100px); right: calc(50% - 100px);}
+}
 body.planningapplications #mappanel.zoomedout #zoomstate {display: block;}
 body.planningapplications #mappanel.zoomedout .mapboxgl-canvas-container {cursor: zoom-in;}
 
