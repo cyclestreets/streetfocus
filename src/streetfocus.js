@@ -1403,13 +1403,8 @@ const streetfocus = (function ($) {
 			// Add close methods (X button, click on map, escape key)
 			streetfocus.panelClosing ('#details');
 			
-			// Change the cursor to a pointer when over a point
-			_map.on ('mouseenter', _action, function () {
-				_map.getCanvas().style.cursor = 'pointer';
-			});
-			_map.on ('mouseleave', _action, function () {
-				_map.getCanvas().style.cursor = '';
-			});
+			// Add hover popups to enable quick previewing
+			streetfocus.hoverPopup ();
 			
 			// Add a loading control
 			streetfocus.createControl ('loading', 'top-left');
@@ -1482,6 +1477,44 @@ const streetfocus = (function ($) {
 			const path = _actionUrl + feature.properties[uniqueIdField] + '/';
 			const title = _documentTitle + ': ' + streetfocus.truncateString (feature.properties[titleField], 40);
 			streetfocus.updateUrl (path, title);
+		},
+		
+		
+		// Hover popup; see: https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
+		hoverPopup: function ()
+		{
+			// Create a popup, but don't add it to the map yet
+			const popup = new mapboxgl.Popup ({
+				closeButton: false,
+				closeOnClick: false
+			});
+			
+			// Change the cursor to a pointer when over a point
+			_map.on ('mouseenter', _action, function (e) {
+				_map.getCanvas ().style.cursor = 'pointer';
+				
+				// Copy coordinates array
+				const feature = e.features[0];
+				const coordinates = feature.geometry.coordinates.slice ();
+				while (Math.abs (e.lngLat.lng - coordinates[0]) > 180) {
+					coordinates[0] += (e.lngLat.lng > coordinates[0] ? 360 : -360);	// If zoomed out to whole world, ensure correct marker used
+				}
+				
+				// Assemble the popup content
+				let html = '<p class="floatleft">' + feature.properties.uid + '</p>';
+				html += '<p class="alignright">' + new Date (Date.parse (feature.properties.startdate)).toLocaleDateString ('en-GB') + '</p>';
+				html += '<p><strong>' + streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 80)) + '</strong></p>';
+				html += '<p>Click icon to view details</p>';
+				
+				// Set the popup
+				popup.setLngLat (coordinates).setHTML (html).addTo (_map);
+			});
+			
+			// Reset on leave
+			_map.on ('mouseleave', _action, function (e) {
+				_map.getCanvas ().style.cursor = '';
+				popup.remove ();
+			});
 		},
 		
 		

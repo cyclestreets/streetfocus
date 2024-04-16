@@ -32,6 +32,10 @@ a.button {text-decoration: none;}
 header #logo {width: 130px; height: 66px; border: 0; float: left;}
 header #beta {width: 45px; height: 45px; position: absolute; top: 10px; left: 170px; opacity: 0.9;}
 
+/* Alignment */
+.floatleft {float: left;}
+.alignright {text-align: right;}
+
 /* Main menu navigation */
 header nav {float: right;}
 header nav ul {list-style: none; margin: 0; padding: 0;}
