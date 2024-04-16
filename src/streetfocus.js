@@ -1513,7 +1513,7 @@ const streetfocus = (function ($) {
 				let html = '';
 				html += '<p class="floatleft">' + ref + '</p>';
 				html += '<p class="alignright">' + new Date (date).toLocaleDateString ('en-GB') + '</p>';
-				html += '<p><strong>' + streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 80)) + '</strong></p>';
+				html += '<p><strong>' + streetfocus.htmlspecialchars (streetfocus.truncateString (streetfocus.stripTags (feature.properties.description), 80)) + '</strong></p>';
 				html += '<p>Click marker to view details</p>';
 				
 				// Set the popup
@@ -1905,6 +1905,13 @@ const streetfocus = (function ($) {
 		{
 			if (typeof string !== 'string') {return string;}
 			return string.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		},
+		
+		
+		// Function to strip tags
+		stripTags: function (html)
+		{
+			return $('<div>').html (html).text ();
 		},
 		
 		
