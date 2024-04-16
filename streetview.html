@@ -15,7 +15,7 @@
 				var apiKey = '<?php require_once ('./.config.php'); echo $config['googleApiKey']; ?>';
 				var script = document.createElement('script');
 				script.type = 'text/javascript';
-				script.src = 'https://maps.googleapis.com/maps/api/js?v=3&key=' + apiKey + '&callback=streetviewWithDirection';
+				script.src = 'https://maps.googleapis.com/maps/api/js?v=3&key=' + apiKey + '&loading=async&callback=streetviewWithDirection';
 				document.body.appendChild(script);
 			}
 			
