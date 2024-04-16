@@ -92,6 +92,51 @@ const streetfocus = (function ($) {
 	const _keyTypes = [		// These are categories defined at the PlanIt end, not name matches locally
 		'Design and Access Statement',
 	];
+	
+	// Terminology explanations
+	const _terminologyExplanations = {
+		'Certificate of lawfulness': 'Used to obtain confirmation from the council that, in their view, a proposed change would already be legal to undertake without needing planning permission.',
+		'conditions': 'Conditions are additional rules attached to an existing planning application which require the developer to ensure particular requirements are put in place.',
+		'discharge': 'Discharging of a condition means for the developer to confirm with evidence that a specific requirement has now been implemented.',
+		'fascia signs': 'Signs on the front of the building.',
+		'full planning permission': 'A proposal complete with full design details.',
+		'GIA': 'Gross (total) internal area',
+		'HMO': 'A house in multiple occupation, where common areas exist and are shared by more than one household.',
+		'hybrid': 'A hybrid application is one that gives both a broad outline for most of the development but also contains complete details for some parts only.',
+		'Non(-| )material amendment': 'A minor change to something previously approved.',
+		'outline application':           'A proposal prior to a full application, setting the broad parameters of the scheme, but without full design details.',
+		  'outline planning permission': 'A proposal prior to a full application, setting the broad parameters of the scheme, but without full design details.',
+		'mixed use': 'Mixed use indicates that the development has a range of different types of usages, e.g. offices and shops.',
+		'permitted development': 'Changes which are already permitted in law without needing planning permission.',
+		'plant': 'Things like air conditioning and similar equipment.',
+		'matters reserved':   'The details of a scheme, having already obtained outline permission which sets out the broad outline of the proposed scheme.',
+		  'reserved matters': 'The details of a scheme, having already obtained outline permission which sets out the broad outline of the proposed scheme.',
+		're-submission': 'A new application similar to a previous one, but with various things changed.',
+		'Listed Building Consent': 'A type of planning control which protects buildings of special architectural or historical interest.',
+		'Sui Generis': 'A term used to mean that the building does not easily fall within a particular standard category of type of usage of a building.',
+		'S73': 'A Section 73 application is one where the developer wants to remove a previous requirement, e.g. to simplify what they have to implement.',
+		'S106': 'The section 106 system is where a developer is required by the council to pay for various related infrastructure, e.g. roads, to facilitate a development.',
+		'Use Class B2': 'General industrial',
+		'Use Class B8': 'Storage or distribution',
+		'Use Class C1': 'Hotels',
+		'Use Class C2A': 'Secure Residential Institution',
+		'Use Class C2': 'Residential institutions',
+		'Use Class C3': 'Dwellinghouses',
+		'Use Class C4': 'Houses in multiple occupation',
+		'Use Class E': 'Commercial, Business and Service',
+		'Use Class F1': 'Learning and non-residential institutions',
+		'Use Class F2': 'Local community',
+		'Use Class A1': 'Shops (This category was abolished from 1st September 2020)',
+		'Use Class A2': 'Financial and professional services (This category was abolished from 1st September 2020)',
+		'Use Class A3': 'Restaurants and cafés (This category was abolished from 1st September 2020)',
+		'Use Class A4': 'Drinking establishments (This category was abolished from 1st September 2020)',
+		'Use Class A5': 'Hot food takeaways (This category was abolished from 1st September 2020)',
+		'Use Class B1': 'Business (This category was abolished from 1st September 2020)',
+		'Use Class D1': 'Non-residential institutions (This category was abolished from 1st September 2020)',
+		'Use Class D2': 'Assembly and leisure (This category was abolished from 1st September 2020)',
+		'Use Class': 'Use classes are broad categories of types of usage of a building, e.g. shops, offices, housing, etc..',
+		'vary condition': 'To change a requirement that the council previously decided.',
+	};
 			
 	
 	// Actions creating a map
@@ -619,7 +664,7 @@ const streetfocus = (function ($) {
 			$(element + ' ul.status li.type').text (feature.properties.type);
 			$(element + ' p.date').html (streetfocus.consultationDate (feature));
 			$(element + ' .title').html (streetfocus.htmlspecialchars (streetfocus.truncateString (feature.properties.description, 80)));
-			$(element + ' div.description p').html (streetfocus.htmlspecialchars (feature.properties.description));
+			$(element + ' div.description p').html (streetfocus.terminologyExplanations (streetfocus.htmlspecialchars (feature.properties.description)));
 			$(element + ' div.documents ul').html (keyDocumentsHtml);
 			$(element + ' p.alldocuments a').attr ('href', vendorLinks.documents);
 			$(element + ' div.matches div.hasmatches ul').html (matchingIdeasHtml);
@@ -791,6 +836,19 @@ const streetfocus = (function ($) {
 			
 			// Return the list
 			return listItemsHtml;
+		},
+		
+		
+		// Function to highlight particular technical terminology
+		terminologyExplanations: function (stringHtml)
+		{
+			// Replace, for the first instance only, the term if present, case-insensitively, by adding a title for explanation
+			$.each (_terminologyExplanations, function (term, explanation) {
+				stringHtml = stringHtml.replace (new RegExp ('(\\b' + term + '\\b)', 'i'), '<span title="' + streetfocus.htmlspecialchars (explanation) + '">$1</span>');
+			});
+			
+			// Return the modified string
+			return stringHtml;
 		},
 		
 		
