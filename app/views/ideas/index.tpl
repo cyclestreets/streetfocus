@@ -14,6 +14,8 @@
 	
 	<div id="details"></div>
 	
+	{include file='_partials/zoomstate.tpl'}
+	
 	<div id="collisions" class="control">
 		<p>Show collision hotspots</p>
 	</div>

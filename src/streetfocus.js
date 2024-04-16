@@ -860,6 +860,9 @@ const streetfocus = (function ($) {
 			// Add geocoder control
 			streetfocus.search ('geocoder');
 			
+			// Add minZoom state handler
+			streetfocus.zoomState ();
+			
 			// Define a callback function to filter out ideas which appear to be an imported planning application
 			const callback = function (data) {
 				let i = data.features.length;

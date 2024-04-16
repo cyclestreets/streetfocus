@@ -224,12 +224,14 @@ p#addidea {float: right; margin-left: 20px;}
 #mappanel #collisions p {margin: 0; padding: 0; font-size: 14px;}
 
 /* Zoom state */
-body.planningapplications #zoomstate {top: 80px; left: calc(50% - 140px - 100px); right: calc(50% - 140px + 100px); width: 200px; display: none; background-color: #e37e0b; text-align: center; color: white; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; font-weight: bold;}
+#zoomstate {top: 80px; width: 200px; display: none; background-color: #e37e0b; text-align: center; color: white; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; font-weight: bold;}
+body.planningapplications #zoomstate {left: calc(50% - 140px - 100px); right: calc(50% - 140px + 100px);}
+body.ideas #zoomstate {left: calc(50% - 100px); right: calc(50% - 100px);}
 @media only screen and (max-width: 900px) {
 	body.planningapplications #zoomstate {left: calc(50% - 100px); right: calc(50% - 100px);}
 }
-body.planningapplications #mappanel.zoomedout #zoomstate {display: block;}
-body.planningapplications #mappanel.zoomedout .mapboxgl-canvas-container, body.planningapplications #zoomstate {cursor: zoom-in;}
+#mappanel.zoomedout #zoomstate {display: block;}
+#mappanel.zoomedout .mapboxgl-canvas-container, #zoomstate {cursor: zoom-in;}
 
 /* Monitor */
 body.planningapplications #monitor {bottom: 45px; left: 20px; right: 300px;}

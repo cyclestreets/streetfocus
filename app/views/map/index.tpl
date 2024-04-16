@@ -40,9 +40,7 @@
 		</p>
 	</form>
 	
-	<div id="zoomstate" class="control">
-		<p>Zoom in more <br />to see locations</p>
-	</div>
+	{include file='_partials/zoomstate.tpl'}
 	
 	<div id="monitor" class="control">
 		<a href="/my/add/">
