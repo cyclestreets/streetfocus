@@ -519,13 +519,15 @@ const streetfocus = (function ($) {
 				setZoomState ();
 			});
 			
-			// If zoomed out, make a click on the map be an implied zoom in
-			_map.on ('click', function (e) {
+			// If zoomed out, make a click on the map (or button) be an implied zoom in
+			const impliedZoomIn = function (e) {
 				if (!_mapZoomEnough) {
 					const newZoom = Math.min (_map.getZoom () + 2, _settings.minZoom);
 					_map.flyTo ({zoom: newZoom, center: e.lngLat});		// #!# Centring issue
 				}
-			});
+			}
+			_map.on ('click', impliedZoomIn);
+			$('#zoomstate').on ('click', impliedZoomIn);
 		},
 		
 				

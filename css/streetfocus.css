@@ -229,7 +229,7 @@ body.planningapplications #zoomstate {top: 80px; left: calc(50% - 140px - 100px)
 	body.planningapplications #zoomstate {left: calc(50% - 100px); right: calc(50% - 100px);}
 }
 body.planningapplications #mappanel.zoomedout #zoomstate {display: block;}
-body.planningapplications #mappanel.zoomedout .mapboxgl-canvas-container {cursor: zoom-in;}
+body.planningapplications #mappanel.zoomedout .mapboxgl-canvas-container, body.planningapplications #zoomstate {cursor: zoom-in;}
 
 /* Monitor */
 body.planningapplications #monitor {bottom: 45px; left: 20px; right: 300px;}
