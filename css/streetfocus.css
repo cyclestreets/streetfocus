@@ -253,7 +253,8 @@ body.addmonitor span.warning {color: red;}
 /* Map popups */
 #popupcontent {display: none;}
 #details:focus {outline: none;}
-#details p.applicationid {text-align: center; font-family: 'PT Sans', sans-serif; font-size: 16px; color: #3f74ba; margin: 0 0 8px; padding: 0;}
+#details .applicationidcontainer {text-align: center;}
+#details p.applicationid {display: inline-block; font-family: 'PT Sans', sans-serif; font-size: 16px; color: #3f74ba; margin: 0 0 8px; padding: 0;}
 #details h2 {text-align: center; margin: 0; padding: 0 0 18px;}
 #details p.calltoaction {vertical-align: middle; margin-top: 22px;}
 #details p.calltoaction a {display: block; width: auto; color: #fff; background-color: #3f74ba; border: 0; border-radius: 5px; text-align: center; font-family: 'PT Sans', sans-serif; font-size: 16px; padding: 10px;}

@@ -210,7 +210,7 @@ const streetfocus = (function ($) {
 		tooltips: function ()
 		{
 			// Use jQuery tooltips; see: https://jqueryui.com/tooltip/
-			$('#filtering').tooltip ({
+			$('#filtering, #details').tooltip ({
 				track: true
 			});
 		},

@@ -3,7 +3,9 @@
 	
 	<p class="close"><a href="#">×</a></p>
 	
-	<p class="applicationid"></p>
+	<div class="applicationidcontainer">
+		<p class="applicationid" title="The official reference number for the application allocated by the council"></p>
+	</div>
 	
 	<h2 class="title">Title</h2>
 	
