@@ -8,7 +8,7 @@
         "libpurecontent/database": "^4.2",
         "libpurecontent/application": "^1.9",
         "libpurecontent/ultimateform": "^1.29",
-        "smarty/smarty": "^5.0"
+        "smarty/smarty": "^5.3"
     },
     "autoload": {
         "files": [
