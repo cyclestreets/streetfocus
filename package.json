@@ -8,7 +8,7 @@
   "dependencies": {
     "@benmajor/jquery-touch-events": "^2.0.3",
     "jquery": "^3.7.1",
-    "jquery-ui-dist": "^1.13.2",
-    "mapbox-gl": "^3.2.0"
+    "jquery-ui-dist": "^1.13.3",
+    "mapbox-gl": "^3.17.0"
   }
 }
