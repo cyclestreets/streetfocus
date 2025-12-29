@@ -19,7 +19,7 @@ class streetfocus
 			'mapboxApiKey'				=> NULL,
 			'googleApiKey'				=> NULL,
 			'autocompleteBbox'			=> '-6.6577,49.9370,1.7797,57.6924',	#!# Needs to be renamed as used for more than autocomplete now
-			'authNamespace'				=> 'streetfocus\\',
+			'authNamespace'				=> 'streetfocus',
 			'hostname'					=> 'localhost',
 			'database'					=> 'streetfocus',
 			'username'					=> NULL,

@@ -123,7 +123,7 @@ class userAccount
 	{
 		# Assemble the data to post
 		$postData = array (
-			'identifier'	=> $this->settings['authNamespace'] . $email,
+			'identifier'	=> $this->settings['authNamespace'] . '\\' . $email,
 			'password'	=> $password,
 		);
 		
@@ -201,7 +201,8 @@ class userAccount
 		$this->template['login-status'] = $loginStatusHtml;
 		
 		# Remove namespace
-		$user['email'] = str_replace ($this->settings['authNamespace'], '', $user['email']);
+		$user['email'] = str_replace ($this->settings['authNamespace'] . '\\', '', $user['email']);
+		$user['username'] = str_replace ($this->settings['authNamespace'] . '\\', '', $user['username']);	// Legacy format (before API required stricter regexp)
 		$user['username'] = str_replace ($this->settings['authNamespace'], '', $user['username']);
 		
 		# Set the template value
@@ -369,8 +370,8 @@ class userAccount
 		}
 		
 		# Namespace the fields
-		$data['email'] = $this->settings['authNamespace'] . $data['email'];
-		$data['username'] = $this->settings['authNamespace'] . application::generatePassword (15);	// Random username
+		$data['email'] = $this->settings['authNamespace'] . '\\' . $data['email'];
+		$data['username'] = $this->settings['authNamespace'] . application::generatePassword (15);	// Random username; backlash cannot be used as not within the API's regexp
 		
 		# Create the account, which will use the name,email,password fields
 		$apiUrl = $this->settings['cyclestreetsApiBaseUrl'] . '/v2/user.create' . '?key=' . $this->settings['cyclestreetsApiKey'] . "&urlprefix={$_SERVER['_SITE_URL']}";
