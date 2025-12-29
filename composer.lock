@@ -364,16 +364,16 @@
         },
         {
             "name": "libpurecontent/ultimateform",
-            "version": "v1.31.3",
+            "version": "v1.31.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/libpurecontent/ultimateform.git",
-                "reference": "f0bf4242591232842c07cd56fbbfa0cdce032fa6"
+                "reference": "46b689fd26e012502cdca4c57a101faa77c8b558"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/libpurecontent/ultimateform/zipball/f0bf4242591232842c07cd56fbbfa0cdce032fa6",
-                "reference": "f0bf4242591232842c07cd56fbbfa0cdce032fa6",
+                "url": "https://api.github.com/repos/libpurecontent/ultimateform/zipball/46b689fd26e012502cdca4c57a101faa77c8b558",
+                "reference": "46b689fd26e012502cdca4c57a101faa77c8b558",
                 "shasum": ""
             },
             "require": {
@@ -399,9 +399,9 @@
             "description": "PHP library ultimateForm within the pureContent library suite",
             "support": {
                 "issues": "https://github.com/libpurecontent/ultimateform/issues",
-                "source": "https://github.com/libpurecontent/ultimateform/tree/v1.31.3"
+                "source": "https://github.com/libpurecontent/ultimateform/tree/v1.31.4"
             },
-            "time": "2025-10-20T11:29:40+00:00"
+            "time": "2025-12-29T19:54:55+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
